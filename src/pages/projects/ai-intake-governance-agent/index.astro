@@ -1,10 +1,136 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import OriginBadge from '../../../components/OriginBadge.astro';
+import { withBase } from '../../../lib/base';
+
+const repoUrl = 'https://github.com/tavor29/ai-intake-governance-agent';
+const demoUrl = 'https://agentic-ai-intake-governance.vercel.app';
 ---
 
 <BaseLayout title="AI Project Intake & Governance Agent">
 	<OriginBadge origin="fictional" />
 	<h1>AI Project Intake & Governance Agent</h1>
-	<p>Full project page lands in Block 3.</p>
+
+	<p class="links">
+		<a href={demoUrl}>Live demo</a> &middot; <a href={repoUrl}>Source on GitHub</a> &middot;
+		<a href={withBase('case-studies/keshet/')}>The real problem behind this</a>
+	</p>
+
+	<section>
+		<h2>Problem</h2>
+		<p>
+			In most organizations, requests for new software or AI tools arrive over chat and hallway
+			conversations with no consistent process. That creates duplicate purchases, unmanaged
+			risk, and no clear owner for follow-up.
+		</p>
+	</section>
+
+	<section>
+		<h2>What it does</h2>
+		<p>
+			An agent that interviews the requester, turns a plain-language ask into a structured
+			technical spec, checks it against an existing app and tool catalog for duplicates, scores
+			risk across a few dimensions (PII exposure, financial system access, integration surface),
+			and routes it to the right owner based on team capacity.
+		</p>
+	</section>
+
+	<section>
+		<h2>What it demonstrates</h2>
+		<p>
+			Governance design thinking, not just coding. The interesting part is the decision logic,
+			not the chat interface, this is the generalized, fully-built version of the system Tavor
+			scoped for real at Keshet.
+		</p>
+	</section>
+
+	<section>
+		<h2>Rejected alternative</h2>
+		<p>
+			I considered a model where a single reviewer approved or rejected every request by hand. I
+			rejected it because a single gatekeeper doesn't scale past a small team, and it creates
+			exactly the kind of bottleneck this problem is trying to remove.
+		</p>
+	</section>
+
+	<section>
+		<h2>Honest limitation</h2>
+		<p>
+			This assumes a single identity provider and a relatively flat approval structure. A
+			multi-entity organization with separate security domains would need a more complex routing
+			and approval model than this MVP handles.
+		</p>
+	</section>
+
+	<section>
+		<h2>Integration map</h2>
+		<div class="table-wrap">
+			<table>
+				<thead>
+					<tr>
+						<th>System</th>
+						<th>This demo</th>
+						<th>In production</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Jira</td>
+						<td>Live (free-tier project, real ticket created)</td>
+						<td>Same, against the org's real instance</td>
+					</tr>
+					<tr>
+						<td>Slack</td>
+						<td>Live (webhook to a test channel for routing notifications)</td>
+						<td>Same</td>
+					</tr>
+					<tr>
+						<td>App/tool catalog</td>
+						<td>Simulated (seeded fake dataset)</td>
+						<td>Real CMDB or SaaS inventory system</td>
+					</tr>
+					<tr>
+						<td>Identity/risk signals (PII classification)</td>
+						<td>Simulated, schema modeled on a real API's docs</td>
+						<td>Real data classification service</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</section>
 </BaseLayout>
+
+<style>
+	.links {
+		font-size: var(--text-sm);
+		margin-top: var(--space-3);
+	}
+
+	section {
+		margin-top: var(--space-5);
+		max-width: 42rem;
+	}
+
+	section h2 {
+		font-size: var(--text-lg);
+	}
+
+	.table-wrap {
+		max-width: 100%;
+		overflow-x: auto;
+	}
+
+	table {
+		width: 100%;
+		border-collapse: collapse;
+		font-size: var(--text-sm);
+	}
+
+	th,
+	td {
+		text-align: left;
+		padding: var(--space-2);
+		border-bottom: 1px solid var(--color-border);
+		vertical-align: top;
+	}
+</style>
