@@ -1,15 +1,12 @@
 ---
 import '../styles/tokens.css';
+import { withBase } from '../lib/base';
 
 interface Props {
 	title?: string;
 }
 
 const { title = 'Tavor Ben Shahar' } = Astro.props;
-
-// Root-relative links must go through BASE_URL so they still resolve once the
-// site is deployed under a GitHub Pages project path (see astro.config.mjs's `base`).
-const withBase = (path: string) => `${import.meta.env.BASE_URL}${path}`.replace(/(?<!:)\/{2,}/g, '/');
 
 const navLinks = [
 	{ href: withBase(''), label: 'Home' },
