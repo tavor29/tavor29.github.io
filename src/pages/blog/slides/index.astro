@@ -1,0 +1,77 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { withBase } from '../../../lib/base';
+
+const decks = (await getCollection('slides')).sort(
+	(a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+---
+
+<BaseLayout title="Slides & Resources">
+	<h1>Slides &amp; Resources</h1>
+	<p class="dek">Slide decks and talks, viewable or downloadable as PDFs.</p>
+
+	{
+		decks.length === 0 ? (
+			<p class="empty-state">No slide decks published yet, check back soon.</p>
+		) : (
+			<ul class="deck-list">
+				{decks.map((deck) => (
+					<li class="deck-card">
+						<h2>{deck.data.title}</h2>
+						<p class="summary">{deck.data.summary}</p>
+						<p class="date">
+							{deck.data.date.toLocaleDateString('en-US', {
+								year: 'numeric',
+								month: 'long',
+								day: 'numeric',
+							})}
+						</p>
+						{deck.data.pdfPath && <a href={withBase(deck.data.pdfPath)}>View / download PDF</a>}
+					</li>
+				))}
+			</ul>
+		)
+	}
+
+	<p class="back-link"><a href={withBase('blog/')}>&larr; Back to the blog</a></p>
+</BaseLayout>
+
+<style>
+	.dek {
+		max-width: 42rem;
+		color: var(--color-text-muted);
+		margin-top: var(--space-2);
+	}
+
+	.empty-state {
+		margin-top: var(--space-5);
+		padding: var(--space-4);
+		border: 1px dashed var(--color-border);
+		border-radius: var(--radius);
+		color: var(--color-text-muted);
+		max-width: 32rem;
+	}
+
+	.deck-list {
+		list-style: none;
+		margin: var(--space-5) 0 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-4);
+		max-width: 42rem;
+	}
+
+	.deck-card {
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius);
+		padding: var(--space-3);
+	}
+
+	.back-link {
+		margin-top: var(--space-5);
+		font-size: var(--text-sm);
+	}
+</style>

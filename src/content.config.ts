@@ -33,9 +33,19 @@ const openSource = defineCollection({
 	schema: z.object(entryFields),
 });
 
+const slides = defineCollection({
+	loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/slides' }),
+	schema: z.object({
+		...entryFields,
+		/** Set once a real PDF is uploaded to public/, e.g. '/decks/my-talk.pdf'. */
+		pdfPath: z.string().optional(),
+	}),
+});
+
 export const collections = {
 	projects,
 	'case-studies': caseStudies,
 	blog,
 	'open-source': openSource,
+	slides,
 };
