@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import OriginBadge from '../components/OriginBadge.astro';
+import Resume from '../components/Resume.astro';
 import { withBase } from '../lib/base';
 
 // Copy is verbatim from portfolio-content-package.md's "Homepage copy" section.
@@ -65,6 +66,8 @@ const cards: Array<{
 			}
 		</div>
 	</section>
+
+	<Resume />
 </BaseLayout>
 
 <style>

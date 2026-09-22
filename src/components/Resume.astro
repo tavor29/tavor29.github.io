@@ -1,0 +1,372 @@
+---
+// Content transcribed verbatim from assets/Tavor_Ben_Shahar_Resume.pdf.
+import { withBase } from '../lib/base';
+
+const skills = [
+	{
+		label: 'AI & software governance',
+		text: 'AI tool adoption and governance, SaaS license management, agentic automation, LLM integration and AI-assisted development.',
+	},
+	{
+		label: 'Project management',
+		text: 'Agile, Scrum, Waterfall, hybrid delivery, vendor negotiation, risk management, Gantt planning.',
+	},
+	{
+		label: 'Tools & platforms',
+		text: 'MS Project, Jira, ServiceNow, Monday.com, Cursor and other AI-assisted IDEs, dashboarding (SQL, Tableau).',
+	},
+	{
+		label: 'Financial planning',
+		text: 'Capacity planning, Annual Operating Plan (AOP) execution, budgeting and forecasting.',
+	},
+	{
+		label: 'IT & infrastructure',
+		text: 'Enterprise cloud solutions, cybersecurity and system administration fundamentals, data center infrastructure planning.',
+	},
+];
+
+const experience = [
+	{
+		role: 'Business Operations Manager',
+		org: 'Keshet Media Group',
+		dates: '2026',
+		bullets: [
+			{
+				label: 'Cross-functional alignment',
+				text: 'helped stand up a steering committee that set policy for AI tool and workflow approvals, security boundaries, and budget ownership.',
+			},
+			{
+				label: 'Adoption & training',
+				text: 'identified roughly 40 employees building their own AI tools without engineering support, and helped design a phased training plan to bring that work under governance.',
+			},
+		],
+	},
+	{
+		role: 'IT Project Manager & Infrastructure Lead',
+		org: 'Applied Materials',
+		dates: '2023 – 2026',
+		bullets: [
+			{
+				label: 'Program management',
+				text: 'managed a large project portfolio across IT and R&D, including a multi-year capital program supporting a new corporate office for 1,200+ employees, coordinating Finance, IT, R&D, and outside contractor teams around a shared construction timeline.',
+			},
+			{
+				label: 'KPI dashboards',
+				text: 'built automated dashboards giving executives real-time visibility into schedule risk and budget utilization on multi-million-dollar programs.',
+			},
+			{
+				label: 'Budget & stakeholder management',
+				text: 'led budget planning and forecast cycles with Finance and Purchasing, translating issues into decisions for senior leadership.',
+			},
+		],
+	},
+	{
+		role: 'Operations Manager',
+		org: 'IBM',
+		dates: '2021 – 2023',
+		bullets: [
+			{
+				label: 'Infrastructure delivery',
+				text: 'directed IT transformation and infrastructure upgrade projects, managing matrixed teams against scope, budget, and schedule on multi-million-dollar programs.',
+			},
+			{
+				label: 'Crisis & change management',
+				text: 'led migration and disaster-recovery initiatives, adapting to changing requirements while keeping systems stable for end users.',
+			},
+		],
+	},
+];
+
+const education = [
+	{ name: 'AI Implementation in Organizations (160 hours)', org: 'HackerU', dates: '2026' },
+	{ name: 'AI Performance Engineering (100 hours)', org: 'Nebius Academy', dates: '2026' },
+	{
+		name: 'BA, Business Administration, Information Systems',
+		org: 'Ruppin Academic Center · Cum Laude',
+		dates: '2020 – 2023',
+	},
+];
+---
+
+<section class="resume-section" id="resume">
+	<div class="resume-toggle-row">
+		<h2>Resume</h2>
+		<button type="button" id="resume-toggle" aria-expanded="false" aria-controls="resume-content">
+			Show full resume
+		</button>
+	</div>
+
+	<div id="resume-content" class="resume-content" hidden>
+		<div class="resume-card">
+			<header class="resume-card__header">
+				<h3>Tavor Ben Shahar</h3>
+				<p class="resume-role">Business Operations &amp; Program Manager</p>
+				<p class="resume-contact">
+					Tel Aviv, Israel &middot; 050-492-2040 &middot;
+					<a href="mailto:tzavor29@gmail.com">tzavor29@gmail.com</a> &middot;
+					<a href="https://github.com/tavor29">GitHub</a>
+				</p>
+			</header>
+
+			<section class="resume-block">
+				<h4>Summary</h4>
+				<p>
+					Business operations and program manager with five years of experience running
+					technology programs across large organizations, working with Operations, Finance, IT,
+					and R&amp;D to get projects delivered on schedule. Track record of building governance
+					frameworks, AI tool rollouts, KPI dashboards, and intake processes that turn
+					operational friction into structured, repeatable programs. Looking to bring that same
+					process-first thinking to operations and program management roles that blend
+					software, AI, product, and cross-functional delivery.
+				</p>
+			</section>
+
+			<section class="resume-block">
+				<h4>Skills</h4>
+				<dl class="skills-list">
+					{
+						skills.map((s) => (
+							<>
+								<dt>{s.label}</dt>
+								<dd>{s.text}</dd>
+							</>
+						))
+					}
+				</dl>
+			</section>
+
+			<section class="resume-block">
+				<h4>Work Experience</h4>
+				{
+					experience.map((job) => (
+						<article class="job">
+							<div class="job-header">
+								<p class="job-role">
+									{job.role} <span class="job-org">| {job.org}</span>
+								</p>
+								<p class="job-dates">{job.dates}</p>
+							</div>
+							<ul>
+								{job.bullets.map((b) => (
+									<li>
+										<strong>{b.label}:</strong> {b.text}
+									</li>
+								))}
+							</ul>
+						</article>
+					))
+				}
+			</section>
+
+			<section class="resume-block">
+				<h4>Education</h4>
+				<ul class="education-list">
+					{
+						education.map((e) => (
+							<li>
+								<span>
+									<strong>{e.name}</strong> | <em>{e.org}</em>
+								</span>
+								<span class="edu-dates">{e.dates}</span>
+							</li>
+						))
+					}
+				</ul>
+			</section>
+
+			<section class="resume-block">
+				<h4>Languages</h4>
+				<p>Native English &middot; Native Hebrew</p>
+			</section>
+
+			<p class="resume-download">
+				<a href={withBase('Tavor_Ben_Shahar_Resume.pdf')}>Download as PDF</a>
+			</p>
+		</div>
+	</div>
+</section>
+
+<style>
+	.resume-section {
+		margin-top: var(--space-6);
+	}
+
+	.resume-toggle-row {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--space-3);
+		flex-wrap: wrap;
+	}
+
+	.resume-toggle-row h2 {
+		font-size: var(--text-xl);
+		margin: 0;
+	}
+
+	#resume-toggle {
+		font: inherit;
+		font-size: var(--text-sm);
+		font-weight: 600;
+		padding: var(--space-2) var(--space-4);
+		border: 1px solid var(--color-accent);
+		border-radius: var(--radius);
+		background: var(--color-bg);
+		color: var(--color-accent);
+		cursor: pointer;
+	}
+
+	#resume-toggle:hover {
+		background: var(--color-bg-subtle);
+	}
+
+	.resume-content {
+		margin-top: var(--space-4);
+	}
+
+	.resume-card {
+		max-width: 42rem;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius);
+		padding: var(--space-5);
+		background: var(--color-bg);
+	}
+
+	.resume-card__header h3 {
+		font-size: var(--text-xl);
+		margin: 0;
+	}
+
+	.resume-role {
+		font-weight: 600;
+		color: var(--color-text-muted);
+		margin: var(--space-1) 0;
+	}
+
+	.resume-contact {
+		font-size: var(--text-sm);
+		color: var(--color-text-muted);
+		margin: 0;
+	}
+
+	.resume-block {
+		margin-top: var(--space-4);
+		padding-top: var(--space-4);
+		border-top: 1px solid var(--color-border);
+	}
+
+	.resume-block h4 {
+		font-size: var(--text-sm);
+		text-transform: uppercase;
+		letter-spacing: 0.02em;
+		color: var(--color-text-muted);
+		margin: 0 0 var(--space-2);
+	}
+
+	.resume-block p {
+		margin: 0;
+		font-size: var(--text-sm);
+	}
+
+	.skills-list {
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+	}
+
+	.skills-list dt {
+		font-weight: 600;
+		font-size: var(--text-sm);
+	}
+
+	.skills-list dd {
+		margin: 0;
+		font-size: var(--text-sm);
+		color: var(--color-text-muted);
+	}
+
+	.job {
+		margin-top: var(--space-3);
+	}
+
+	.job:first-of-type {
+		margin-top: 0;
+	}
+
+	.job-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: var(--space-2);
+		flex-wrap: wrap;
+	}
+
+	.job-role {
+		font-weight: 600;
+		margin: 0;
+	}
+
+	.job-org {
+		font-weight: 400;
+		color: var(--color-text-muted);
+	}
+
+	.job-dates {
+		font-size: var(--text-sm);
+		color: var(--color-text-muted);
+		margin: 0;
+		white-space: nowrap;
+	}
+
+	.job ul {
+		margin: var(--space-2) 0 0;
+		padding-left: 1.1rem;
+		font-size: var(--text-sm);
+	}
+
+	.job li {
+		margin: var(--space-1) 0;
+	}
+
+	.education-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		font-size: var(--text-sm);
+	}
+
+	.education-list li {
+		display: flex;
+		justify-content: space-between;
+		gap: var(--space-2);
+		flex-wrap: wrap;
+	}
+
+	.edu-dates {
+		color: var(--color-text-muted);
+		white-space: nowrap;
+	}
+
+	.resume-download {
+		margin-top: var(--space-4);
+		padding-top: var(--space-4);
+		border-top: 1px solid var(--color-border);
+		font-size: var(--text-sm);
+	}
+</style>
+
+<script>
+	const toggle = document.querySelector<HTMLButtonElement>('#resume-toggle');
+	const content = document.querySelector<HTMLElement>('#resume-content');
+
+	toggle?.addEventListener('click', () => {
+		const isHidden = content?.hidden ?? true;
+		if (content) content.hidden = !isHidden;
+		toggle.setAttribute('aria-expanded', String(isHidden));
+		toggle.textContent = isHidden ? 'Hide full resume' : 'Show full resume';
+	});
+</script>
