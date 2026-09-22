@@ -1,10 +1,130 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import OriginBadge from '../../../components/OriginBadge.astro';
+import { withBase } from '../../../lib/base';
+
+const repoUrl = 'https://github.com/tavor29/citizen-development-governance';
+const demoUrl = 'https://tavor29.github.io/citizen-development-governance/';
 ---
 
 <BaseLayout title="Citizen Development Governance Model">
 	<OriginBadge origin="fictional" />
 	<h1>Citizen Development Governance Model</h1>
-	<p>Full project page lands in Block 4.</p>
+
+	<p class="links">
+		<a href={demoUrl}>Live demo</a> &middot; <a href={repoUrl}>Source on GitHub</a>
+	</p>
+
+	<section>
+		<h2>Problem</h2>
+		<p>
+			Employees increasingly build their own AI tools and automations without engineering
+			support. Most organizations have no answer for who maintains that app once the person who
+			built it moves on or leaves.
+		</p>
+	</section>
+
+	<section>
+		<h2>What it does</h2>
+		<p>
+			A documented framework plus a lightweight tracker: a defined path from idea to prototype
+			to MVP to production, with an explicit maintenance owner attached at each stage, and
+			health signals pulled from the actual repository.
+		</p>
+	</section>
+
+	<section>
+		<h2>What it demonstrates</h2>
+		<p>
+			This is the less common of the two coded ideas. Almost nobody has thought through this
+			problem carefully, so the idea itself carries most of the weight, the build just needs to
+			be credible.
+		</p>
+	</section>
+
+	<section>
+		<h2>Rejected alternative</h2>
+		<p>
+			I considered a model that required engineering sign-off before anyone could build anything
+			internally. I rejected it because that's exactly the kind of bottleneck that pushes people
+			toward unsanctioned tools in the first place, this model assumes citizen building will
+			keep happening and makes it visible and owned instead of trying to stop it.
+		</p>
+	</section>
+
+	<section>
+		<h2>Honest limitation</h2>
+		<p>
+			This tracks ownership and maintenance signals, but it doesn't enforce anything. An
+			organization that wanted hard gates (blocking a tool from advancing stages without
+			sign-off) would need to layer that on top.
+		</p>
+	</section>
+
+	<section>
+		<h2>Integration map</h2>
+		<div class="table-wrap">
+			<table>
+				<thead>
+					<tr>
+						<th>System</th>
+						<th>This demo</th>
+						<th>In production</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>GitHub</td>
+						<td>Live (real API, real repos)</td>
+						<td>Same</td>
+					</tr>
+					<tr>
+						<td>Internal app registry</td>
+						<td>Simulated</td>
+						<td>Real CMDB</td>
+					</tr>
+					<tr>
+						<td>Ownership/HR data (who owns what after a departure)</td>
+						<td>Documented only, out of scope</td>
+						<td>Real HRIS integration</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</section>
 </BaseLayout>
+
+<style>
+	.links {
+		font-size: var(--text-sm);
+		margin-top: var(--space-3);
+	}
+
+	section {
+		margin-top: var(--space-5);
+		max-width: 42rem;
+	}
+
+	section h2 {
+		font-size: var(--text-lg);
+	}
+
+	.table-wrap {
+		max-width: 100%;
+		overflow-x: auto;
+	}
+
+	table {
+		width: 100%;
+		border-collapse: collapse;
+		font-size: var(--text-sm);
+	}
+
+	th,
+	td {
+		text-align: left;
+		padding: var(--space-2);
+		border-bottom: 1px solid var(--color-border);
+		vertical-align: top;
+	}
+</style>
