@@ -9,7 +9,7 @@ import { defineConfig } from 'astro/config';
 export default defineConfig({
 	output: 'static',
 	trailingSlash: 'always',
-	site: 'https://tzavor29.github.io/portfolio-site',
+	site: 'https://tavor29.github.io/portfolio-site',
 	base: '/portfolio-site/',
 	devToolbar: {
 		enabled: false,
