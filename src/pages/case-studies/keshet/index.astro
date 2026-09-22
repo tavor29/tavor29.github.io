@@ -1,10 +1,245 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import OriginBadge from '../../../components/OriginBadge.astro';
+import { withBase } from '../../../lib/base';
+import IntakeFlowDiagram from '../../../components/charts/IntakeFlowDiagram.astro';
+import LicenseTierChart from '../../../components/charts/LicenseTierChart.astro';
+import CopilotProgressChart from '../../../components/charts/CopilotProgressChart.astro';
 ---
 
 <BaseLayout title="Keshet Media Group">
 	<OriginBadge origin="real" />
 	<h1>Keshet Media Group</h1>
-	<p>Full case study (both parts) lands in Block 5.</p>
+	<p class="dek">Two parts of the same engagement: AI governance and intake, and licensing and SaaS cost governance.</p>
+
+	<nav class="toc" aria-label="Case study parts">
+		<a href="#part-1">Part 1: AI tool governance and intake</a>
+		<a href="#part-2">Part 2: Licensing and SaaS cost governance</a>
+	</nav>
+
+	<article id="part-1">
+		<h2 class="part-title">Part 1: AI tool governance and intake</h2>
+
+		<section>
+			<h3>Context</h3>
+			<p>
+				Keshet's AI adoption was outpacing its governance. Roughly 40 employees were found to be
+				building their own AI tools without engineering support, and there was no formal process
+				for submitting AI or software requests, they arrived through chat and in-person
+				conversations instead.
+			</p>
+		</section>
+
+		<section>
+			<h3>Problem</h3>
+			<p>
+				That gap created duplicated builds, unclear ownership once a tool grew past one person's
+				use, and no consistent way to weigh cost or security risk before something scaled.
+			</p>
+		</section>
+
+		<section>
+			<h3>Objective</h3>
+			<p>
+				Put a governance structure in place that let people keep building (the org's stated
+				policy was "no walls," anyone could build on anyone else's work) while giving the
+				organization a way to see what existed, catch duplication, and flag risk before it
+				became a bigger problem.
+			</p>
+		</section>
+
+		<section>
+			<h3>Constraints</h3>
+			<p>
+				A four-month tenure, an organization already juggling competing priorities, and a policy
+				stance that ruled out simply blocking unsanctioned tools.
+			</p>
+		</section>
+
+		<section>
+			<h3>Your role</h3>
+			<p>
+				I helped stand up the cross-functional steering committee that set policy for AI tool and
+				workflow approvals, security boundaries, and budget ownership. I identified the roughly
+				40 employees building tools without engineering support and helped design a phased plan
+				to bring that work under governance. I diagnosed the ad hoc request process directly and
+				wrote the business requirements document for a structured intake system with duplication
+				checks and risk scoring.
+			</p>
+		</section>
+
+		<section>
+			<h3>Approach</h3>
+			<p>
+				The intake model routes a request through a duplication check against existing tools, a
+				risk score across a few dimensions (cost, security exposure, integration surface), and a
+				routing recommendation based on team capacity, rather than a single person approving or
+				blocking everything by hand.
+			</p>
+			<IntakeFlowDiagram />
+		</section>
+
+		<section>
+			<h3>Artifacts</h3>
+			<p>
+				The business requirements document for the intake system (internal, available on
+				request); a fully built, generalized version of the same system, running on a fictional
+				company, is the flagship coded project on this site:
+				<a href={withBase('projects/ai-intake-governance-agent/')}>AI Project Intake &amp; Governance Agent</a>.
+			</p>
+		</section>
+
+		<section>
+			<h3>Outcome</h3>
+			<p>
+				By the end of the engagement, there was a defined intake and governance path where none
+				had existed, a written BRD, and a steering committee with an actual mandate. A
+				four-month tenure didn't allow time for a rollout or adoption numbers, so none are
+				claimed here.
+			</p>
+		</section>
+
+		<section>
+			<h3>Lesson</h3>
+			<p>
+				A BRD is a starting point, not a shipped system. The real test would have been the
+				rollout, which the tenure didn't allow for. This was committee-driven work, not a solo
+				initiative, credit for the governance decisions themselves belongs to the group.
+			</p>
+		</section>
+	</article>
+
+	<article id="part-2">
+		<h2 class="part-title">Part 2: Licensing and SaaS cost governance</h2>
+
+		<section>
+			<h3>Context</h3>
+			<p>
+				A Microsoft licensing renewal covering roughly 750 seats was coming up, with about 680
+				to 690 on the higher E5 tier and the remainder on E3. At the same time, Keshet was
+				piloting Microsoft Copilot with around 50 users and planning to expand toward 250, and
+				had governance gaps on two other platforms: a large number of ungoverned Monday.com
+				boards, and SharePoint storage approaching its free-tier ceiling with hundreds of
+				terabytes of unmanaged media across departments.
+			</p>
+		</section>
+
+		<section>
+			<h3>Problem</h3>
+			<p>
+				None of these platforms had usage or cost visibility. License tiers were being renewed
+				by default rather than by actual usage, the Copilot pilot had no clear expansion
+				criteria, and both Monday.com and SharePoint had grown without any lifecycle or cleanup
+				process.
+			</p>
+		</section>
+
+		<section>
+			<h3>Objective</h3>
+			<p>
+				Build enough visibility into actual usage to make a real recommendation on the Microsoft
+				renewal, scope a responsible path for expanding the Copilot pilot, and get Monday.com
+				and SharePoint back under some kind of governance.
+			</p>
+		</section>
+
+		<section>
+			<h3>Constraints</h3>
+			<p>
+				A fixed renewal deadline, decisions that needed steering-committee sign-off rather than
+				being made unilaterally, and no existing usage data on any of these platforms to start
+				from.
+			</p>
+		</section>
+
+		<section>
+			<h3>Your role</h3>
+			<p>
+				I helped evaluate the Microsoft license tier options against actual feature usage and
+				found that a meaningful share of the paid E5 functionality wasn't being used, which fed
+				into a recommendation to rightsize the tier mix rather than renew as-is. I helped scope
+				the plan for expanding the Copilot pilot across its subscription tiers. I ran a
+				Monday.com board lifecycle governance and cleanup initiative to reduce clutter, and
+				helped diagnose the SharePoint storage growth problem, including a permissions cleanup
+				that removed excess admin-level access across sites.
+			</p>
+		</section>
+
+		<section>
+			<h3>Artifacts</h3>
+			<p>A chart of the real license tier breakdown and the Copilot pilot-to-target numbers.</p>
+			<div class="chart-row">
+				<LicenseTierChart />
+				<CopilotProgressChart />
+			</div>
+		</section>
+
+		<section>
+			<h3>Outcome</h3>
+			<p>
+				A completed usage review across roughly 750 licenses, a tier-rightsizing recommendation
+				instead of a straight renewal, a scoped plan for the Copilot expansion, and a completed
+				Monday.com cleanup and archiving pass.
+			</p>
+		</section>
+
+		<section>
+			<h3>Lesson</h3>
+			<p>
+				A tier-rightsizing recommendation and an expansion plan are scoping work, not a signed
+				contract or a finished rollout. In a four-month tenure, the follow-through on the
+				renewal itself wasn't something I was there to see.
+			</p>
+		</section>
+	</article>
 </BaseLayout>
+
+<style>
+	.dek {
+		max-width: 42rem;
+		color: var(--color-text-muted);
+		margin-top: var(--space-2);
+	}
+
+	.toc {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-4);
+		margin-top: var(--space-4);
+		padding: var(--space-3);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius);
+		background: var(--color-bg-subtle);
+		font-size: var(--text-sm);
+	}
+
+	article {
+		margin-top: var(--space-6);
+		padding-top: var(--space-5);
+		border-top: 1px solid var(--color-border);
+	}
+
+	.part-title {
+		font-size: var(--text-xl);
+	}
+
+	section {
+		margin-top: var(--space-4);
+		max-width: 42rem;
+	}
+
+	section h3 {
+		font-size: var(--text-base);
+		text-transform: uppercase;
+		letter-spacing: 0.02em;
+		color: var(--color-text-muted);
+		margin-bottom: var(--space-1);
+	}
+
+	.chart-row {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-5);
+		margin-top: var(--space-3);
+	}
+</style>

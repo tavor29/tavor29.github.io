@@ -1,0 +1,55 @@
+---
+// Real figures from the Keshet engagement: "piloting Microsoft Copilot with
+// around 50 users and planning to expand toward 250."
+const current = 50;
+const target = 250;
+const pct = Math.round((current / target) * 100);
+---
+
+<figure class="chart progress-chart">
+	<figcaption>Copilot pilot-to-target</figcaption>
+	<div class="progress-track">
+		<div class="progress-fill" style={`width: ${pct}%;`}></div>
+	</div>
+	<p class="progress-label">
+		<strong>{current}</strong> pilot users toward a target of <strong>{target}</strong> ({pct}%)
+	</p>
+	<p class="chart-note">Real figures from the engagement, not illustrative.</p>
+</figure>
+
+<style>
+	.chart {
+		margin: 0;
+		max-width: 28rem;
+	}
+
+	.chart figcaption {
+		font-weight: 600;
+		margin-bottom: var(--space-3);
+	}
+
+	.progress-track {
+		background: var(--color-bg-subtle);
+		border-radius: 999px;
+		height: 1.25rem;
+		overflow: hidden;
+	}
+
+	.progress-fill {
+		height: 100%;
+		border-radius: 999px;
+		background: var(--chart-series-1);
+	}
+
+	.progress-label {
+		font-size: var(--text-sm);
+		margin: var(--space-2) 0 0;
+	}
+
+	.chart-note {
+		font-size: var(--text-xs);
+		color: var(--color-text-muted);
+		margin: var(--space-1) 0 0;
+		font-style: italic;
+	}
+</style>

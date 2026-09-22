@@ -1,0 +1,118 @@
+---
+const before = ['Chat message or hallway conversation', 'No consistent process'];
+const beforeOutcomes = ['Duplicate builds', 'Unclear ownership', 'Risk not weighed'];
+
+const after = ['Structured intake form', 'Duplication check', 'Risk score', 'Routing recommendation'];
+---
+
+<figure class="chart flow-diagram">
+	<figcaption>Ad hoc requests vs. the structured intake path</figcaption>
+
+	<div class="flow-row">
+		<span class="flow-row-label">Before</span>
+		<div class="flow-steps">
+			{
+				before.map((step, i) => (
+					<>
+						<span class="flow-step flow-step--before">{step}</span>
+						{i < before.length - 1 && <span class="flow-arrow" aria-hidden="true">→</span>}
+					</>
+				))
+			}
+			<span class="flow-arrow" aria-hidden="true">→</span>
+			<span class="flow-outcomes">
+				{beforeOutcomes.map((o) => <span class="flow-outcome">{o}</span>)}
+			</span>
+		</div>
+	</div>
+
+	<div class="flow-row">
+		<span class="flow-row-label">After</span>
+		<div class="flow-steps">
+			{
+				after.map((step, i) => (
+					<>
+						<span class="flow-step flow-step--after">{step}</span>
+						{i < after.length - 1 && <span class="flow-arrow" aria-hidden="true">→</span>}
+					</>
+				))
+			}
+		</div>
+	</div>
+</figure>
+
+<style>
+	.chart {
+		margin: 0;
+		max-width: 42rem;
+	}
+
+	.chart figcaption {
+		font-weight: 600;
+		margin-bottom: var(--space-3);
+	}
+
+	.flow-row {
+		display: flex;
+		align-items: flex-start;
+		gap: var(--space-3);
+		padding-block: var(--space-2);
+	}
+
+	.flow-row + .flow-row {
+		border-top: 1px solid var(--color-border);
+	}
+
+	.flow-row-label {
+		flex: 0 0 3.5rem;
+		font-size: var(--text-xs);
+		font-weight: 600;
+		text-transform: uppercase;
+		color: var(--color-text-muted);
+		padding-top: 0.4rem;
+	}
+
+	.flow-steps {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--space-2);
+	}
+
+	.flow-step {
+		font-size: var(--text-sm);
+		padding: 0.4rem 0.7rem;
+		border-radius: var(--radius);
+		border: 1px solid var(--color-border);
+		white-space: nowrap;
+	}
+
+	.flow-step--before {
+		color: var(--color-text-muted);
+		background: var(--color-bg-subtle);
+	}
+
+	.flow-step--after {
+		color: var(--color-text);
+		background: var(--color-bg);
+		border-color: var(--chart-series-1);
+	}
+
+	.flow-arrow {
+		color: var(--color-text-muted);
+	}
+
+	.flow-outcomes {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-1);
+	}
+
+	.flow-outcome {
+		font-size: var(--text-xs);
+		padding: 0.3rem 0.6rem;
+		border-radius: 999px;
+		background: color-mix(in srgb, var(--chart-status-critical) 12%, transparent);
+		color: var(--chart-status-critical);
+	}
+</style>

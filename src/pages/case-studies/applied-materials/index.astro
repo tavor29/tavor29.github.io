@@ -1,10 +1,110 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import OriginBadge from '../../../components/OriginBadge.astro';
+import ProgramDashboard from '../../../components/charts/ProgramDashboard.astro';
 ---
 
 <BaseLayout title="Applied Materials">
 	<OriginBadge origin="real" />
 	<h1>Applied Materials</h1>
-	<p>Full case study lands in Block 5.</p>
+	<p class="dek">KPI dashboards and capital program coordination.</p>
+
+	<section>
+		<h3>Context</h3>
+		<p>
+			Applied Materials was running a multi-year capital program to support a new corporate
+			office for over 1,200 employees, coordinating Finance, IT, R&amp;D, and outside contractor
+			teams that didn't naturally share data or a single timeline view.
+		</p>
+	</section>
+
+	<section>
+		<h3>Problem</h3>
+		<p>
+			Schedule risk and budget status were scattered across teams, with no shared way for
+			executives to see where the program actually stood without asking around.
+		</p>
+	</section>
+
+	<section>
+		<h3>Objective</h3>
+		<p>
+			Give leadership real-time visibility into schedule risk and budget utilization across the
+			program, and keep budget planning and forecasting cycles aligned with Finance and
+			Purchasing.
+		</p>
+	</section>
+
+	<section>
+		<h3>Constraints</h3>
+		<p>
+			Multi-million-dollar budget scrutiny, schedule risk spread across teams with different
+			systems and reporting habits, and no existing shared dashboard to build from.
+		</p>
+	</section>
+
+	<section>
+		<h3>Your role</h3>
+		<p>
+			I built automated dashboards giving executives real-time visibility into schedule risk and
+			budget utilization on the program, and led budget planning and forecast cycles with
+			Finance and Purchasing, translating issues into decisions for senior leadership.
+		</p>
+	</section>
+
+	<section>
+		<h3>Approach</h3>
+		<p>
+			The dashboards pulled from the systems each team already used rather than asking them to
+			adopt a new one, and surfaced risk and budget status without requiring a status meeting to
+			get it.
+		</p>
+	</section>
+
+	<section>
+		<h3>Artifacts</h3>
+		<p>
+			An illustrative dashboard reconstruction, built on synthetic sample numbers, showing the
+			kind of schedule-risk and budget-utilization view actually built, captioned plainly as a
+			reconstruction of the format, not the real dashboard.
+		</p>
+		<ProgramDashboard />
+	</section>
+
+	<section>
+		<h3>Outcome</h3>
+		<p>
+			Leadership could see risk and budget status directly instead of asking around for it. No
+			dollar or percentage figure is claimed here, since none was authorized for public use.
+		</p>
+	</section>
+
+	<section>
+		<h3>Lesson</h3>
+		<p>
+			A dashboard is only as reliable as the data feeding it. Getting teams to keep their inputs
+			current was its own ongoing effort, not a one-time build.
+		</p>
+	</section>
 </BaseLayout>
+
+<style>
+	.dek {
+		max-width: 42rem;
+		color: var(--color-text-muted);
+		margin-top: var(--space-2);
+	}
+
+	section {
+		margin-top: var(--space-4);
+		max-width: 42rem;
+	}
+
+	section h3 {
+		font-size: var(--text-base);
+		text-transform: uppercase;
+		letter-spacing: 0.02em;
+		color: var(--color-text-muted);
+		margin-bottom: var(--space-1);
+	}
+</style>

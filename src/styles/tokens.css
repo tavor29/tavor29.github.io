@@ -28,6 +28,16 @@
 
 	--max-width: 72rem;
 	--radius: 0.5rem;
+
+	/* Chart colors (Block 5), dataviz skill's validated default palette,
+	   slots 1-2 for categorical series, fixed status colors for state.
+	   Re-validate with scripts/validate_palette.js before adding more slots. */
+	--chart-series-1: #2a78d6;
+	--chart-series-2: #eb6834;
+	--chart-status-good: #0ca30c;
+	--chart-status-warning: #fab219;
+	--chart-status-serious: #ec835a;
+	--chart-status-critical: #d03b3b;
 }
 
 *,

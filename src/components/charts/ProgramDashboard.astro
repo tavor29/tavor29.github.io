@@ -1,0 +1,135 @@
+---
+// Illustrative reconstruction, synthetic sample numbers only, not the real
+// dashboard (portfolio-content-package.md: no real dollar/percentage figure
+// was authorized for public use for this engagement).
+const statusMeta = {
+	good: { label: 'On track', icon: '●', colorVar: '--chart-status-good' },
+	warning: { label: 'Watch', icon: '▲', colorVar: '--chart-status-warning' },
+	serious: { label: 'At risk', icon: '▲', colorVar: '--chart-status-serious' },
+	critical: { label: 'Critical', icon: '✕', colorVar: '--chart-status-critical' },
+} as const;
+
+const workstreams: Array<{ name: string; status: keyof typeof statusMeta }> = [
+	{ name: 'Finance', status: 'good' },
+	{ name: 'IT', status: 'warning' },
+	{ name: 'R&D', status: 'good' },
+	{ name: 'Contractor teams', status: 'critical' },
+];
+
+const budget = { spent: 4.2, total: 6.0 };
+const budgetPct = Math.round((budget.spent / budget.total) * 100);
+---
+
+<figure class="chart dashboard">
+	<figcaption>Program schedule risk &amp; budget utilization</figcaption>
+
+	<div class="panel">
+		<h3>Schedule risk by workstream</h3>
+		<ul class="status-list">
+			{
+				workstreams.map((w) => (
+					<li class="status-row">
+						<span class="status-name">{w.name}</span>
+						<span class="status-pill" style={`color: var(${statusMeta[w.status].colorVar});`}>
+							<span aria-hidden="true">{statusMeta[w.status].icon}</span>
+							{statusMeta[w.status].label}
+						</span>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+
+	<div class="panel">
+		<h3>Budget utilization</h3>
+		<div class="progress-track">
+			<div class="progress-fill" style={`width: ${budgetPct}%;`}></div>
+		</div>
+		<p class="progress-label">
+			<strong>${budget.spent.toFixed(1)}M</strong> of <strong>${budget.total.toFixed(1)}M</strong> allocated
+			({budgetPct}%)
+		</p>
+	</div>
+
+	<p class="chart-note">
+		Illustrative reconstruction of the format on synthetic sample numbers, not the real dashboard
+		or real figures.
+	</p>
+</figure>
+
+<style>
+	.chart {
+		margin: 0;
+		max-width: 32rem;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-4);
+	}
+
+	.chart figcaption {
+		font-weight: 600;
+	}
+
+	.panel {
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius);
+		padding: var(--space-3);
+	}
+
+	.panel h3 {
+		font-size: var(--text-sm);
+		text-transform: uppercase;
+		letter-spacing: 0.02em;
+		color: var(--color-text-muted);
+		margin: 0 0 var(--space-2);
+	}
+
+	.status-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+	}
+
+	.status-row {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		font-size: var(--text-sm);
+	}
+
+	.status-pill {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.3rem;
+		font-weight: 600;
+		font-size: var(--text-xs);
+	}
+
+	.progress-track {
+		background: var(--color-bg-subtle);
+		border-radius: 999px;
+		height: 1.25rem;
+		overflow: hidden;
+	}
+
+	.progress-fill {
+		height: 100%;
+		border-radius: 999px;
+		background: var(--chart-series-1);
+	}
+
+	.progress-label {
+		font-size: var(--text-sm);
+		margin: var(--space-2) 0 0;
+	}
+
+	.chart-note {
+		font-size: var(--text-xs);
+		color: var(--color-text-muted);
+		margin: 0;
+		font-style: italic;
+	}
+</style>
