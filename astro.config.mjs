@@ -11,4 +11,7 @@ export default defineConfig({
 	trailingSlash: 'always',
 	site: 'https://tzavor29.github.io/portfolio-site',
 	base: '/portfolio-site/',
+	devToolbar: {
+		enabled: false,
+	},
 });
