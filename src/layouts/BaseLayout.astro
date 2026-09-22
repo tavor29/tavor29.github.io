@@ -8,12 +8,13 @@ interface Props {
 
 const { title = 'Tavor Ben Shahar' } = Astro.props;
 
+// Open Source & Tools (Block 7) is deliberately hidden from nav until it's
+// built, see CLAUDE.md's Ground truth. The route/page still exists, just unlinked.
 const navLinks = [
 	{ href: withBase(''), label: 'Home' },
 	{ href: withBase('projects/'), label: 'Projects' },
 	{ href: withBase('case-studies/'), label: 'Case Studies' },
 	{ href: withBase('blog/'), label: 'Blog' },
-	{ href: withBase('open-source/'), label: 'Open Source & Tools' },
 ];
 
 const currentPath = Astro.url.pathname;
