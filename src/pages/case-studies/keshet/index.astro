@@ -1,14 +1,13 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import OriginBadge from '../../../components/OriginBadge.astro';
 import { withBase } from '../../../lib/base';
 import IntakeFlowDiagram from '../../../components/charts/IntakeFlowDiagram.astro';
+import UseCaseMaturityStat from '../../../components/charts/UseCaseMaturityStat.astro';
 import LicenseTierChart from '../../../components/charts/LicenseTierChart.astro';
-import CopilotProgressChart from '../../../components/charts/CopilotProgressChart.astro';
+import CopilotChart from '../../../components/charts/CopilotChart.astro';
 ---
 
 <BaseLayout title="Keshet Media Group">
-	<OriginBadge origin="real" />
 	<h1>Keshet Media Group</h1>
 	<p class="dek">Two parts of the same engagement: AI governance and intake, and licensing and SaaS cost governance.</p>
 
@@ -24,10 +23,14 @@ import CopilotProgressChart from '../../../components/charts/CopilotProgressChar
 			<h3>Context</h3>
 			<p>
 				Keshet's AI adoption was outpacing its governance. Roughly 40 employees were found to be
-				building their own AI tools without engineering support, and there was no formal process
-				for submitting AI or software requests, they arrived through chat and in-person
-				conversations instead.
+				building their own AI tools without engineering support. Separately, a use-case mapping
+				exercise identified over 80 AI and automation use cases in progress across departments,
+				with roughly 90% of departments assessed, and an AI maturity model placed most
+				departments at an early stage, with the engineering department slightly ahead. There was
+				no formal process for submitting AI or software requests, they arrived through chat and
+				in-person conversations instead.
 			</p>
+			<UseCaseMaturityStat />
 		</section>
 
 		<section>
@@ -83,8 +86,10 @@ import CopilotProgressChart from '../../../components/charts/CopilotProgressChar
 			<h3>Artifacts</h3>
 			<p>
 				The business requirements document for the intake system (internal, available on
-				request); a fully built, generalized version of the same system, running on a fictional
-				company, is the flagship coded project on this site:
+				request); a before/after diagram of the request flow; a small stat visual showing the
+				use-case mapping scale alongside the three-level AI maturity scale; a fully built,
+				generalized version of the intake system, running on a fictional company, is the
+				flagship coded project on this site:
 				<a href={withBase('projects/ai-intake-governance-agent/')}>AI Project Intake &amp; Governance Agent</a>.
 			</p>
 		</section>
@@ -170,7 +175,7 @@ import CopilotProgressChart from '../../../components/charts/CopilotProgressChar
 			<p>A chart of the real license tier breakdown and the Copilot pilot-to-target numbers.</p>
 			<div class="chart-row">
 				<LicenseTierChart />
-				<CopilotProgressChart />
+				<CopilotChart />
 			</div>
 		</section>
 

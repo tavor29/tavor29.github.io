@@ -1,54 +1,162 @@
 ---
-// Illustrative reconstruction, synthetic sample numbers only, not the real
-// dashboard (portfolio-content-package.md: no real dollar/percentage figure
-// was authorized for public use for this engagement).
+// Illustrative reconstruction of the program-coordination view, synthetic
+// sample numbers only, not the real dashboard (no real dollar/percentage
+// figure was authorized for public use for this engagement). One small
+// interactive island (vanilla TS, no framework): clicking a workstream in
+// the risk panel expands its status detail and highlights the matching row
+// in the timeline panel, per the content package's Case study B Artifacts.
 const statusMeta = {
 	good: { label: 'On track', icon: '●', colorVar: '--chart-status-good' },
 	warning: { label: 'Watch', icon: '▲', colorVar: '--chart-status-warning' },
-	serious: { label: 'At risk', icon: '▲', colorVar: '--chart-status-serious' },
 	critical: { label: 'Critical', icon: '✕', colorVar: '--chart-status-critical' },
 } as const;
 
-const workstreams: Array<{ name: string; status: keyof typeof statusMeta }> = [
-	{ name: 'Finance', status: 'good' },
-	{ name: 'IT', status: 'warning' },
-	{ name: 'R&D', status: 'good' },
-	{ name: 'Contractor teams', status: 'critical' },
+const workstreams: Array<{
+	id: string;
+	name: string;
+	status: keyof typeof statusMeta;
+	detail: string;
+	phaseStart: number;
+	phaseEnd: number;
+}> = [
+	{
+		id: 'finance',
+		name: 'Finance',
+		status: 'good',
+		detail: 'Q3 forecast submitted on schedule, no open budget risks.',
+		phaseStart: 5,
+		phaseEnd: 70,
+	},
+	{
+		id: 'it',
+		name: 'IT',
+		status: 'warning',
+		detail: 'Network-gear procurement for the new office is running about two weeks behind.',
+		phaseStart: 15,
+		phaseEnd: 80,
+	},
+	{
+		id: 'rd',
+		name: 'R&D',
+		status: 'good',
+		detail: 'Lab buildout milestones are tracking to plan.',
+		phaseStart: 10,
+		phaseEnd: 65,
+	},
+	{
+		id: 'contractor',
+		name: 'Contractor teams',
+		status: 'critical',
+		detail: 'General contractor flagged a schedule slip on the core office buildout.',
+		phaseStart: 20,
+		phaseEnd: 95,
+	},
 ];
 
-const budget = { spent: 4.2, total: 6.0 };
-const budgetPct = Math.round((budget.spent / budget.total) * 100);
+const todayPct = 62;
+
+const budgetLabels = ['Jan', 'Mar', 'May', 'Jul', 'Sep', 'Nov'];
+const planValues = [10, 25, 40, 58, 75, 92];
+const actualValues = [8, 22, 45, 62, 79, 88];
+
+// Shared chart plot box for the SVG line chart.
+const plotX = 30;
+const plotW = 320;
+const plotY = 10;
+const plotH = 120;
+const maxVal = 100;
+
+function pointsFor(values: number[]) {
+	return values
+		.map((v, i) => {
+			const x = plotX + (i / (values.length - 1)) * plotW;
+			const y = plotY + plotH - (v / maxVal) * plotH;
+			return `${x},${y}`;
+		})
+		.join(' ');
+}
 ---
 
-<figure class="chart dashboard">
-	<figcaption>Program schedule risk &amp; budget utilization</figcaption>
+<figure class="chart dashboard" id="program-dashboard">
+	<figcaption>Program coordination view</figcaption>
 
-	<div class="panel">
-		<h3>Schedule risk by workstream</h3>
-		<ul class="status-list">
-			{
-				workstreams.map((w) => (
-					<li class="status-row">
-						<span class="status-name">{w.name}</span>
-						<span class="status-pill" style={`color: var(${statusMeta[w.status].colorVar});`}>
-							<span aria-hidden="true">{statusMeta[w.status].icon}</span>
-							{statusMeta[w.status].label}
-						</span>
-					</li>
-				))
-			}
-		</ul>
-	</div>
-
-	<div class="panel">
-		<h3>Budget utilization</h3>
-		<div class="progress-track">
-			<div class="progress-fill" style={`width: ${budgetPct}%;`}></div>
+	<div class="panel-grid">
+		<div class="panel" id="risk-panel">
+			<h3>Schedule risk by workstream</h3>
+			<p class="panel-hint">Click a workstream for its status detail.</p>
+			<ul class="workstream-list">
+				{
+					workstreams.map((w) => (
+						<li>
+							<button
+								type="button"
+								class="workstream-row"
+								data-workstream={w.id}
+								aria-expanded="false"
+							>
+								<span class="ws-name">{w.name}</span>
+								<span class="status-pill" style={`color: var(${statusMeta[w.status].colorVar});`}>
+									<span aria-hidden="true">{statusMeta[w.status].icon}</span>
+									{statusMeta[w.status].label}
+								</span>
+							</button>
+							<p class="ws-detail" data-detail-for={w.id} hidden>
+								{w.detail}
+							</p>
+						</li>
+					))
+				}
+			</ul>
 		</div>
-		<p class="progress-label">
-			<strong>${budget.spent.toFixed(1)}M</strong> of <strong>${budget.total.toFixed(1)}M</strong> allocated
-			({budgetPct}%)
-		</p>
+
+		<div class="panel" id="timeline-panel">
+			<h3>Multi-workstream timeline</h3>
+			<div class="timeline-rows">
+				{
+					workstreams.map((w) => (
+						<div class="timeline-row" data-timeline-for={w.id}>
+							<span class="timeline-label">{w.name}</span>
+							<div class="timeline-track">
+								<div
+									class="timeline-today"
+									style={`left: ${todayPct}%;`}
+									aria-hidden="true"
+								/>
+								<div
+									class="timeline-bar"
+									style={`left: ${w.phaseStart}%; width: ${w.phaseEnd - w.phaseStart}%; background: var(${statusMeta[w.status].colorVar});`}
+								/>
+							</div>
+						</div>
+					))
+				}
+			</div>
+			<p class="timeline-legend">Dashed line marks today; bars are each team's active build phase.</p>
+		</div>
+
+		<div class="panel" id="budget-panel">
+			<h3>Budget utilization over time</h3>
+			<svg viewBox="0 0 360 150" role="img" aria-label="Budget utilization trend from January to November, plan climbing steadily to 92%, actual tracking close to plan and ending at 88%.">
+				<line x1={plotX} y1={plotY + plotH} x2={plotX + plotW} y2={plotY + plotH} stroke="var(--color-border)" stroke-width="1" />
+				<polyline points={pointsFor(planValues)} fill="none" stroke="var(--color-text-muted)" stroke-width="2" stroke-dasharray="4 3" />
+				<polyline points={pointsFor(actualValues)} fill="none" stroke="var(--chart-series-1)" stroke-width="2.5" />
+				{budgetLabels.map((label, i) => (
+					<text
+						x={plotX + (i / (budgetLabels.length - 1)) * plotW}
+						y={plotY + plotH + 16}
+						font-size="9"
+						text-anchor="middle"
+						fill="var(--color-text-muted)"
+					>
+						{label}
+					</text>
+				))}
+			</svg>
+			<div class="budget-legend">
+				<span><i class="swatch swatch--plan" /> Plan</span>
+				<span><i class="swatch swatch--actual" /> Actual</span>
+			</div>
+		</div>
 	</div>
 
 	<p class="chart-note">
@@ -60,14 +168,19 @@ const budgetPct = Math.round((budget.spent / budget.total) * 100);
 <style>
 	.chart {
 		margin: 0;
-		max-width: 32rem;
-		display: flex;
-		flex-direction: column;
-		gap: var(--space-4);
+		max-width: 56rem;
 	}
 
 	.chart figcaption {
 		font-weight: 600;
+		margin-bottom: var(--space-3);
+	}
+
+	.panel-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+		gap: var(--space-4);
+		align-items: start;
 	}
 
 	.panel {
@@ -84,20 +197,44 @@ const budgetPct = Math.round((budget.spent / budget.total) * 100);
 		margin: 0 0 var(--space-2);
 	}
 
-	.status-list {
+	.panel-hint {
+		font-size: var(--text-xs);
+		color: var(--color-text-muted);
+		margin: 0 0 var(--space-2);
+	}
+
+	.workstream-list {
 		list-style: none;
 		margin: 0;
 		padding: 0;
 		display: flex;
 		flex-direction: column;
-		gap: var(--space-2);
+		gap: var(--space-1);
 	}
 
-	.status-row {
+	.workstream-row {
+		width: 100%;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		gap: var(--space-2);
+		font: inherit;
 		font-size: var(--text-sm);
+		padding: var(--space-2);
+		border: 1px solid transparent;
+		border-radius: var(--radius);
+		background: none;
+		cursor: pointer;
+		text-align: left;
+	}
+
+	.workstream-row:hover {
+		background: var(--color-bg-subtle);
+	}
+
+	.workstream-row[aria-expanded='true'] {
+		border-color: var(--chart-series-1);
+		background: var(--color-bg-subtle);
 	}
 
 	.status-pill {
@@ -106,30 +243,145 @@ const budgetPct = Math.round((budget.spent / budget.total) * 100);
 		gap: 0.3rem;
 		font-weight: 600;
 		font-size: var(--text-xs);
+		white-space: nowrap;
 	}
 
-	.progress-track {
+	.ws-detail {
+		font-size: var(--text-xs);
+		color: var(--color-text-muted);
+		margin: 0 0 var(--space-2);
+		padding: 0 var(--space-2) var(--space-1);
+	}
+
+	.timeline-rows {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-3);
+	}
+
+	.timeline-row {
+		display: grid;
+		grid-template-columns: 6rem 1fr;
+		align-items: center;
+		gap: var(--space-2);
+		border-radius: var(--radius);
+		transition: opacity 0.15s ease;
+	}
+
+	.timeline-label {
+		font-size: var(--text-xs);
+		color: var(--color-text-muted);
+	}
+
+	.timeline-track {
+		position: relative;
+		height: 0.9rem;
 		background: var(--color-bg-subtle);
 		border-radius: 999px;
-		height: 1.25rem;
-		overflow: hidden;
 	}
 
-	.progress-fill {
+	.timeline-bar {
+		position: absolute;
+		top: 0;
 		height: 100%;
 		border-radius: 999px;
-		background: var(--chart-series-1);
+		outline: 2px solid transparent;
+		outline-offset: 1px;
+		transition: outline-color 0.15s ease;
 	}
 
-	.progress-label {
-		font-size: var(--text-sm);
-		margin: var(--space-2) 0 0;
+	.timeline-today {
+		position: absolute;
+		top: -3px;
+		bottom: -3px;
+		width: 0;
+		border-left: 1.5px dashed var(--color-text-muted);
+	}
+
+	.timeline-row.is-selected .timeline-bar {
+		outline-color: var(--color-text);
+	}
+
+	.timeline-row.is-dimmed {
+		opacity: 0.4;
+	}
+
+	.timeline-legend {
+		font-size: var(--text-xs);
+		color: var(--color-text-muted);
+		margin: var(--space-3) 0 0;
+	}
+
+	#budget-panel svg {
+		width: 100%;
+		height: auto;
+	}
+
+	.budget-legend {
+		display: flex;
+		gap: var(--space-4);
+		font-size: var(--text-xs);
+		color: var(--color-text-muted);
+		margin-top: var(--space-1);
+	}
+
+	.swatch {
+		display: inline-block;
+		width: 1rem;
+		height: 2px;
+		margin-right: 0.3rem;
+		vertical-align: middle;
+	}
+
+	.swatch--plan {
+		background: var(--color-text-muted);
+		border-top: 2px dashed var(--color-text-muted);
+		background: none;
+	}
+
+	.swatch--actual {
+		background: var(--chart-series-1);
 	}
 
 	.chart-note {
 		font-size: var(--text-xs);
 		color: var(--color-text-muted);
-		margin: 0;
+		margin: var(--space-4) 0 0;
 		font-style: italic;
 	}
 </style>
+
+<script>
+	const dashboard = document.querySelector<HTMLElement>('#program-dashboard');
+	const buttons = dashboard?.querySelectorAll<HTMLButtonElement>('.workstream-row') ?? [];
+
+	buttons.forEach((button) => {
+		button.addEventListener('click', () => {
+			const id = button.dataset.workstream;
+			if (!id) return;
+
+			const isOpen = button.getAttribute('aria-expanded') === 'true';
+			const detail = dashboard?.querySelector<HTMLElement>(`[data-detail-for="${id}"]`);
+
+			// Only one workstream expanded/selected at a time.
+			buttons.forEach((b) => b.setAttribute('aria-expanded', 'false'));
+			dashboard?.querySelectorAll<HTMLElement>('[data-detail-for]').forEach((el) => (el.hidden = true));
+			dashboard?.querySelectorAll<HTMLElement>('.timeline-row').forEach((row) => {
+				row.classList.remove('is-selected', 'is-dimmed');
+			});
+
+			if (!isOpen) {
+				button.setAttribute('aria-expanded', 'true');
+				if (detail) detail.hidden = false;
+
+				dashboard?.querySelectorAll<HTMLElement>('.timeline-row').forEach((row) => {
+					if (row.dataset.timelineFor === id) {
+						row.classList.add('is-selected');
+					} else {
+						row.classList.add('is-dimmed');
+					}
+				});
+			}
+		});
+	});
+</script>

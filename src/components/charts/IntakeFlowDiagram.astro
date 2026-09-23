@@ -1,50 +1,79 @@
 ---
-const before = ['Chat message or hallway conversation', 'No consistent process'];
-const beforeOutcomes = ['Duplicate builds', 'Unclear ownership', 'Risk not weighed'];
-
-const after = ['Structured intake form', 'Duplication check', 'Risk score', 'Routing recommendation'];
+// Before/after request-flow diagram. "Before" (muted) vs "after" (accent)
+// per the content package's Part 1 Artifacts note. Hand-authored inline SVG
+// per the artifact-diagramming skill: currentColor per group, labeled
+// arrows, one shared marker, no <style>/<script> inside the SVG.
 ---
 
 <figure class="chart flow-diagram">
 	<figcaption>Ad hoc requests vs. the structured intake path</figcaption>
 
-	<div class="flow-row">
-		<span class="flow-row-label">Before</span>
-		<div class="flow-steps">
-			{
-				before.map((step, i) => (
-					<>
-						<span class="flow-step flow-step--before">{step}</span>
-						{i < before.length - 1 && <span class="flow-arrow" aria-hidden="true">→</span>}
-					</>
-				))
-			}
-			<span class="flow-arrow" aria-hidden="true">→</span>
-			<span class="flow-outcomes">
-				{beforeOutcomes.map((o) => <span class="flow-outcome">{o}</span>)}
-			</span>
-		</div>
-	</div>
+	<svg viewBox="0 0 800 250" role="img" aria-label="Before: a chat message reaches a manager with no defined process, producing duplicate builds, unclear ownership, and unweighed risk. After: a plain-language request goes through a structured intake form, a duplication and risk check, and gets routed by capacity to the right team.">
+		<defs>
+			<marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+				<path d="M0 0 L10 5 L0 10 Z" fill="currentColor"></path>
+			</marker>
+		</defs>
 
-	<div class="flow-row">
-		<span class="flow-row-label">After</span>
-		<div class="flow-steps">
-			{
-				after.map((step, i) => (
-					<>
-						<span class="flow-step flow-step--after">{step}</span>
-						{i < after.length - 1 && <span class="flow-arrow" aria-hidden="true">→</span>}
-					</>
-				))
-			}
-		</div>
-	</div>
+		<!-- BEFORE (muted) -->
+		<g style="color: var(--color-text-muted)">
+			<text x="4" y="16" font-size="11" font-weight="700" letter-spacing="0.05em">BEFORE</text>
+
+			<rect x="10" y="28" width="140" height="42" rx="6" fill="none" stroke="currentColor" stroke-width="1.5"></rect>
+			<text x="80" y="53" font-size="12" text-anchor="middle" fill="currentColor">Chat message</text>
+
+			<line x1="150" y1="49" x2="204" y2="49" stroke="currentColor" stroke-width="1.5" marker-end="url(#arrow)"></line>
+			<text x="177" y="42" font-size="10" text-anchor="middle" fill="currentColor">informal ask</text>
+
+			<rect x="208" y="28" width="170" height="42" rx="6" fill="none" stroke="currentColor" stroke-width="1.5"></rect>
+			<text x="293" y="47" font-size="12" text-anchor="middle" fill="currentColor">Manager / platform</text>
+			<text x="293" y="61" font-size="12" text-anchor="middle" fill="currentColor">team</text>
+
+			<line x1="293" y1="70" x2="293" y2="98" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#arrow)"></line>
+			<text x="382" y="86" font-size="10" text-anchor="middle" fill="currentColor">no defined process</text>
+
+			<rect x="208" y="102" width="170" height="76" rx="6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"></rect>
+			<text x="293" y="122" font-size="11" text-anchor="middle" fill="currentColor">Duplicate builds</text>
+			<text x="293" y="140" font-size="11" text-anchor="middle" fill="currentColor">Unclear ownership</text>
+			<text x="293" y="158" font-size="11" text-anchor="middle" fill="currentColor">Risk unweighed</text>
+		</g>
+
+		<!-- AFTER (accent) -->
+		<g style="color: var(--chart-series-1)">
+			<text x="4" y="210" font-size="11" font-weight="700" letter-spacing="0.05em">AFTER</text>
+
+			<rect x="10" y="200" width="150" height="42" rx="6" fill="none" stroke="currentColor" stroke-width="2"></rect>
+			<text x="85" y="220" font-size="12" text-anchor="middle" fill="currentColor">Plain-language</text>
+			<text x="85" y="234" font-size="12" text-anchor="middle" fill="currentColor">request</text>
+
+			<line x1="160" y1="221" x2="204" y2="221" stroke="currentColor" stroke-width="2" marker-end="url(#arrow)"></line>
+			<text x="182" y="214" font-size="10" text-anchor="middle" fill="currentColor">submits</text>
+
+			<rect x="208" y="200" width="150" height="42" rx="6" fill="none" stroke="currentColor" stroke-width="2"></rect>
+			<text x="283" y="220" font-size="12" text-anchor="middle" fill="currentColor">Structured</text>
+			<text x="283" y="234" font-size="12" text-anchor="middle" fill="currentColor">intake form</text>
+
+			<line x1="358" y1="221" x2="402" y2="221" stroke="currentColor" stroke-width="2" marker-end="url(#arrow)"></line>
+			<text x="380" y="214" font-size="10" text-anchor="middle" fill="currentColor">checks</text>
+
+			<rect x="406" y="200" width="170" height="42" rx="6" fill="none" stroke="currentColor" stroke-width="2"></rect>
+			<text x="491" y="220" font-size="12" text-anchor="middle" fill="currentColor">Duplication +</text>
+			<text x="491" y="234" font-size="12" text-anchor="middle" fill="currentColor">risk score</text>
+
+			<line x1="576" y1="221" x2="620" y2="221" stroke="currentColor" stroke-width="2" marker-end="url(#arrow)"></line>
+			<text x="598" y="214" font-size="10" text-anchor="middle" fill="currentColor">routes by capacity</text>
+
+			<rect x="624" y="200" width="140" height="42" rx="6" fill="currentColor" opacity="0.12" stroke="currentColor" stroke-width="2"></rect>
+			<text x="694" y="220" font-size="12" text-anchor="middle" fill="currentColor">Right team,</text>
+			<text x="694" y="234" font-size="12" text-anchor="middle" fill="currentColor">right owner</text>
+		</g>
+	</svg>
 </figure>
 
 <style>
 	.chart {
 		margin: 0;
-		max-width: 42rem;
+		max-width: 46rem;
 	}
 
 	.chart figcaption {
@@ -52,67 +81,9 @@ const after = ['Structured intake form', 'Duplication check', 'Risk score', 'Rou
 		margin-bottom: var(--space-3);
 	}
 
-	.flow-row {
-		display: flex;
-		align-items: flex-start;
-		gap: var(--space-3);
-		padding-block: var(--space-2);
-	}
-
-	.flow-row + .flow-row {
-		border-top: 1px solid var(--color-border);
-	}
-
-	.flow-row-label {
-		flex: 0 0 3.5rem;
-		font-size: var(--text-xs);
-		font-weight: 600;
-		text-transform: uppercase;
-		color: var(--color-text-muted);
-		padding-top: 0.4rem;
-	}
-
-	.flow-steps {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		gap: var(--space-2);
-	}
-
-	.flow-step {
-		font-size: var(--text-sm);
-		padding: 0.4rem 0.7rem;
-		border-radius: var(--radius);
-		border: 1px solid var(--color-border);
-		white-space: nowrap;
-	}
-
-	.flow-step--before {
-		color: var(--color-text-muted);
-		background: var(--color-bg-subtle);
-	}
-
-	.flow-step--after {
-		color: var(--color-text);
-		background: var(--color-bg);
-		border-color: var(--chart-series-1);
-	}
-
-	.flow-arrow {
-		color: var(--color-text-muted);
-	}
-
-	.flow-outcomes {
-		display: flex;
-		flex-wrap: wrap;
-		gap: var(--space-1);
-	}
-
-	.flow-outcome {
-		font-size: var(--text-xs);
-		padding: 0.3rem 0.6rem;
-		border-radius: 999px;
-		background: color-mix(in srgb, var(--chart-status-critical) 12%, transparent);
-		color: var(--chart-status-critical);
+	svg {
+		width: 100%;
+		height: auto;
+		font-family: var(--font-sans);
 	}
 </style>

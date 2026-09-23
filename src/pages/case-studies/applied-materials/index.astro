@@ -1,11 +1,9 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import OriginBadge from '../../../components/OriginBadge.astro';
 import ProgramDashboard from '../../../components/charts/ProgramDashboard.astro';
 ---
 
 <BaseLayout title="Applied Materials">
-	<OriginBadge origin="real" />
 	<h1>Applied Materials</h1>
 	<p class="dek">KPI dashboards and capital program coordination.</p>
 
@@ -64,9 +62,12 @@ import ProgramDashboard from '../../../components/charts/ProgramDashboard.astro'
 	<section>
 		<h3>Artifacts</h3>
 		<p>
-			An illustrative dashboard reconstruction, built on synthetic sample numbers, showing the
-			kind of schedule-risk and budget-utilization view actually built, captioned plainly as a
-			reconstruction of the format, not the real dashboard.
+			An illustrative program view reconstructed from the format actually used, not the real
+			dashboard, all on synthetic sample numbers: a schedule-risk-by-workstream panel (Finance,
+			IT, R&amp;D, contractor teams), an illustrative multi-workstream timeline showing how those
+			four teams' schedules were coordinated across the program, and a budget-utilization-over-time
+			trend tying to the forecast cycles mentioned above. Built as a small interactive panel, not a
+			static image, click a workstream to see its status detail.
 		</p>
 		<ProgramDashboard />
 	</section>

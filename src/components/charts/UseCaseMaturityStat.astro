@@ -1,0 +1,162 @@
+---
+// Real figures from the Keshet engagement (Case study A, Part 1 context):
+// "over 80 AI and automation use cases... roughly 90% of departments
+// assessed... an AI maturity model placed most departments at an early
+// stage, with the engineering department slightly ahead." Three-level
+// ordinal ramp per the dataviz skill (one hue, light->dark, validated
+// with --ordinal).
+const levels = ['Early', 'Developing', 'Advanced'];
+---
+
+<figure class="chart usecase-stat">
+	<figcaption>Use-case mapping &amp; AI maturity</figcaption>
+
+	<div class="stat-row">
+		<div class="stat-tile">
+			<p class="stat-value">80+</p>
+			<p class="stat-label">use cases identified across departments</p>
+		</div>
+		<div class="stat-tile">
+			<p class="stat-value">~90%</p>
+			<p class="stat-label">of departments assessed</p>
+		</div>
+	</div>
+
+	<div class="maturity">
+		<p class="maturity-title">AI maturity by department</p>
+		<div class="maturity-track">
+			{levels.map((label, i) => <div class="maturity-step" style={`background: var(--chart-ordinal-${i + 1});`} />)}
+		</div>
+		<div class="maturity-labels">
+			{levels.map((label) => <span>{label}</span>)}
+		</div>
+		<div class="maturity-markers">
+			<div class="marker" style="left: 16.6%">
+				<span class="marker-dot" />
+				<span class="marker-label">Most departments</span>
+			</div>
+			<div class="marker" style="left: 50%">
+				<span class="marker-dot" />
+				<span class="marker-label">Engineering (slightly ahead)</span>
+			</div>
+		</div>
+	</div>
+
+	<p class="chart-note">Real figures from the engagement, not illustrative.</p>
+</figure>
+
+<style>
+	.chart {
+		margin: 0;
+		max-width: 30rem;
+	}
+
+	.chart figcaption {
+		font-weight: 600;
+		margin-bottom: var(--space-3);
+	}
+
+	.stat-row {
+		display: flex;
+		gap: var(--space-4);
+		margin-bottom: var(--space-4);
+	}
+
+	.stat-tile {
+		flex: 1;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius);
+		padding: var(--space-3);
+	}
+
+	.stat-value {
+		font-size: var(--text-2xl);
+		font-weight: 700;
+		color: var(--chart-series-1);
+		margin: 0;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.stat-label {
+		font-size: var(--text-xs);
+		color: var(--color-text-muted);
+		margin: var(--space-1) 0 0;
+	}
+
+	.maturity-title {
+		font-size: var(--text-xs);
+		text-transform: uppercase;
+		letter-spacing: 0.02em;
+		color: var(--color-text-muted);
+		margin: 0 0 var(--space-2);
+	}
+
+	.maturity-track {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 2px;
+		height: 1.5rem;
+		border-radius: var(--radius);
+		overflow: hidden;
+	}
+
+	.maturity-step:first-child {
+		border-radius: var(--radius) 0 0 var(--radius);
+	}
+
+	.maturity-step:last-child {
+		border-radius: 0 var(--radius) var(--radius) 0;
+	}
+
+	.maturity-labels {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		margin-top: var(--space-1);
+		font-size: var(--text-xs);
+		color: var(--color-text-muted);
+	}
+
+	.maturity-labels span:nth-child(2) {
+		text-align: center;
+	}
+
+	.maturity-labels span:last-child {
+		text-align: right;
+	}
+
+	.maturity-markers {
+		position: relative;
+		height: 2.5rem;
+		margin-top: var(--space-2);
+	}
+
+	.marker {
+		position: absolute;
+		top: 0;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.2rem;
+		transform: translateX(-50%);
+		white-space: nowrap;
+	}
+
+	.marker-dot {
+		width: 8px;
+		height: 8px;
+		border-radius: 999px;
+		background: var(--color-text);
+	}
+
+	.marker-label {
+		font-size: var(--text-xs);
+		color: var(--color-text);
+	}
+
+	.chart-note {
+		font-size: var(--text-xs);
+		color: var(--color-text-muted);
+		margin: var(--space-3) 0 0;
+		font-style: italic;
+	}
+</style>
