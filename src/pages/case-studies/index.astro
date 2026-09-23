@@ -1,8 +1,86 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import OriginBadge from '../../components/OriginBadge.astro';
+import { withBase } from '../../lib/base';
+
+// Blurbs verbatim from portfolio-content-package.md's "Homepage copy" section.
+const caseStudies: Array<{
+	title: string;
+	body: string;
+	origin: 'real' | 'fictional';
+	href: string;
+}> = [
+	{
+		title: 'Real work at Keshet',
+		body: 'helped design AI governance and intake for around 40 unsanctioned tool builders, and reviewed licensing across roughly 750 seats.',
+		origin: 'real',
+		href: withBase('case-studies/keshet/'),
+	},
+	{
+		title: 'Real work at Applied Materials',
+		body: 'built the dashboards a 1,200-plus-employee capital program’s leadership used to see schedule and budget risk without asking around.',
+		origin: 'real',
+		href: withBase('case-studies/applied-materials/'),
+	},
+];
 ---
 
 <BaseLayout title="Case Studies">
 	<h1>Case Studies</h1>
-	<p>Case study A and B land here in Block 5.</p>
+	<p class="dek">Real work, written up context through outcome.</p>
+
+	<div class="card-grid">
+		{
+			caseStudies.map((c) => (
+				<a class="card" href={c.href}>
+					<OriginBadge origin={c.origin} />
+					<h2>{c.title}</h2>
+					<p>{c.body}</p>
+				</a>
+			))
+		}
+	</div>
 </BaseLayout>
+
+<style>
+	.dek {
+		max-width: 42rem;
+		color: var(--color-text-muted);
+		margin-top: var(--space-2);
+	}
+
+	.card-grid {
+		margin-top: var(--space-5);
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+		gap: var(--space-4);
+	}
+
+	.card {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: var(--space-2);
+		padding: var(--space-4);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius);
+		text-decoration: none;
+		color: inherit;
+		background: var(--color-bg);
+	}
+
+	.card:hover {
+		border-color: var(--color-accent);
+	}
+
+	.card h2 {
+		font-size: var(--text-lg);
+		margin: 0;
+	}
+
+	.card p {
+		font-size: var(--text-sm);
+		color: var(--color-text-muted);
+		margin: 0;
+	}
+</style>
