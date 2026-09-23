@@ -136,4 +136,16 @@ const currentPath = Astro.url.pathname;
 	.site-footer__row p {
 		margin: 0;
 	}
+
+	@media print {
+		.site-header,
+		.site-footer {
+			display: none;
+		}
+
+		main {
+			padding-block: 0;
+			min-height: 0;
+		}
+	}
 </style>
