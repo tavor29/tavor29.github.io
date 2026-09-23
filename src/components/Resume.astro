@@ -89,14 +89,7 @@ const education = [
 ---
 
 <section class="resume-section" id="resume">
-	<div class="resume-toggle-row">
-		<h2>Resume</h2>
-		<button type="button" id="resume-toggle" aria-expanded="false" aria-controls="resume-content">
-			Show full resume
-		</button>
-	</div>
-
-	<div id="resume-content" class="resume-content" hidden>
+	<div class="resume-content">
 		<div class="resume-card">
 			<header class="resume-card__header">
 				<h3>Tavor Ben Shahar</h3>
@@ -189,35 +182,6 @@ const education = [
 <style>
 	.resume-section {
 		margin-top: var(--space-6);
-	}
-
-	.resume-toggle-row {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: var(--space-3);
-		flex-wrap: wrap;
-	}
-
-	.resume-toggle-row h2 {
-		font-size: var(--text-xl);
-		margin: 0;
-	}
-
-	#resume-toggle {
-		font: inherit;
-		font-size: var(--text-sm);
-		font-weight: 600;
-		padding: var(--space-2) var(--space-4);
-		border: 1px solid var(--color-accent);
-		border-radius: var(--radius);
-		background: var(--color-bg);
-		color: var(--color-accent);
-		cursor: pointer;
-	}
-
-	#resume-toggle:hover {
-		background: var(--color-bg-subtle);
 	}
 
 	.resume-content {
@@ -358,15 +322,3 @@ const education = [
 		font-size: var(--text-sm);
 	}
 </style>
-
-<script>
-	const toggle = document.querySelector<HTMLButtonElement>('#resume-toggle');
-	const content = document.querySelector<HTMLElement>('#resume-content');
-
-	toggle?.addEventListener('click', () => {
-		const isHidden = content?.hidden ?? true;
-		if (content) content.hidden = !isHidden;
-		toggle.setAttribute('aria-expanded', String(isHidden));
-		toggle.textContent = isHidden ? 'Hide full resume' : 'Show full resume';
-	});
-</script>

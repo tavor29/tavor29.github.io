@@ -1,43 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import OriginBadge from '../components/OriginBadge.astro';
 import Resume from '../components/Resume.astro';
-import { withBase } from '../lib/base';
-
-// Copy is verbatim from portfolio-content-package.md's "Homepage copy" section.
-// Card title/body split at the colon already present in each blurb, layout only,
-// no wording added or changed.
-const cards: Array<{
-	title: string;
-	body: string;
-	origin: 'real' | 'fictional';
-	href: string;
-}> = [
-	{
-		title: 'AI Project Intake & Governance Agent, flagship',
-		body: 'an agent that turns a chat-based tool request into a structured intake with a duplication check and a risk score.',
-		origin: 'fictional',
-		href: withBase('projects/ai-intake-governance-agent/'),
-	},
-	{
-		title: 'Real work at Keshet',
-		body: 'helped design AI governance and intake for around 40 unsanctioned tool builders, and reviewed licensing across roughly 750 seats.',
-		origin: 'real',
-		href: withBase('case-studies/keshet/'),
-	},
-	{
-		title: 'Citizen Development Governance Model',
-		body: 'a tracked path from idea to production for internally built tools, with a maintenance owner at every stage.',
-		origin: 'fictional',
-		href: withBase('projects/citizen-development-governance/'),
-	},
-	{
-		title: 'Real work at Applied Materials',
-		body: 'built the dashboards a 1,200-plus-employee capital program’s leadership used to see schedule and budget risk without asking around.',
-		origin: 'real',
-		href: withBase('case-studies/applied-materials/'),
-	},
-];
 ---
 
 <BaseLayout>
@@ -51,20 +14,6 @@ const cards: Array<{
 			I use AI-assisted development tools daily to build the systems themselves, not just
 			manage them.
 		</p>
-	</section>
-
-	<section class="work" aria-label="Selected work">
-		<div class="work-grid">
-			{
-				cards.map((card) => (
-					<a class="card" href={card.href}>
-						<OriginBadge origin={card.origin} />
-						<h2>{card.title}</h2>
-						<p>{card.body}</p>
-					</a>
-				))
-			}
-		</div>
 	</section>
 
 	<Resume />
@@ -83,43 +32,5 @@ const cards: Array<{
 
 	.positioning {
 		margin-top: var(--space-3);
-	}
-
-	.work {
-		margin-top: var(--space-6);
-	}
-
-	.work-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-		gap: var(--space-4);
-	}
-
-	.card {
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-		gap: var(--space-2);
-		padding: var(--space-4);
-		border: 1px solid var(--color-border);
-		border-radius: var(--radius);
-		text-decoration: none;
-		color: inherit;
-		background: var(--color-bg);
-	}
-
-	.card:hover {
-		border-color: var(--color-accent);
-	}
-
-	.card h2 {
-		font-size: var(--text-lg);
-		margin: 0;
-	}
-
-	.card p {
-		font-size: var(--text-sm);
-		color: var(--color-text-muted);
-		margin: 0;
 	}
 </style>
