@@ -31,10 +31,6 @@ const posts = (await getCollection('blog')).sort(
 			))
 		}
 	</ul>
-
-	<p class="slides-link">
-		Looking for slide decks? <a href={withBase('blog/slides/')}>See slides &amp; resources &rarr;</a>
-	</p>
 </BaseLayout>
 
 <style>
@@ -83,10 +79,5 @@ const posts = (await getCollection('blog')).sort(
 		font-size: var(--text-sm);
 		color: var(--color-text-muted);
 		margin: 0;
-	}
-
-	.slides-link {
-		margin-top: var(--space-5);
-		font-size: var(--text-sm);
 	}
 </style>
