@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { withBase } from '../../../lib/base';
+import AtAGlance from '../../../components/AtAGlance.astro';
 import IntakeFlowDiagram from '../../../components/charts/IntakeFlowDiagram.astro';
 import UseCaseMaturityStat from '../../../components/charts/UseCaseMaturityStat.astro';
 import LicenseTierChart from '../../../components/charts/LicenseTierChart.astro';
@@ -10,6 +11,15 @@ import CopilotChart from '../../../components/charts/CopilotChart.astro';
 <BaseLayout title="Keshet Media Group">
 	<h1>Keshet Media Group</h1>
 	<p class="dek">Two parts of the same engagement: AI governance and intake, and licensing and SaaS cost governance.</p>
+
+	<AtAGlance
+		facts={[
+			'4-month engagement',
+			'AI governance for ~40 unsanctioned tool builders',
+			'Licensing review across ~750 seats',
+		]}
+		result="a defined intake path, a written BRD, and a tier-rightsizing recommendation instead of a straight renewal"
+	/>
 
 	<nav class="toc" aria-label="Case study parts">
 		<a href="#part-1">Part 1: AI tool governance and intake</a>

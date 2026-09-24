@@ -1,11 +1,21 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import AtAGlance from '../../../components/AtAGlance.astro';
 import ProgramDashboard from '../../../components/charts/ProgramDashboard.astro';
 ---
 
 <BaseLayout title="Applied Materials">
 	<h1>Applied Materials</h1>
 	<p class="dek">Project portfolio management, KPI dashboards, and capital program coordination.</p>
+
+	<AtAGlance
+		facts={[
+			'Multi-year program',
+			'1,200+ employee office',
+			'Four workstreams (Finance, IT, R&D, contractors)',
+		]}
+		result="real-time schedule-risk and budget visibility for leadership"
+	/>
 
 	<section>
 		<h3>Context</h3>

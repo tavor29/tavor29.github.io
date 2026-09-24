@@ -1,0 +1,48 @@
+---
+// One-line summary above a case study's Context section, so a fast skim gets
+// engagement length, scope, and the headline result before the full narrative.
+// Additive only, the Context/Problem/Objective/etc. structure stays below it.
+interface Props {
+	facts: string[];
+	result: string;
+}
+
+const { facts, result } = Astro.props;
+---
+
+<p class="at-a-glance">
+	<span class="label">At a glance</span>
+	{facts.map((fact) => <span class="item">{fact}</span>)}
+	<span class="item"><strong>Result:</strong> {result}</span>
+</p>
+
+<style>
+	.at-a-glance {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: var(--space-1) var(--space-2);
+		max-width: 42rem;
+		margin: var(--space-4) 0 0;
+		padding: var(--space-3);
+		border-left: 3px solid var(--color-accent);
+		border-radius: var(--radius);
+		background: var(--color-bg-subtle);
+		font-size: var(--text-sm);
+	}
+
+	.label {
+		font-size: var(--text-xs);
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.02em;
+		color: var(--color-accent);
+		margin-right: var(--space-1);
+	}
+
+	.item + .item::before {
+		content: '·';
+		margin-right: var(--space-2);
+		color: var(--color-text-muted);
+	}
+</style>
