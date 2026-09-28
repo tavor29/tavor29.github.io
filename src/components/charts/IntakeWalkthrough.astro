@@ -1,0 +1,729 @@
+---
+// Step-through of one sample request moving through Project 1's intake flow.
+// Every value below is the demo's real output for this input (captured from
+// its /api/intake response), except the issue key, which the demo randomizes.
+// Jira and Slack are simulated in the demo, so the last stage shows the exact
+// ticket and message it builds, labeled as previews. One vanilla-TS island:
+// stage buttons are an ARIA tablist (click or arrow keys), Prev/Next step.
+const stages = [
+	{ id: 'request', label: 'Request' },
+	{ id: 'duplicates', label: 'Duplicates' },
+	{ id: 'risk', label: 'Risk' },
+	{ id: 'routing', label: 'Routing' },
+	{ id: 'outputs', label: 'Outputs' },
+];
+
+const riskFactors = [
+	{ name: 'Personal data exposure', answer: 'Some', points: 2, max: 3 },
+	{ name: 'Financial system access', answer: 'Read-only', points: 1, max: 3 },
+	{ name: 'Systems it integrates with', answer: '1-2', points: 1, max: 2 },
+];
+const riskMax = 8;
+const riskScore = riskFactors.reduce((sum, f) => sum + f.points, 0);
+const riskBands = [
+	{ label: 'Low', from: 0, to: 2, colorVar: '--chart-status-good' },
+	{ label: 'Medium', from: 3, to: 5, colorVar: '--chart-status-warning' },
+	{ label: 'High', from: 6, to: 8, colorVar: '--chart-status-critical' },
+];
+
+const financeTeams = [
+	{ name: 'Procurement Team', capacity: 'High', chosen: true },
+	{ name: 'FP&A Team', capacity: 'Medium', chosen: false },
+	{ name: 'Accounting Operations Team', capacity: 'Medium', chosen: false },
+];
+
+const matchedWords = ['flags', 'expense', 'reports', 'missing', 'receipt'];
+const issueKey = 'GOV-1042';
+---
+
+<figure class="walkthrough" id="intake-walkthrough">
+	<figcaption>
+		One sample request, step by step. Click a stage, or use Next.
+	</figcaption>
+
+	<div class="stepper" role="tablist" aria-label="Intake stages">
+		{
+			stages.map((s, i) => (
+				<button
+					type="button"
+					role="tab"
+					class="step"
+					id={`wt-tab-${s.id}`}
+					aria-controls={`wt-panel-${s.id}`}
+					aria-selected={i === 0 ? 'true' : 'false'}
+					tabindex={i === 0 ? '0' : '-1'}
+					data-index={i}
+				>
+					<span class="step-num">{i + 1}</span>
+					<span class="step-label">{s.label}</span>
+				</button>
+			))
+		}
+	</div>
+
+	<div class="panels">
+		<section class="panel" role="tabpanel" id="wt-panel-request" aria-labelledby="wt-tab-request">
+			<h3>A plain-language request comes in</h3>
+			<blockquote class="request-quote">"A tool that flags expense reports missing a receipt"</blockquote>
+			<dl class="facts">
+				<dt>Requester</dt><dd>James O'Connell, Finance</dd>
+				<dt>Category</dt><dd>Automation</dd>
+				<dt>Risk signals</dt><dd>Some personal data, read-only financial access, 1-2 integrations</dd>
+			</dl>
+			<p class="note">
+				No chat thread or hallway ask: the requester describes the need in plain words and answers
+				a few short questions.
+			</p>
+		</section>
+
+		<section class="panel" role="tabpanel" id="wt-panel-duplicates" aria-labelledby="wt-tab-duplicates" hidden>
+			<h3>It checks the existing tool catalog first</h3>
+			<div class="match">
+				<p class="match-title"><strong>1 close match:</strong> ExpenseEcho</p>
+				<p>"Flags submitted expense reports that are missing a receipt."</p>
+				<p class="muted">Owned by the Accounting Operations Team</p>
+				<p class="chips" aria-label="Words the request shares with this tool">
+					{matchedWords.map((w) => <span class="chip">{w}</span>)}
+				</p>
+			</div>
+			<p class="note">
+				The request still goes through, flagged, so a reviewer can point the requester to the tool
+				that already exists instead of building a second one.
+			</p>
+		</section>
+
+		<section class="panel" role="tabpanel" id="wt-panel-risk" aria-labelledby="wt-tab-risk" hidden>
+			<h3>It scores risk from three signals</h3>
+			<ul class="factors">
+				{
+					riskFactors.map((f) => (
+						<li>
+							<span class="factor-name">{f.name}: {f.answer}</span>
+							<span class="factor-bar" aria-hidden="true">
+								{Array.from({ length: f.max }, (_, i) => (
+									<span class={i < f.points ? 'pip pip--on' : 'pip'} />
+								))}
+							</span>
+							<span class="factor-pts">+{f.points}</span>
+						</li>
+					))
+				}
+			</ul>
+			<div
+				class="scale"
+				role="img"
+				aria-label={`Total ${riskScore} of ${riskMax}, which falls in the Medium band (3 to 5). Low is 0 to 2, High is 6 to 8.`}
+			>
+				<div class="scale-track">
+					{
+						riskBands.map((b) => (
+							<span
+								class="scale-band"
+								style={`flex: ${b.to - b.from + 1}; background: var(${b.colorVar});`}
+							/>
+						))
+					}
+					<span class="scale-marker" style={`left: ${((riskScore + 0.5) / (riskMax + 1)) * 100}%;`}>
+						<span class="scale-marker-label">{riskScore}</span>
+					</span>
+				</div>
+				<div class="scale-labels" aria-hidden="true">
+					{
+						riskBands.map((b) => (
+							<span style={`flex: ${b.to - b.from + 1};`}>
+								{b.label} ({b.from}-{b.to})
+							</span>
+						))
+					}
+				</div>
+				<p class="scale-total">Total <strong>{riskScore} of {riskMax}</strong>: Medium risk</p>
+			</div>
+		</section>
+
+		<section class="panel" role="tabpanel" id="wt-panel-routing" aria-labelledby="wt-tab-routing" hidden>
+			<h3>It routes to the Finance team with the most open capacity</h3>
+			<ul class="teams">
+				{
+					financeTeams.map((t) => (
+						<li class={t.chosen ? 'team team--chosen' : 'team'}>
+							<span>{t.name}</span>
+							<span class="capacity">{t.capacity} capacity</span>
+							{t.chosen && <span class="chosen-tag">Routed here</span>}
+						</li>
+					))
+				}
+			</ul>
+			<p class="note">
+				Capacity is the only routing signal in this MVP (see the honest limitation below), which is
+				why an expense tool lands with Procurement rather than Accounting Operations.
+			</p>
+		</section>
+
+		<section class="panel" role="tabpanel" id="wt-panel-outputs" aria-labelledby="wt-tab-outputs" hidden>
+			<h3>It opens a ticket and alerts the channel</h3>
+			<p class="note note--top">
+				Simulated preview. The demo builds these exact payloads, but Jira and Slack aren't connected,
+				so nothing is sent. Example issue key.
+			</p>
+			<div class="cards">
+				<article class="card" aria-label="Jira ticket preview">
+					<span class="card-kind">Jira ticket</span>
+					<p class="jira-top"><span class="jira-type" aria-hidden="true" />{issueKey} &middot; Task in GOV</p>
+					<p class="jira-summary">A tool that flags expense reports missing a receipt</p>
+					<p><span class="chip">ai-intake</span><span class="chip">risk-medium</span></p>
+					<div class="jira-desc">
+						<p>Requested by: James O'Connell (Finance)</p>
+						<p>Risk band: Medium</p>
+						<p>Routed to: Procurement Team</p>
+						<p>Possible duplicates: ExpenseEcho</p>
+					</div>
+				</article>
+
+				<article class="card" aria-label="Slack message preview">
+					<span class="card-kind">Slack message</span>
+					<p class="slack-channel"># ai-intake</p>
+					<div class="slack-msg">
+						<span class="slack-avatar" aria-hidden="true">IA</span>
+						<div>
+							<p class="slack-meta"><strong>Intake Agent</strong> <span class="app-tag">APP</span></p>
+							<p>New intake request: <strong>A tool that flags expense reports missing a receipt</strong></p>
+							<p>From James O'Connell (Finance) &middot; Risk: <strong>Medium</strong> &middot; Routed to <strong>Procurement Team</strong></p>
+							<p>Possible duplicate: ExpenseEcho. Check before building.</p>
+							<p class="slack-link">{issueKey}</p>
+						</div>
+					</div>
+				</article>
+			</div>
+		</section>
+	</div>
+
+	<div class="controls">
+		<button type="button" class="nav-btn" data-step="-1">&larr; Back</button>
+		<span class="position" aria-live="polite">Step 1 of {stages.length}</span>
+		<button type="button" class="nav-btn nav-btn--primary" data-step="1">Next &rarr;</button>
+	</div>
+</figure>
+
+<style>
+	.walkthrough {
+		margin: var(--space-3) 0 0;
+		border: 1px solid var(--color-border);
+		border-radius: calc(var(--radius) * 2);
+		padding: var(--space-4);
+		background: var(--color-bg-subtle);
+		max-width: 48rem;
+	}
+
+	figcaption {
+		font-size: var(--text-sm);
+		color: var(--color-text-muted);
+		margin-bottom: var(--space-3);
+	}
+
+	/* Stepper: numbered stages joined by a line. */
+	.stepper {
+		display: grid;
+		grid-template-columns: repeat(5, 1fr);
+		position: relative;
+	}
+
+	.stepper::before {
+		content: '';
+		position: absolute;
+		top: 1rem;
+		left: 10%;
+		right: 10%;
+		height: 2px;
+		background: var(--color-border);
+	}
+
+	.step {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: var(--space-1);
+		font: inherit;
+		background: none;
+		border: none;
+		padding: 0;
+		cursor: pointer;
+		color: var(--color-text-muted);
+	}
+
+	.step-num {
+		width: 2rem;
+		height: 2rem;
+		border-radius: 999px;
+		display: grid;
+		place-items: center;
+		font-size: var(--text-sm);
+		font-weight: 700;
+		background: var(--color-bg);
+		border: 2px solid var(--color-border);
+		transition:
+			background 0.15s ease,
+			border-color 0.15s ease,
+			color 0.15s ease;
+	}
+
+	.step-label {
+		font-size: var(--text-xs);
+		font-weight: 600;
+	}
+
+	.step.is-done .step-num {
+		border-color: var(--color-accent);
+		color: var(--color-accent);
+	}
+
+	.step[aria-selected='true'] {
+		color: var(--color-text);
+	}
+
+	.step[aria-selected='true'] .step-num {
+		background: var(--color-accent);
+		border-color: var(--color-accent);
+		color: var(--color-accent-contrast);
+	}
+
+	.step:focus-visible {
+		outline: none;
+	}
+
+	.step:focus-visible .step-num {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 2px;
+	}
+
+	/* Panels */
+	.panels {
+		margin-top: var(--space-4);
+		background: var(--color-bg);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius);
+		padding: var(--space-4);
+		min-height: 16rem;
+	}
+
+	.panel h3 {
+		font-size: var(--text-base);
+		margin: 0 0 var(--space-3);
+	}
+
+	.panel p {
+		margin: 0 0 var(--space-1);
+	}
+
+	.note {
+		font-size: var(--text-sm);
+		color: var(--color-text-muted);
+		margin-top: var(--space-3) !important;
+	}
+
+	.note--top {
+		margin: 0 0 var(--space-3) !important;
+	}
+
+	.muted {
+		color: var(--color-text-muted);
+		font-size: var(--text-sm);
+	}
+
+	.request-quote {
+		margin: 0 0 var(--space-3);
+		padding: var(--space-2) var(--space-3);
+		border-left: 3px solid var(--color-accent);
+		font-size: var(--text-lg);
+	}
+
+	.facts {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: var(--space-1) var(--space-3);
+		margin: 0;
+		font-size: var(--text-sm);
+	}
+
+	.facts dt {
+		font-weight: 600;
+	}
+
+	.facts dd {
+		margin: 0;
+	}
+
+	.match {
+		border: 1px solid var(--color-border);
+		border-left: 3px solid var(--chart-status-warning);
+		border-radius: var(--radius);
+		padding: var(--space-3);
+		font-size: var(--text-sm);
+	}
+
+	.chip {
+		display: inline-block;
+		font-size: var(--text-xs);
+		padding: 0.05rem 0.45rem;
+		border-radius: 3px;
+		background: var(--color-bg-subtle);
+		border: 1px solid var(--color-border);
+		margin: 0 0.25rem 0.25rem 0;
+	}
+
+	.chips {
+		margin-top: var(--space-2) !important;
+	}
+
+	/* Risk */
+	.factors {
+		list-style: none;
+		margin: 0 0 var(--space-4);
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		font-size: var(--text-sm);
+	}
+
+	.factors li {
+		display: grid;
+		grid-template-columns: 1fr auto 2.5rem;
+		align-items: center;
+		gap: var(--space-2);
+	}
+
+	/* Fixed to the widest factor (3 points) so every row's pips line up. */
+	.factor-bar {
+		display: flex;
+		gap: 3px;
+		width: calc(3 * 1.4rem + 2 * 3px);
+	}
+
+	.pip {
+		width: 1.4rem;
+		height: 0.6rem;
+		border-radius: 2px;
+		background: var(--color-border);
+	}
+
+	.pip--on {
+		background: var(--color-accent);
+	}
+
+	.factor-pts {
+		font-weight: 700;
+		text-align: right;
+	}
+
+	.scale {
+		padding-top: 1.3rem;
+	}
+
+	.scale-track {
+		position: relative;
+		display: flex;
+		gap: 2px;
+		height: 0.8rem;
+	}
+
+	.scale-band {
+		opacity: 0.85;
+	}
+
+	.scale-band:first-child {
+		border-radius: 999px 0 0 999px;
+	}
+
+	/* Third band (High); the marker span follows it in the same track. */
+	.scale-band:nth-child(3) {
+		border-radius: 0 999px 999px 0;
+	}
+
+	.scale-marker {
+		position: absolute;
+		top: -0.3rem;
+		bottom: -0.3rem;
+		width: 3px;
+		margin-left: -1.5px;
+		border-radius: 2px;
+		background: var(--color-text);
+	}
+
+	.scale-marker-label {
+		position: absolute;
+		bottom: calc(100% + 0.15rem);
+		left: 50%;
+		transform: translateX(-50%);
+		font-size: var(--text-xs);
+		font-weight: 700;
+	}
+
+	.scale-labels {
+		display: flex;
+		gap: 2px;
+		margin-top: var(--space-1);
+		font-size: var(--text-xs);
+		color: var(--color-text-muted);
+	}
+
+	.scale-labels span {
+		text-align: center;
+	}
+
+	.scale-total {
+		margin-top: var(--space-2) !important;
+		font-size: var(--text-sm);
+	}
+
+	/* Routing */
+	.teams {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		font-size: var(--text-sm);
+	}
+
+	.team {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--space-2);
+		padding: var(--space-2) var(--space-3);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius);
+		color: var(--color-text-muted);
+	}
+
+	.team--chosen {
+		border-color: var(--color-accent);
+		color: var(--color-text);
+		font-weight: 600;
+	}
+
+	.capacity {
+		font-size: var(--text-xs);
+		font-weight: 400;
+		margin-left: auto;
+	}
+
+	.chosen-tag {
+		font-size: var(--text-xs);
+		color: var(--color-accent-contrast);
+		background: var(--color-accent);
+		border-radius: 999px;
+		padding: 0.05rem 0.5rem;
+	}
+
+	/* Outputs: the same ticket/message cards the demo renders. */
+	.cards {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+		gap: var(--space-3);
+		align-items: start;
+	}
+
+	.card {
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius);
+		padding: var(--space-3);
+		font-size: var(--text-sm);
+		min-width: 0;
+	}
+
+	.card-kind {
+		display: block;
+		font-size: var(--text-xs);
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.02em;
+		color: var(--color-text-muted);
+		margin-bottom: var(--space-2);
+	}
+
+	.jira-top {
+		display: flex;
+		align-items: center;
+		gap: var(--space-2);
+		font-size: var(--text-xs);
+		color: var(--color-text-muted);
+	}
+
+	.jira-type {
+		width: 0.9rem;
+		height: 0.9rem;
+		border-radius: 3px;
+		background: var(--chart-series-1);
+		flex-shrink: 0;
+	}
+
+	.jira-summary {
+		font-weight: 700;
+		font-size: var(--text-base);
+		margin: var(--space-1) 0 var(--space-2) !important;
+	}
+
+	.jira-desc {
+		border-top: 1px solid var(--color-border);
+		margin-top: var(--space-2);
+		padding-top: var(--space-2);
+	}
+
+	.jira-desc p {
+		margin: 0 0 0.2rem;
+	}
+
+	.slack-channel {
+		font-weight: 600;
+		margin-bottom: var(--space-2) !important;
+	}
+
+	.slack-msg {
+		display: flex;
+		gap: var(--space-2);
+	}
+
+	.slack-msg p {
+		margin: 0.15rem 0 0;
+	}
+
+	.slack-avatar {
+		width: 2.2rem;
+		height: 2.2rem;
+		border-radius: 6px;
+		background: var(--color-accent);
+		color: var(--color-accent-contrast);
+		display: grid;
+		place-items: center;
+		font-size: var(--text-xs);
+		font-weight: 700;
+		flex-shrink: 0;
+	}
+
+	.slack-meta {
+		margin: 0 !important;
+	}
+
+	.app-tag {
+		font-size: 0.65rem;
+		font-weight: 700;
+		padding: 0 0.3rem;
+		border-radius: 3px;
+		background: var(--color-bg-subtle);
+		border: 1px solid var(--color-border);
+		color: var(--color-text-muted);
+		vertical-align: middle;
+	}
+
+	.slack-link {
+		color: var(--color-accent);
+	}
+
+	/* Controls */
+	.controls {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--space-2);
+		margin-top: var(--space-3);
+	}
+
+	.position {
+		font-size: var(--text-sm);
+		color: var(--color-text-muted);
+	}
+
+	.nav-btn {
+		font: inherit;
+		font-size: var(--text-sm);
+		font-weight: 600;
+		padding: var(--space-1) var(--space-3);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius);
+		background: var(--color-bg);
+		color: var(--color-text);
+		cursor: pointer;
+	}
+
+	.nav-btn--primary {
+		border-color: var(--color-accent);
+		background: var(--color-accent);
+		color: var(--color-accent-contrast);
+	}
+
+	.nav-btn:disabled {
+		opacity: 0.4;
+		cursor: default;
+	}
+
+	@media (max-width: 30rem) {
+		.walkthrough {
+			padding: var(--space-3);
+		}
+
+		.panels {
+			padding: var(--space-3);
+		}
+
+		.step-label {
+			font-size: 0.7rem;
+		}
+	}
+
+	@media print {
+		.stepper,
+		.controls {
+			display: none;
+		}
+
+		.panel[hidden] {
+			display: block;
+		}
+	}
+</style>
+
+<script>
+	const root = document.querySelector<HTMLElement>('#intake-walkthrough');
+	if (root) {
+		const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+		const panels = [...root.querySelectorAll<HTMLElement>('[role="tabpanel"]')];
+		const back = root.querySelector<HTMLButtonElement>('[data-step="-1"]')!;
+		const next = root.querySelector<HTMLButtonElement>('[data-step="1"]')!;
+		const position = root.querySelector<HTMLElement>('.position')!;
+		let current = 0;
+
+		const show = (index: number, focusTab = false) => {
+			current = Math.max(0, Math.min(tabs.length - 1, index));
+			tabs.forEach((tab, i) => {
+				const selected = i === current;
+				tab.setAttribute('aria-selected', String(selected));
+				tab.tabIndex = selected ? 0 : -1;
+				tab.classList.toggle('is-done', i < current);
+				panels[i].hidden = !selected;
+			});
+			back.disabled = current === 0;
+			next.disabled = current === tabs.length - 1;
+			position.textContent = `Step ${current + 1} of ${tabs.length}`;
+			if (focusTab) tabs[current].focus();
+		};
+
+		tabs.forEach((tab, i) => {
+			tab.addEventListener('click', () => show(i));
+			tab.addEventListener('keydown', (event) => {
+				if (event.key === 'ArrowRight') show(current + 1, true);
+				else if (event.key === 'ArrowLeft') show(current - 1, true);
+				else if (event.key === 'Home') show(0, true);
+				else if (event.key === 'End') show(tabs.length - 1, true);
+				else return;
+				event.preventDefault();
+			});
+		});
+
+		back.addEventListener('click', () => show(current - 1));
+		next.addEventListener('click', () => show(current + 1));
+		show(0);
+	}
+</script>

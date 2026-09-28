@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import OriginBadge from '../../../components/OriginBadge.astro';
+import IntakeWalkthrough from '../../../components/charts/IntakeWalkthrough.astro';
 import { withBase } from '../../../lib/base';
 
 const repoUrl = 'https://github.com/tavor29/ai-intake-governance-agent';
@@ -33,6 +34,16 @@ const demoUrl = 'https://ai-intake-governance-agent.vercel.app';
 			risk across a few dimensions (PII exposure, financial system access, integration surface),
 			and routes it to the right owner based on team capacity.
 		</p>
+	</section>
+
+	<section class="walkthrough-section">
+		<h2>How a request moves through it</h2>
+		<p>
+			A request that would have become a duplicate build gets caught at step 2. The values are the
+			demo's real output for this input; Jira and Slack are simulated, so step 5 previews what
+			production would send.
+		</p>
+		<IntakeWalkthrough />
 	</section>
 
 	<section>
@@ -76,13 +87,13 @@ const demoUrl = 'https://ai-intake-governance-agent.vercel.app';
 				<tbody>
 					<tr>
 						<td>Jira</td>
-						<td>Live (free-tier project, real ticket created)</td>
-						<td>Same, against the org's real instance</td>
+						<td>Simulated: previews the exact ticket the app would create</td>
+						<td>Real ticket in the org's Jira instance</td>
 					</tr>
 					<tr>
 						<td>Slack</td>
-						<td>Live (webhook to a test channel for routing notifications)</td>
-						<td>Same</td>
+						<td>Simulated: previews the exact routing message the app would post</td>
+						<td>Real message via an incoming webhook</td>
 					</tr>
 					<tr>
 						<td>App/tool catalog</td>
@@ -109,6 +120,10 @@ const demoUrl = 'https://ai-intake-governance-agent.vercel.app';
 	section {
 		margin-top: var(--space-5);
 		max-width: 42rem;
+	}
+
+	.walkthrough-section {
+		max-width: 48rem;
 	}
 
 	section h2 {
