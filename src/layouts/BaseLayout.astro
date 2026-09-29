@@ -50,6 +50,13 @@ const currentPath = Astro.url.pathname;
 					</ul>
 				</nav>
 			</div>
+			{
+				Astro.slots.has('subnav') && (
+					<div class="wrap site-header__sub">
+						<slot name="subnav" />
+					</div>
+				)
+			}
 		</header>
 
 		<main class="wrap">
@@ -83,6 +90,11 @@ const currentPath = Astro.url.pathname;
 		justify-content: space-between;
 		gap: var(--space-2);
 		padding-block: var(--space-3);
+	}
+
+	/* Optional second header row (the homepage's contact buttons). */
+	.site-header__sub {
+		padding-bottom: var(--space-3);
 	}
 
 	.wordmark {
