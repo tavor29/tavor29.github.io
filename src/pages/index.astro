@@ -1,8 +1,106 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ResumeIdentity from '../components/ResumeIdentity.astro';
+import WorkIndex from '../components/WorkIndex.astro';
 import Resume from '../components/Resume.astro';
 ---
 
 <BaseLayout>
-	<Resume />
+	<div class="home">
+		<aside class="home-aside">
+			<ResumeIdentity />
+		</aside>
+
+		<div class="home-main">
+			<header class="hero">
+				<p class="hero-line">I turn ad hoc requests into <em>repeatable processes.</em></p>
+				<p class="hero-sub">
+					Most recently Business Operations Manager at Keshet Media Group. Before that, Applied
+					Materials and IBM. Based in Tel Aviv.
+				</p>
+			</header>
+
+			<WorkIndex />
+			<Resume />
+		</div>
+	</div>
 </BaseLayout>
+
+<style>
+	/* Editorial layout: identity in a sticky left column, the reading column
+	   on the right. Stacks to one column below 60rem. */
+	.home {
+		display: grid;
+		gap: var(--space-5);
+	}
+
+	.home-main {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-5);
+		min-width: 0;
+	}
+
+	.hero-line {
+		font-size: clamp(2rem, 1.4rem + 2.6vw, 3.25rem);
+		line-height: 1.08;
+		font-weight: 700;
+		letter-spacing: -0.02em;
+		margin: 0;
+	}
+
+	.hero-line em {
+		font-family: var(--font-serif);
+		font-style: italic;
+		font-weight: 400;
+		color: var(--color-accent);
+	}
+
+	.hero-sub {
+		max-width: 36rem;
+		color: var(--color-text-muted);
+		margin: var(--space-3) 0 0;
+	}
+
+	/* One column: lead with the hero (the header already shows the name),
+	   then the contact card, then the work index and resume. */
+	@media (max-width: 59.99rem) {
+		.home-main {
+			display: contents;
+		}
+
+		.hero {
+			order: -1;
+		}
+	}
+
+	@media (min-width: 60rem) {
+		.home {
+			grid-template-columns: 17rem minmax(0, 44rem);
+			gap: var(--space-6);
+			align-items: start;
+		}
+
+		.home-aside {
+			position: sticky;
+			top: var(--space-4);
+		}
+	}
+
+	/* Printing the homepage prints the resume: one column, site-only parts hidden. */
+	@media print {
+		.home {
+			display: block;
+		}
+
+		.home-aside {
+			position: static;
+			margin-bottom: var(--space-4);
+		}
+
+		.hero,
+		.home-main > :global(.work) {
+			display: none;
+		}
+	}
+</style>
