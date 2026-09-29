@@ -96,6 +96,15 @@ const items = [
 		padding: 0;
 	}
 
+	/* Wide screens: two columns of rows instead of four long lines. */
+	@media (min-width: 90rem) {
+		.work-list {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			column-gap: var(--space-5);
+		}
+	}
+
 	.work-row {
 		display: grid;
 		grid-template-columns: 2.75rem 1fr auto;

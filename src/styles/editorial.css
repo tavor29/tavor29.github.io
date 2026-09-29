@@ -1,0 +1,68 @@
+/* Editorial layout for the long reads (case studies and project pages): a
+   narrow label column that sticks while its section scrolls, a reading column
+   capped for comfortable line length, and room on the right that figures and
+   tables span into, so wide screens get used without stretching paragraphs.
+   Pages opt in by wrapping their content in .editorial. Stacks below 64rem. */
+
+.editorial section {
+	margin-top: var(--space-5);
+	max-width: 44rem;
+}
+
+.editorial section > h2,
+.editorial section > h3 {
+	font-size: var(--text-base);
+	text-transform: uppercase;
+	letter-spacing: 0.02em;
+	color: var(--color-text-muted);
+	margin: 0 0 var(--space-1);
+}
+
+@media (min-width: 64rem) {
+	.editorial section {
+		display: grid;
+		grid-template-columns: 11rem minmax(0, 44rem) minmax(0, 1fr);
+		column-gap: var(--space-5);
+		max-width: none;
+	}
+
+	.editorial section > * {
+		grid-column: 2;
+	}
+
+	/* The label spans all rows (30 just has to exceed a section's child
+	   count) so it can stay pinned while the section's text scrolls past. */
+	.editorial section > h2,
+	.editorial section > h3 {
+		grid-column: 1;
+		grid-row: 1 / span 30;
+		align-self: start;
+		position: sticky;
+		top: var(--space-4);
+		padding-top: 0.2rem;
+	}
+
+	.editorial section > :nth-child(2) {
+		margin-top: 0;
+	}
+
+	/* Figures and tables use the full width to the right of the label. */
+	.editorial section > :is(figure, .chart-row, .table-wrap) {
+		grid-column: 2 / -1;
+	}
+
+	/* A section that reads better stacked: heading on top, content below. */
+	.editorial section.section--stacked {
+		display: block;
+	}
+
+	.editorial section.section--stacked > h2,
+	.editorial section.section--stacked > h3 {
+		position: static;
+		padding-top: 0;
+	}
+
+	.editorial section.section--stacked > p {
+		max-width: 44rem;
+	}
+}

@@ -176,6 +176,7 @@ const education = [
 
 <style>
 	.resume-summary {
+		max-width: 75ch;
 		color: var(--color-text-muted);
 		margin: 0;
 	}
@@ -266,6 +267,27 @@ const education = [
 		margin: var(--space-2) 0 0;
 		padding-left: 1.1rem;
 		font-size: var(--text-sm);
+	}
+
+	/* Wide screens: role, dates, and company on the left, bullets beside them. */
+	@media (min-width: 80rem) {
+		.job-content {
+			display: grid;
+			grid-template-columns: 16rem minmax(0, 75ch);
+			column-gap: var(--space-5);
+			align-items: start;
+		}
+
+		.job-header,
+		.job-org {
+			grid-column: 1;
+		}
+
+		.job ul {
+			grid-column: 2;
+			grid-row: 1 / span 2;
+			margin-top: 0;
+		}
 	}
 
 	.job li {
