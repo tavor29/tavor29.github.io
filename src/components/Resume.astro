@@ -1,30 +1,28 @@
 ---
-// Content transcribed from public/Tavor_Ben_Shahar_Resume.pdf, with two
-// deliberate deviations: the Keshet adoption bullet uses the Keshet case
-// study's wording so the two pages agree, and the summary's closing
-// positioning sentence is site-only. Name, title, and contacts live in the
-// homepage itself (hero, ContactBar.astro, and a print-only header), not here.
+// Content transcribed verbatim from public/Tavor_Ben_Shahar_Resume.pdf
+// (updated 2026-09-29). Name, title, and contacts live in the homepage itself
+// (hero, ContactBar.astro, and a print-only header), not here.
 
 const skills = [
 	{
-		label: 'AI governance & adoption',
-		text: 'AI tool governance program design from scratch, adoption tracking, security boundary definition, LLM integration and AI-assisted development.',
+		label: 'AI & Software Governance',
+		text: 'AI tool adoption, SaaS license optimization, AI governance frameworks, LLM-assisted workflows.',
 	},
 	{
-		label: 'Process & program design',
-		text: 'Building process and governance frameworks where none existed, cross-functional leadership without direct authority, change adoption measured by effectiveness rather than launch.',
+		label: 'Program & Project Management',
+		text: 'Cross-functional delivery, Agile/Scrum/Waterfall, steering committees, vendor management, risk mitigation.',
 	},
 	{
-		label: 'Business-to-technical translation',
-		text: 'Translating business needs into technical requirements, KPI dashboards and data-driven decision-making (SQL, Tableau, Power Query).',
+		label: 'Financial & Operational Planning',
+		text: 'Capacity planning, budget forecasting & planning cycles, process design.',
 	},
 	{
-		label: 'Project management',
-		text: 'Agile, Scrum, Waterfall, hybrid delivery, vendor negotiation, risk management, Gantt planning, Jira, MS Project, Azure DevOps.',
+		label: 'Tools & Analytics',
+		text: 'Jira, ServiceNow, Monday.com, SQL, Tableau, Azure DevOps, Cursor / AI IDEs.',
 	},
 	{
-		label: 'Stakeholder & executive communication',
-		text: 'Bilingual (Hebrew & English) executive communication, working independently with senior leadership, cross-functional steering committees.',
+		label: 'IT & Infrastructure Fundamentals',
+		text: 'Enterprise cloud & data center infrastructure planning, network architecture, cybersecurity governance.',
 	},
 ];
 
@@ -35,12 +33,16 @@ const experience = [
 		dates: '2026',
 		bullets: [
 			{
-				label: 'Governance program design from scratch',
-				text: 'built an AI tool governance program from nothing, with no existing playbook, defining approval workflows, security boundaries, and acceptance criteria directly with the CISO, Security, and business leadership.',
+				label: 'AI Governance & Steering Committee',
+				text: 'helped establish a steering committee alongside the CIO and executive leadership to define AI approval workflows, security boundaries, and budget ownership.',
 			},
 			{
-				label: 'Change adoption & governance planning',
-				text: 'identified roughly 40 employees building their own AI tools without engineering support, surfaced the risk to leadership, and helped design a phased plan to bring that work under governance.',
+				label: 'Adoption & Risk Mitigation',
+				text: 'identified 40+ employees building unmonitored AI workflows outside IT oversight; designed a phased rollout and governance framework to bring those tools under official compliance.',
+			},
+			{
+				label: 'Operational Process Integration',
+				text: 'streamlined workflow and ITSM ticketing across development, Cloud storage, and core business platforms using automated workflow integrations.',
 			},
 		],
 	},
@@ -50,16 +52,16 @@ const experience = [
 		dates: '2023 – 2026',
 		bullets: [
 			{
-				label: 'Cross-functional program ownership',
-				text: 'owned a multi-year program (1,200+ employee corporate office) end-to-end, covering scope, milestones, delivery, and status, while coordinating Finance, IT, R&D, and outside contractors without direct authority over them.',
+				label: 'Large-Scale Program Management',
+				text: 'owned the end-to-end program plan for a multi-year infrastructure modernization supporting a 1,200+ employee facility, aligning Finance, IT, R&D, and external contractors to a shared schedule.',
 			},
 			{
-				label: 'Data-driven decision-making',
-				text: 'built automated KPI dashboards (SQL, Tableau) tracking schedule and budget performance, giving stakeholders and executives real-time, data-driven visibility to support informed decisions.',
+				label: 'KPI Dashboards & Executive Reporting',
+				text: 'built automated SQL and Tableau dashboards giving senior leadership real-time visibility into budget utilization, milestone health, and risk across multi-million-dollar programs.',
 			},
 			{
-				label: 'Business-to-technical translation & stakeholder alignment',
-				text: 'translated business priorities and technical constraints into clear updates for Finance, Purchasing, and senior leadership, running recurring planning cycles to keep stakeholders aligned as priorities evolved.',
+				label: 'Budget & Stakeholder Management',
+				text: 'managed recurring budget planning and forecast cycles with Finance and Purchasing, translating technical delivery constraints into actionable executive decisions.',
 			},
 		],
 	},
@@ -69,12 +71,12 @@ const experience = [
 		dates: '2021 – 2023',
 		bullets: [
 			{
-				label: 'Structured delivery under ambiguity',
-				text: 'directed IT transformation projects end-to-end with no fixed playbook, defining the process as requirements emerged and aligning matrixed teams against scope, budget, and schedule.',
+				label: 'Infrastructure Delivery',
+				text: 'directed IT transformation and infrastructure upgrade projects, managing matrixed engineering teams against scope, budget, and delivery timelines.',
 			},
 			{
-				label: 'Risk management & crisis response',
-				text: 'led migration and disaster-recovery initiatives, surfacing risks early and adapting plans in real time as requirements shifted to keep systems stable for end users.',
+				label: 'Crisis & Change Management',
+				text: 'led cross-system migration and disaster-recovery initiatives, managing configuration updates while ensuring continuous operational stability for end users.',
 			},
 		],
 	},
@@ -84,7 +86,7 @@ const education = [
 	{ name: 'AI Implementation in Organizations (160 hours)', org: 'HackerU', dates: '2026' },
 	{ name: 'AI Performance Engineering (100 hours)', org: 'Nebius Academy', dates: '2026' },
 	{
-		name: 'BA, Business Administration, Information Systems',
+		name: 'BA, Business Administration & Info Systems',
 		org: 'Ruppin Academic Center · Cum Laude',
 		dates: '2020 – 2023',
 	},
@@ -96,17 +98,13 @@ const education = [
 		<section class="resume-block">
 			<h2>Summary</h2>
 			<p class="resume-summary">
-				Program manager with 5+ years leading organizational change and technology adoption
-				across large enterprises, building governance frameworks, driving process improvement,
-				and translating business needs into technical execution. Proven ability to build process
-				from scratch where none existed: mapped how AI tools were spreading through an
-				organization with no support, and built a governance program (approval workflows,
-				security boundaries, adoption tracking) from the ground up. Leads cross-functional
-				initiatives across IT, Security, and business stakeholders without direct authority, using
-				KPI dashboards to measure whether change actually took hold, not just whether it launched.
-				The common thread is business operations for organizations adopting AI: the governance,
-				reporting, and licensing work that lets a company move fast on AI tools without losing
-				track of what it runs or pays for.
+				Business operations and program manager with 5 years of experience running complex
+				technology programs across enterprise organizations. Track record of working across
+				Operations, Finance, IT, Security, and R&amp;D to turn operational friction into structured,
+				repeatable programs. Experienced in building governance frameworks, leading AI tool
+				rollouts, coordinating multi-million-dollar infrastructure programs, and delivering KPI
+				dashboards that track real adoption. Seeking operations and program management roles at
+				the intersection of software, AI, product, and cross-functional delivery.
 			</p>
 		</section>
 
@@ -169,7 +167,7 @@ const education = [
 
 		<section class="resume-block">
 			<h2>Languages</h2>
-			<p class="languages">Native Hebrew &middot; Native English</p>
+			<p class="languages">Native English &middot; Native Hebrew</p>
 		</section>
 	</div>
 </section>
