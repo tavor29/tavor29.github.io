@@ -105,7 +105,7 @@ One component, `src/components/Icon.astro`. It draws in `currentColor`, sizes co
 - `arrow`: link arrow, used in the 28px arrow chip and back links.
 - `half`, `quarter`, `circle`, `leaf`: the original site's marks, drawn in their own colours with `tone="mark"`. On work and index rows they're solid for real work and outline for a fictional company (Keshet = half, Applied Materials = quarter, Intake Agent = circle, Citizen Dev = leaf). The footer contact links use Email = half, LinkedIn = quarter, GitHub = circle, Résumé = leaf. They turn 90° on hover.
 
-Sizes: `sm` 12 (arrows), `md` 24, `lg` 44 (row marks, the original site's mark size), `xl` 64, `2xl` 120 (decorative). Outline marks use `--icon-stroke-mark` (3px); the arrow uses `--icon-stroke` (1.5px).
+Sizes: `sm` 12 (arrows), `md` 24, `lg` 44 (row marks, the original site's mark size), `xl` 64, `2xl` 120, `3xl` 200 (decorative). The hero uses one of each of the four big steps (leaf 200, quarter 120, circle 64, half 44), so one shape dominates and the rest step down. Outline marks use `--icon-stroke-mark` (3px); the arrow uses `--icon-stroke` (1.5px).
 
 **The marks are the site's colour.** Text stays ink, and the four bright shapes carry the colour. Where they appear:
 
@@ -145,7 +145,7 @@ Easing `--ease-out` cubic-bezier(0.16, 1, 0.3, 1). Durations 400 / 600 / 800ms. 
 
 ### Pages
 
-- The homepage (`src/pages/index.astro`) is built from `src/components/home/*` plus `src/data/home.ts` (copy from the content package). Writing pulls the newest six posts from the blog collection.
+- The homepage (`src/pages/index.astro`) is built from `src/components/home/*` plus `src/data/home.ts` (copy from the content package). Writing pulls the newest six posts from the blog collection. In About, the two text columns match the portrait's height and centre their text on it. Both use `text-lg` and sit 40px (`stack`) from the photo, so the section balances around the portrait.
 - Every list of links (homepage work and writing, the projects, case-studies and blog index pages) is a ruled row (`components/ui/IndexRow.astro` for index pages), not a card grid. On long-read pages, headings use the display face on the same scale (h1 = `--text-2xl`), section labels use the label style, and summary panels are hairline-ruled rather than boxed.
 - Long-read pages (case studies, projects, blog) keep their own layouts (`editorial.css`, scoped styles) inside `BaseLayout`, which adds the pill nav and dark footer. Tailwind's preflight reset is **off** so those pages keep default heading, paragraph and list styling. The redesigned chrome opts into a scoped reset with `data-ui`.
 - `/resume/` holds the full résumé that used to sit under the old homepage (it prints like the PDF).

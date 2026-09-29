@@ -77,6 +77,7 @@
 	--icon-lg: 44px;
 	--icon-xl: 64px;
 	--icon-2xl: 120px;
+	--icon-3xl: 200px;
 
 	/* Motion */
 	--ease-out: cubic-bezier(0.16, 1, 0.3, 1);

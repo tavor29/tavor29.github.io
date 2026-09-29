@@ -35,8 +35,9 @@ import { withBase } from '../../lib/base';
 
 	<section id="about" class="flex flex-col pt-section pb-gutter md:h-svh md:justify-end">
 		<Container class="grid gap-stack md:grid-cols-12 md:gap-gutter">
-			{/* Side columns share the portrait's aspect so their tops and bottoms line up with it. */}
-			<div class="flex flex-col justify-between gap-stack md:col-span-4 md:aspect-[400/456]">
+			{/* Side columns share the portrait's height and centre their text on it, so the
+			    two sides balance around the photo: same text size, same 40px from the photo. */}
+			<div class="flex flex-col justify-center gap-stack md:col-span-4 md:aspect-[400/456] md:pr-stack">
 				<div class="flex flex-col gap-tight">
 					<span class="flex items-center gap-tight">
 						<Icon name="quarter" size="md" tone="mark" />
@@ -58,8 +59,8 @@ import { withBase } from '../../lib/base';
 				/>
 			</div>
 
-			<div data-reveal class="flex flex-col justify-end gap-gutter md:col-span-4 md:aspect-[400/456]">
-				<p class="text-base text-ink-muted">{person.positioningMore}</p>
+			<div data-reveal class="flex flex-col justify-center gap-stack md:col-span-4 md:aspect-[400/456] md:pl-stack">
+				<p class="text-lg text-ink-muted">{person.positioningMore}</p>
 				<div>
 					<ArrowLink href={withBase(person.resume)}>Download résumé</ArrowLink>
 				</div>
