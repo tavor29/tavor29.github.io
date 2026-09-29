@@ -1,4 +1,5 @@
 ---
+import Icon from '../../../components/Icon.astro';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import '../../../styles/editorial.css';
 import OriginBadge from '../../../components/OriginBadge.astro';
@@ -11,6 +12,8 @@ const demoUrl = 'https://ai-intake-governance-agent.vercel.app';
 
 <BaseLayout title="AI Project Intake & Governance Agent">
 	<div class="editorial">
+		<!-- Same mark as this page's row on the homepage (solid = real work, outline = fictional). -->
+		<div data-shape-in class="page-mark"><Icon name="circle" size="xl" variant="outline" tone="mark" /></div>
 		<OriginBadge origin="fictional" />
 		<h1>AI Project Intake & Governance Agent</h1>
 

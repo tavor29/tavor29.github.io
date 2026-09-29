@@ -1,4 +1,5 @@
 ---
+import Icon from '../../../components/Icon.astro';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import '../../../styles/editorial.css';
 import AtAGlance from '../../../components/AtAGlance.astro';
@@ -7,6 +8,8 @@ import ProgramDashboard from '../../../components/charts/ProgramDashboard.astro'
 
 <BaseLayout title="Applied Materials">
 	<div class="editorial">
+		<!-- Same mark as this page's row on the homepage (solid = real work, outline = fictional). -->
+		<div data-shape-in class="page-mark"><Icon name="quarter" size="xl" variant="solid" tone="mark" /></div>
 		<h1>Applied Materials</h1>
 		<p class="dek">Project portfolio management, KPI dashboards, and capital program coordination.</p>
 

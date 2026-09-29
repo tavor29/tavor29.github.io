@@ -2,21 +2,30 @@
 import Container from '../ui/Container.astro';
 import SectionHead from '../ui/SectionHead.astro';
 import Rule from '../ui/Rule.astro';
+import Icon from '../Icon.astro';
 import { services } from '../../data/home';
 ---
 
 <section id="services" class="pt-section">
 	<Container class="flex flex-col gap-title">
-		<SectionHead index="02" title="What I do" />
+		<SectionHead index="02" title="What I do" mark="circle" />
 		<ul>
 			{
 				services.map((s) => (
 					<li
 						data-reveal
-						class="relative flex min-h-section flex-col justify-center gap-tight py-stack md:flex-row md:items-center md:justify-between md:py-0"
+						class="group relative flex min-h-section flex-col justify-center gap-tight py-stack md:flex-row md:items-center md:justify-between md:py-0"
 					>
 						<Rule />
-						<h3 class="font-display text-xl tracking-display">{s.title}</h3>
+						<h3 class="flex items-center gap-gutter font-display text-xl tracking-display">
+							<Icon
+								name={s.mark}
+								size="lg"
+								tone="mark"
+								class="transition-transform duration-fast ease-out group-hover:rotate-90"
+							/>
+							{s.title}
+						</h3>
 						<ul class="flex flex-wrap items-center gap-tight text-sm text-ink-muted">
 							{s.tags.map((t, i) => (
 								<li class="flex items-center gap-tight">

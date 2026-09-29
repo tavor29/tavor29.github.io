@@ -10,7 +10,7 @@ import type { IconName } from '../lib/icons';
 
 interface Props {
 	name: IconName;
-	size?: 'sm' | 'md' | 'lg';
+	size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 	/** Shapes only: filled (default) or outlined. The arrow is always stroked. */
 	variant?: 'solid' | 'outline';
 	/** Shapes only: `mark` paints the shape in its own colour (--mark-*), `current` uses currentColor. */
@@ -33,7 +33,7 @@ const color = tone === 'mark' && name !== 'arrow' ? `; color: var(--mark-${name}
 ---
 
 <svg
-	class:list={['icon', className]}
+	class:list={['icon', name !== 'arrow' && variant === 'outline' && 'icon--outline', className]}
 	style={`--icon-size: var(--icon-${size})${color}`}
 	viewBox={name === 'arrow' ? '0 0 24 24' : '-1.5 -1.5 27 27'}
 	fill={stroked ? 'none' : 'currentColor'}
@@ -61,5 +61,10 @@ const color = tone === 'mark' && name !== 'arrow' ? `; color: var(--mark-${name}
 		flex-shrink: 0;
 		stroke-width: var(--icon-stroke);
 		overflow: visible;
+	}
+
+	/* Outline shape marks use the heavier mark stroke so they read at a glance. */
+	.icon--outline {
+		stroke-width: var(--icon-stroke-mark);
 	}
 </style>

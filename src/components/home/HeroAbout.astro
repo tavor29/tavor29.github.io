@@ -13,6 +13,7 @@ import Label from '../ui/Label.astro';
 import ArrowLink from '../ui/ArrowLink.astro';
 import Hero from './Hero.astro';
 import PortraitFaces from './PortraitFaces.astro';
+import Icon from '../Icon.astro';
 import { person } from '../../data/home';
 import { withBase } from '../../lib/base';
 ---
@@ -37,7 +38,10 @@ import { withBase } from '../../lib/base';
 			{/* Side columns share the portrait's aspect so their tops and bottoms line up with it. */}
 			<div class="flex flex-col justify-between gap-stack md:col-span-4 md:aspect-[400/456]">
 				<div class="flex flex-col gap-tight">
-					<Label class="text-ink-muted">(01) About</Label>
+					<span class="flex items-center gap-tight">
+						<Icon name="quarter" size="md" tone="mark" />
+						<Label class="text-ink-muted">(01) About</Label>
+					</span>
 					<h2 data-reveal class="font-display text-3xl leading-display tracking-display">Hey!</h2>
 				</div>
 				<p data-reveal class="text-lg font-semibold tracking-text">{person.positioning}</p>

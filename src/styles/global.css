@@ -117,7 +117,9 @@
 
 /* Hidden until GSAP runs; reduced motion and no-JS show the final state. */
 .js [data-reveal],
-.js [data-hero-fade] {
+.js [data-hero-fade],
+.js [data-shape-pop],
+.js [data-shape-in] {
 	opacity: 0;
 }
 .js [data-hero-line] {
@@ -139,6 +141,8 @@
 @media (prefers-reduced-motion: reduce) {
 	.js [data-reveal],
 	.js [data-hero-fade],
+	.js [data-shape-pop],
+	.js [data-shape-in],
 	.js [data-word] {
 		opacity: 1;
 	}

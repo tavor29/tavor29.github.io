@@ -19,11 +19,12 @@ export const person = {
 export const quote =
 	'From ad hoc to repeatable. A place to see what already exists, a lightweight way to flag risk, and a fast path from “I built this for myself” to a supported tool. The goal isn’t to slow people down. It’s to make sure the organization can see what it’s actually running.';
 
-export const services = [
-	{ title: 'AI governance & intake', tags: ['Steering committees', 'Intake design', 'Risk scoring'] },
-	{ title: 'Licensing & SaaS cost', tags: ['Usage review', 'Tier rightsizing', 'Pilot scoping'] },
-	{ title: 'Program management', tags: ['Capital programs', 'Cross-functional', 'Forecast cycles'] },
-	{ title: 'Reporting & dashboards', tags: ['KPI dashboards', 'Schedule risk', 'Budget visibility'] },
+// Each service carries one of the four marks, for colour.
+export const services: { title: string; tags: string[]; mark: IconName }[] = [
+	{ title: 'AI governance & intake', tags: ['Steering committees', 'Intake design', 'Risk scoring'], mark: 'circle' },
+	{ title: 'Licensing & SaaS cost', tags: ['Usage review', 'Tier rightsizing', 'Pilot scoping'], mark: 'half' },
+	{ title: 'Program management', tags: ['Capital programs', 'Cross-functional', 'Forecast cycles'], mark: 'leaf' },
+	{ title: 'Reporting & dashboards', tags: ['KPI dashboards', 'Schedule risk', 'Budget visibility'], mark: 'quarter' },
 ];
 
 // Each item keeps its mark from the original work index: solid = real work,

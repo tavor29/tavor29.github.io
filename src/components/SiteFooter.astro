@@ -6,15 +6,31 @@ import ArrowChip from './ui/ArrowChip.astro';
 import Icon from './Icon.astro';
 import { withBase } from '../lib/base';
 import { contact, person } from '../data/home';
+import type { IconName } from '../lib/icons';
+
+const marks: IconName[] = ['half', 'quarter', 'leaf', 'circle'];
 
 const resolve = (href: string) => (/^(https?:|mailto:)/.test(href) ? href : withBase(href));
 ---
 
 <footer id="contact" data-ui class="mt-section bg-ink pt-section pb-stack text-paper">
 	<Container class="flex flex-col gap-title">
-		<div class="flex flex-col gap-gutter">
-			<Label class="text-paper-muted">(05) Contact</Label>
-			<h2 data-reveal class="font-serif text-2xl leading-display md:text-3xl">Let’s talk.</h2>
+		<div class="flex flex-col gap-stack md:flex-row md:items-end md:justify-between">
+			<div class="flex flex-col gap-gutter">
+				<Label class="text-paper-muted">(05) Contact</Label>
+				<h2 data-reveal class="font-serif text-2xl leading-display md:text-3xl">Let’s talk.</h2>
+			</div>
+			{/* The four marks as a block: a row on phones, a 2×2 grid from md up. Each turns on hover. */}
+			<div aria-hidden="true" class="grid w-max grid-cols-4 gap-tight md:grid-cols-2">
+				{
+					marks.map((m) => (
+						<div data-shape-in class="pointer-events-auto">
+							<Icon name={m} size="xl" tone="mark" class="transition-transform duration-base ease-out hover:rotate-90 md:hidden" />
+							<Icon name={m} size="2xl" tone="mark" class="hidden transition-transform duration-base ease-out hover:rotate-90 md:block" />
+						</div>
+					))
+				}
+			</div>
 		</div>
 		<ul>
 			{

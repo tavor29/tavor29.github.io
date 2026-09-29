@@ -105,6 +105,19 @@ One component, `src/components/Icon.astro`. It draws in `currentColor`, sizes co
 - `arrow`: link arrow, used in the 28px arrow chip and back links.
 - `half`, `quarter`, `circle`, `leaf`: the original site's marks, drawn in their own colours with `tone="mark"`. On work and index rows they're solid for real work and outline for a fictional company (Keshet = half, Applied Materials = quarter, Intake Agent = circle, Citizen Dev = leaf). The footer contact links use Email = half, LinkedIn = quarter, GitHub = circle, Résumé = leaf. They turn 90° on hover.
 
+Sizes: `sm` 12 (arrows), `md` 24, `lg` 44 (row marks, the original site's mark size), `xl` 64, `2xl` 120 (decorative). Outline marks use `--icon-stroke-mark` (3px); the arrow uses `--icon-stroke` (1.5px).
+
+**The marks are the site's colour.** Text stays ink, and the four bright shapes carry the colour. Where they appear:
+
+- The hero: four floating shapes around the headline on wide screens (≥1280px), which pop in and then drift and turn on scroll. On narrower screens they sit in a small row above the eyebrow.
+- Next to each section number (About quarter, What I do circle, Selected work half, Writing leaf).
+- One per service row, and on every work and index row (filled or outline).
+- A row under the scroll statement that turns half a revolution as the words fill.
+- A 2×2 block beside "Let's talk." in the footer (a row on phones), and one per contact link.
+- Above the title on each case-study and project page, matching that page's homepage row.
+
+Keep it to these four shapes and colours. A new decorative use should reuse `Icon` with `tone="mark"` rather than add a new colour or shape.
+
 Add an icon by adding a path to `Icon.astro`, never an inline `<svg>` elsewhere. Chart SVGs are data visualizations, not icons.
 
 ### Motion (`src/scripts/motion.ts`, GSAP + ScrollTrigger)
@@ -116,6 +129,9 @@ Easing `--ease-out` cubic-bezier(0.16, 1, 0.3, 1). Durations 400 / 600 / 800ms. 
 | `data-hero-line` / `data-hero-fade` | Headline lines rise out of a mask (800ms, 80ms stagger), then sub copy and meta fade up |
 | `data-portrait-track` + `data-portrait` | Sticky portrait across hero + About. It starts at 45% scale and face-down (grayscale back face), then scrubs to full size and face-up in colour, landing in About's middle column (cols 5–8, 400:456). Desktop only; mobile and reduced motion get a static image. |
 | `data-quote` + `data-word` | Pinned statement; words fill from 10% to full ink in reading order, scrubbed to scroll |
+| `data-shape-pop` / `data-shape-float` | Hero shapes pop in (scale 0 → 1, -90° → 0°, 800ms) after the headline, then drift up and turn with scroll, each by its `data-speed` |
+| `data-shape-in` | Shapes elsewhere pop in the same way when they enter the viewport |
+| `data-shape-spin` | Statement's shape row turns 180° across the statement's scroll |
 | `data-reveal` | Opacity 0 → 1, y 20 → 0, 600ms, 60ms stagger, at 95% of viewport |
 | `data-rule` | Row hairline draws left to right (scaleX 0 → 1, 800ms) |
 

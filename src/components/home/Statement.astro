@@ -1,7 +1,11 @@
 ---
 // Pinned statement whose words fill from 10% to full ink as you scroll.
 import Container from '../ui/Container.astro';
+import Icon from '../Icon.astro';
 import { quote } from '../../data/home';
+import type { IconName } from '../../lib/icons';
+
+const marks: IconName[] = ['half', 'quarter', 'circle', 'leaf'];
 
 const words = quote.split(' ');
 ---
@@ -12,6 +16,14 @@ const words = quote.split(' ');
 			<p class="font-display text-xl leading-title tracking-display md:text-2xl">
 				{words.map((w) => <span data-word>{w} </span>)}
 			</p>
+			{/* The four marks turn as the statement fills (data-shape-spin, scripts/motion.ts). */}
+			<div aria-hidden="true" class="mt-stack flex items-center gap-gutter">
+				{marks.map((m) => (
+					<div data-shape-spin>
+						<Icon name={m} size="lg" tone="mark" />
+					</div>
+				))}
+			</div>
 		</Container>
 	</div>
 </section>

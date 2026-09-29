@@ -39,6 +39,37 @@ mm.add('(prefers-reduced-motion: no-preference)', () => {
 			);
 	}
 
+	// Hero shapes: pop in just after the headline, then drift up and turn as
+	// the hero scrolls away (each by its data-speed, alternating direction).
+	if (document.querySelector('[data-shape-pop]')) {
+		gsap.fromTo(
+			'[data-shape-pop]',
+			{ opacity: 0, scale: 0, rotate: -90 },
+			{ opacity: 1, scale: 1, rotate: 0, duration: t.slow, ease: t.ease, stagger: 0.08, delay: 0.5 },
+		);
+	}
+	gsap.utils.toArray<HTMLElement>('[data-shape-float]').forEach((el, i) => {
+		const speed = Number(el.dataset.speed) || 1;
+		gsap.to(el, {
+			y: -160 * speed,
+			rotate: 90 * speed * (i % 2 ? 1 : -1),
+			ease: 'none',
+			scrollTrigger: { trigger: '#top', start: 'top top', end: 'bottom top', scrub: 0.6 },
+		});
+	});
+
+	// Shapes elsewhere: pop in when they enter the viewport.
+	ScrollTrigger.batch('[data-shape-in]', {
+		start: 'top 95%',
+		once: true,
+		onEnter: (els) =>
+			gsap.fromTo(
+				els,
+				{ opacity: 0, scale: 0, rotate: -90 },
+				{ opacity: 1, scale: 1, rotate: 0, duration: t.slow, ease: t.ease, stagger: 0.08 },
+			),
+	});
+
 	// Portrait: small and face-down at the foot of the hero, scrubbed to full size
 	// and face-up as About reaches the top of the viewport.
 	const portrait = document.querySelector('[data-portrait]');
@@ -87,6 +118,12 @@ mm.add('(prefers-reduced-motion: no-preference)', () => {
 			opacity: 1,
 			ease: 'none',
 			stagger: 0.1,
+			scrollTrigger: { trigger: quote, start: 'top top', end: 'bottom bottom', scrub: 0.4 },
+		});
+		// Its four marks turn half a revolution over the same scroll.
+		gsap.to(quote.querySelectorAll('[data-shape-spin]'), {
+			rotate: 180,
+			ease: 'none',
 			scrollTrigger: { trigger: quote, start: 'top top', end: 'bottom bottom', scrub: 0.4 },
 		});
 	}
