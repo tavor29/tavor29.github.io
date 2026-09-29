@@ -4,7 +4,7 @@ import type { IconName } from '../lib/icons';
 
 export const person = {
 	name: 'Tavor Ben Shahar',
-	role: 'AI Program Manager / Business Operations',
+	role: 'Business Operations & Program Manager',
 	heroLead: 'I turn ad hoc requests into',
 	heroEmphasis: 'repeatable processes',
 	heroSub:

@@ -11,9 +11,11 @@
 
 .editorial section > h2,
 .editorial section > h3 {
-	font-size: var(--text-base);
+	font-family: var(--font-label);
+	font-weight: var(--weight-label);
+	font-size: var(--text-sm);
 	text-transform: uppercase;
-	letter-spacing: 0.02em;
+	letter-spacing: var(--tracking-label);
 	color: var(--color-text-muted);
 	margin: 0 0 var(--space-1);
 }

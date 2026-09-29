@@ -1,26 +1,23 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import OriginBadge from '../../components/OriginBadge.astro';
+import IndexRow from '../../components/ui/IndexRow.astro';
 import { withBase } from '../../lib/base';
+import type { IconName } from '../../lib/icons';
 
 // Blurbs verbatim from portfolio-content-package.md's "Homepage copy" section.
-const caseStudies: Array<{
-	title: string;
-	body: string;
-	origin: 'real' | 'fictional';
-	href: string;
-}> = [
+// Marks match the homepage's Selected work rows (solid = real work).
+const caseStudies: Array<{ title: string; body: string; href: string; mark: IconName }> = [
 	{
 		title: 'Real work at Keshet',
-		body: 'helped design AI governance and intake for around 40 unsanctioned tool builders, and reviewed licensing across roughly 750 seats.',
-		origin: 'real',
+		body: 'Helped design AI governance and intake for around 40 unsanctioned tool builders, and reviewed licensing across roughly 750 seats.',
 		href: withBase('case-studies/keshet/'),
+		mark: 'half',
 	},
 	{
 		title: 'Real work at Applied Materials',
-		body: 'built the dashboards a 1,200-plus-employee capital program’s leadership used to see schedule and budget risk without asking around.',
-		origin: 'real',
+		body: 'Built the dashboards a 1,200-plus-employee capital program’s leadership used to see schedule and budget risk without asking around.',
 		href: withBase('case-studies/applied-materials/'),
+		mark: 'quarter',
 	},
 ];
 ---
@@ -29,17 +26,13 @@ const caseStudies: Array<{
 	<h1>Case Studies</h1>
 	<p class="dek">Real work, written up context through outcome.</p>
 
-	<div class="card-grid">
+	<ol data-ui class="rows">
 		{
 			caseStudies.map((c) => (
-				<a class="card" href={c.href}>
-					<OriginBadge origin={c.origin} />
-					<h2>{c.title}</h2>
-					<p>{c.body}</p>
-				</a>
+				<IndexRow href={c.href} title={c.title} body={c.body} label="Real work · case study" mark={c.mark} />
 			))
 		}
-	</div>
+	</ol>
 </BaseLayout>
 
 <style>
@@ -49,38 +42,7 @@ const caseStudies: Array<{
 		margin-top: var(--space-2);
 	}
 
-	.card-grid {
-		margin-top: var(--space-5);
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-		gap: var(--space-4);
-	}
-
-	.card {
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-		gap: var(--space-2);
-		padding: var(--space-4);
-		border: 1px solid var(--color-border);
-		border-radius: var(--radius);
-		text-decoration: none;
-		color: inherit;
-		background: var(--color-bg);
-	}
-
-	.card:hover {
-		border-color: var(--color-link);
-	}
-
-	.card h2 {
-		font-size: var(--text-lg);
-		margin: 0;
-	}
-
-	.card p {
-		font-size: var(--text-sm);
-		color: var(--color-text-muted);
-		margin: 0;
+	.rows {
+		margin-top: var(--space-title);
 	}
 </style>

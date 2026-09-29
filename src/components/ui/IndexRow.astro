@@ -1,0 +1,69 @@
+---
+/*
+ * One ruled row in an index list (projects, case studies, blog): the same
+ * row the homepage's Selected work and Writing sections use, so every list
+ * on the site reads the same. Wrap rows in <ol data-ui> / <ul data-ui>.
+ * Leading slot: a shape mark (`mark`) or a small label such as a date (`meta`).
+ */
+import Icon from '../Icon.astro';
+import Label from './Label.astro';
+import Rule from './Rule.astro';
+import ArrowChip from './ArrowChip.astro';
+import type { IconName } from '../../lib/icons';
+
+interface Props {
+	href: string;
+	title: string;
+	body?: string;
+	/** Small uppercase line under the body, e.g. "Real work · case study". */
+	label?: string;
+	/** Leading date or short text, used instead of a mark. */
+	meta?: string;
+	mark?: IconName;
+	/** Solid mark for real work, outline for a fictional company. */
+	real?: boolean;
+}
+
+const { href, title, body, label, meta, mark, real = true } = Astro.props;
+---
+
+<li data-reveal class="relative">
+	<Rule />
+	<a
+		href={href}
+		class="group grid grid-cols-[auto_1fr_auto] items-start gap-x-gutter gap-y-tight py-stack md:grid-cols-12"
+	>
+		{/* A date sits above the title on phones; a mark sits beside it. */}
+		<span class:list={['md:col-span-2', !mark && 'col-span-2']}>
+			{
+				mark ? (
+					<Icon
+						name={mark}
+						size="lg"
+						variant={real ? 'solid' : 'outline'}
+						tone="mark"
+						label={real ? 'Real work' : 'Fictional company'}
+						class="transition-transform duration-fast ease-out group-hover:rotate-90"
+					/>
+				) : (
+					<Label class="pt-1 text-ink-muted">{meta}</Label>
+				)
+			}
+		</span>
+		<div
+			class:list={[
+				'flex flex-col gap-tight md:col-span-8 md:col-start-3 md:row-start-1',
+				mark ? 'col-start-2' : 'col-span-2 col-start-1 row-start-2',
+			]}
+		>
+			<h2 class="font-display text-xl leading-title tracking-display transition-transform duration-base ease-out group-hover:translate-x-tight">
+				{title}
+			</h2>
+			{body && <p class="max-w-2xl text-base text-ink-muted">{body}</p>}
+			{label && <Label>{label}</Label>}
+		</div>
+		<div class="col-start-3 row-start-1 justify-self-end md:col-span-1 md:col-start-12">
+			<ArrowChip />
+		</div>
+	</a>
+</li>

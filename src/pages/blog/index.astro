@@ -1,33 +1,30 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import IndexRow from '../../components/ui/IndexRow.astro';
 import { withBase } from '../../lib/base';
 
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
+
+const formatDate = (d: Date) =>
+	d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
 ---
 
 <BaseLayout title="Blog">
 	<h1>Blog</h1>
 	<p class="dek">Writing on AI adoption, governance, and building with Claude Code.</p>
 
-	<ul class="post-list">
+	<ul data-ui class="rows">
 		{
 			posts.map((post) => (
-				<li class="post-card">
-					<a href={withBase(`blog/${post.id}/`)}>
-						<h2>{post.data.title}</h2>
-						<p class="summary">{post.data.summary}</p>
-						<p class="date">
-							{post.data.date.toLocaleDateString('en-US', {
-								year: 'numeric',
-								month: 'long',
-								day: 'numeric',
-							})}
-						</p>
-					</a>
-				</li>
+				<IndexRow
+					href={withBase(`blog/${post.id}/`)}
+					title={post.data.title}
+					body={post.data.summary}
+					meta={formatDate(post.data.date)}
+				/>
 			))
 		}
 	</ul>
@@ -40,58 +37,7 @@ const posts = (await getCollection('blog')).sort(
 		margin-top: var(--space-2);
 	}
 
-	/* Card grid: as many columns as fit, so wide screens get used. */
-	.post-list {
-		list-style: none;
-		margin: var(--space-5) 0 0;
-		padding: 0;
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
-		gap: var(--space-4);
-	}
-
-	.post-card {
-		border: 1px solid var(--color-border);
-		border-radius: var(--radius);
-		transition: border-color 0.15s ease;
-	}
-
-	.post-card:hover {
-		border-color: var(--color-link);
-	}
-
-	.post-card a {
-		display: flex;
-		flex-direction: column;
-		height: 100%;
-		padding: var(--space-4);
-		text-decoration: none;
-		color: inherit;
-	}
-
-	.post-card .date {
-		margin-top: auto;
-		padding-top: var(--space-2);
-	}
-
-	.post-card h2 {
-		font-size: var(--text-lg);
-		margin: 0 0 var(--space-1);
-		color: var(--color-text);
-	}
-
-	.post-card:hover h2 {
-		color: var(--color-link);
-	}
-
-	.summary {
-		color: var(--color-text-muted);
-		margin: 0 0 var(--space-1);
-	}
-
-	.date {
-		font-size: var(--text-sm);
-		color: var(--color-text-muted);
-		margin: 0;
+	.rows {
+		margin-top: var(--space-title);
 	}
 </style>

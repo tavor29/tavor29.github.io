@@ -92,7 +92,7 @@ Scale (px): 12 / 14 / 16 / 20 / 22→28 / 32→44 / 40→72. The top three scale
 
 ### Color
 
-`#0a0a0a` ink on `#fafafa` paper, one accent `#e5484d`. Ink alpha steps: 60% muted, 12% rules, 10% unrevealed words, 4% wash. Red is reserved for small marks (hero dot and period, focus rings). Links, selected states and primary buttons on the long-read pages use `--color-link` (ink). The chart palette (`--chart-*`) is data color and stays as validated.
+`#0a0a0a` ink on `#fafafa` paper, one accent `#e5484d`. Ink alpha steps: 60% muted, 12% rules, 10% unrevealed words, 4% wash. Red is reserved for small marks (hero dot and period, focus rings). The four shape marks keep the original site's colours through `--mark-*` tokens: half-disc blue, quarter orange, circle amber, leaf green. Each shape has the same colour everywhere it appears. Links, selected states and primary buttons on the long-read pages use `--color-link` (ink). The chart palette (`--chart-*`) is data color and stays as validated.
 
 ### Spacing and layout
 
@@ -103,7 +103,7 @@ On a 4px base: `dot` 4, `tight` 10, `gutter` 16, `stack` 40, `title` 60 (title �
 One component, `src/components/Icon.astro`. It draws in `currentColor`, sizes come from `--icon-sm/md/lg` (12/18/28) and stroke width from `--icon-stroke` (1.5px). Names:
 
 - `arrow`: link arrow, used in the 28px arrow chip and back links.
-- `half`, `quarter`, `circle`, `leaf`: the original site's marks. On work rows they're solid for real work and outline for a fictional company. The footer contact links use Email = half, LinkedIn = quarter, GitHub = circle, Résumé = leaf. They turn 90° on hover.
+- `half`, `quarter`, `circle`, `leaf`: the original site's marks, drawn in their own colours with `tone="mark"`. On work and index rows they're solid for real work and outline for a fictional company (Keshet = half, Applied Materials = quarter, Intake Agent = circle, Citizen Dev = leaf). The footer contact links use Email = half, LinkedIn = quarter, GitHub = circle, Résumé = leaf. They turn 90° on hover.
 
 Add an icon by adding a path to `Icon.astro`, never an inline `<svg>` elsewhere. Chart SVGs are data visualizations, not icons.
 
@@ -130,5 +130,6 @@ Easing `--ease-out` cubic-bezier(0.16, 1, 0.3, 1). Durations 400 / 600 / 800ms. 
 ### Pages
 
 - The homepage (`src/pages/index.astro`) is built from `src/components/home/*` plus `src/data/home.ts` (copy from the content package). Writing pulls the newest six posts from the blog collection.
+- Every list of links (homepage work and writing, the projects, case-studies and blog index pages) is a ruled row (`components/ui/IndexRow.astro` for index pages), not a card grid. On long-read pages, headings use the display face on the same scale (h1 = `--text-2xl`), section labels use the label style, and summary panels are hairline-ruled rather than boxed.
 - Long-read pages (case studies, projects, blog) keep their own layouts (`editorial.css`, scoped styles) inside `BaseLayout`, which adds the pill nav and dark footer. Tailwind's preflight reset is **off** so those pages keep default heading, paragraph and list styling. The redesigned chrome opts into a scoped reset with `data-ui`.
 - `/resume/` holds the full résumé that used to sit under the old homepage (it prints like the PDF).

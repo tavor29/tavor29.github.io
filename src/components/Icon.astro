@@ -2,7 +2,8 @@
 /*
  * The site's only icon source. Draws in currentColor; size and stroke come
  * from the --icon-* tokens. The four shapes are the original site's marks
- * (solid = real work, outline = fictional); `arrow` is the link arrow.
+ * (solid = real work, outline = fictional), each in its own colour with
+ * tone="mark"; `arrow` is the link arrow.
  * Add a new icon by adding a path here, not by inlining an <svg> elsewhere.
  */
 import type { IconName } from '../lib/icons';
@@ -12,11 +13,13 @@ interface Props {
 	size?: 'sm' | 'md' | 'lg';
 	/** Shapes only: filled (default) or outlined. The arrow is always stroked. */
 	variant?: 'solid' | 'outline';
+	/** Shapes only: `mark` paints the shape in its own colour (--mark-*), `current` uses currentColor. */
+	tone?: 'current' | 'mark';
 	label?: string;
 	class?: string;
 }
 
-const { name, size = 'md', variant = 'solid', label, class: className = '' } = Astro.props;
+const { name, size = 'md', variant = 'solid', tone = 'current', label, class: className = '' } = Astro.props;
 
 const shapes: Record<Exclude<IconName, 'arrow'>, string> = {
 	half: 'M0 0A24 12 0 0 1 0 24Z',
@@ -26,11 +29,12 @@ const shapes: Record<Exclude<IconName, 'arrow'>, string> = {
 };
 
 const stroked = name === 'arrow' || variant === 'outline';
+const color = tone === 'mark' && name !== 'arrow' ? `; color: var(--mark-${name})` : '';
 ---
 
 <svg
 	class:list={['icon', className]}
-	style={`--icon-size: var(--icon-${size})`}
+	style={`--icon-size: var(--icon-${size})${color}`}
 	viewBox={name === 'arrow' ? '0 0 24 24' : '-1.5 -1.5 27 27'}
 	fill={stroked ? 'none' : 'currentColor'}
 	stroke={stroked ? 'currentColor' : 'none'}

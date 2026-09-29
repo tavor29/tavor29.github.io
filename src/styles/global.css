@@ -76,12 +76,31 @@
 		gap: var(--space-2);
 	}
 
+	/* Long-read pages (BaseLayout's .wrap): headings on the homepage's type
+	   scale. :where keeps specificity at zero, so page styles still override. */
+	:where(main.wrap) :where(h1) {
+		font-family: var(--font-display);
+		font-weight: var(--weight-display);
+		font-size: var(--text-2xl);
+		line-height: var(--leading-title);
+		letter-spacing: var(--tracking-display);
+		text-wrap: balance;
+		margin: 0 0 var(--space-3);
+	}
+	:where(main.wrap) :where(h2, h3) {
+		font-family: var(--font-display);
+		font-weight: var(--weight-display);
+		line-height: var(--leading-title);
+		letter-spacing: var(--tracking-display);
+	}
+
 	/* Scoped reset for the redesigned chrome (nav, footer) and homepage. */
-	:where([data-ui]) :where(h1, h2, h3, h4, p, ul, ol, li, figure, blockquote) {
+	/* Covers descendants of [data-ui] and a list that carries data-ui itself. */
+	:where([data-ui] :is(h1, h2, h3, h4, p, ul, ol, li, figure, blockquote), ul[data-ui], ol[data-ui]) {
 		margin: 0;
 		padding: 0;
 	}
-	:where([data-ui]) :where(ul, ol) {
+	:where([data-ui] :is(ul, ol), ul[data-ui], ol[data-ui]) {
 		list-style: none;
 	}
 	/* Same specificity as the global `a` rule above and later, so it wins;

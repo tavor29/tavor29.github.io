@@ -94,6 +94,13 @@
 	--chart-status-serious: #ec835a;
 	--chart-status-critical: #d03b3b;
 
+	/* Shape marks keep the original site's colours, one per shape wherever it
+	   appears (work rows, index pages, footer contact links). */
+	--mark-half: var(--chart-series-1);
+	--mark-quarter: var(--chart-series-2);
+	--mark-circle: var(--chart-status-warning);
+	--mark-leaf: var(--chart-status-good);
+
 	/* Legacy aliases (pre-redesign names used by inner pages and charts). */
 	--color-bg: var(--color-paper);
 	--color-bg-subtle: var(--color-ink-wash);

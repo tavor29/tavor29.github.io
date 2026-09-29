@@ -1,26 +1,23 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import OriginBadge from '../../components/OriginBadge.astro';
+import IndexRow from '../../components/ui/IndexRow.astro';
 import { withBase } from '../../lib/base';
+import type { IconName } from '../../lib/icons';
 
 // Blurbs verbatim from portfolio-content-package.md's "Homepage copy" section.
-const projects: Array<{
-	title: string;
-	body: string;
-	origin: 'real' | 'fictional';
-	href: string;
-}> = [
+// Marks match the homepage's Selected work rows (outline = fictional company).
+const projects: Array<{ title: string; body: string; href: string; mark: IconName }> = [
 	{
 		title: 'AI Project Intake & Governance Agent, flagship',
-		body: 'an agent that turns a chat-based tool request into a structured intake with a duplication check and a risk score.',
-		origin: 'fictional',
+		body: 'An agent that turns a chat-based tool request into a structured intake with a duplication check and a risk score.',
 		href: withBase('projects/ai-intake-governance-agent/'),
+		mark: 'circle',
 	},
 	{
 		title: 'Citizen Development Governance Model',
-		body: 'a tracked path from idea to production for internally built tools, with a maintenance owner at every stage.',
-		origin: 'fictional',
+		body: 'A tracked path from idea to production for internally built tools, with a maintenance owner at every stage.',
 		href: withBase('projects/citizen-development-governance/'),
+		mark: 'leaf',
 	},
 ];
 ---
@@ -29,17 +26,20 @@ const projects: Array<{
 	<h1>Projects</h1>
 	<p class="dek">Two coded projects, each with a live demo and its own repo.</p>
 
-	<div class="card-grid">
+	<ol data-ui class="rows">
 		{
 			projects.map((p) => (
-				<a class="card" href={p.href}>
-					<OriginBadge origin={p.origin} />
-					<h2>{p.title}</h2>
-					<p>{p.body}</p>
-				</a>
+				<IndexRow
+					href={p.href}
+					title={p.title}
+					body={p.body}
+					label="Coded project · fictional company"
+					mark={p.mark}
+					real={false}
+				/>
 			))
 		}
-	</div>
+	</ol>
 </BaseLayout>
 
 <style>
@@ -49,38 +49,7 @@ const projects: Array<{
 		margin-top: var(--space-2);
 	}
 
-	.card-grid {
-		margin-top: var(--space-5);
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-		gap: var(--space-4);
-	}
-
-	.card {
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-		gap: var(--space-2);
-		padding: var(--space-4);
-		border: 1px solid var(--color-border);
-		border-radius: var(--radius);
-		text-decoration: none;
-		color: inherit;
-		background: var(--color-bg);
-	}
-
-	.card:hover {
-		border-color: var(--color-link);
-	}
-
-	.card h2 {
-		font-size: var(--text-lg);
-		margin: 0;
-	}
-
-	.card p {
-		font-size: var(--text-sm);
-		color: var(--color-text-muted);
-		margin: 0;
+	.rows {
+		margin-top: var(--space-title);
 	}
 </style>
