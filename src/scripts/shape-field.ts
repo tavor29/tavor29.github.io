@@ -26,6 +26,10 @@ type Body = {
 
 type Rect = { l: number; t: number; r: number; b: number };
 
+// Big shapes drift slower (~46 to ~65 px/s at 1440px); narrower screens slow
+// everything a little so small heroes don't feel busy.
+const cruiseFor = (size: number, width: number) => (70 - size * 0.12) * Math.min(1, Math.max(0.6, width / 1440));
+
 const PAD = 12; // breathing room kept around text and boxes, px
 const RESTITUTION = 0.9;
 const PULL = 14; // attraction between shapes, px/s², turns paths without adding speed
@@ -43,14 +47,14 @@ export function startShapeField(field: HTMLElement): () => void {
 	const initialStyle = els.map((el) => el.style.cssText);
 	const bodies: Body[] = els.map((el, i) => {
 		const r0 = el.getBoundingClientRect();
-		const size = r0.width;
+		const size = el.offsetWidth;
 		const r = size * 0.5;
 		const angle = (i / els.length) * Math.PI * 2 + Math.random() * 0.8;
-		const cruise = 70 - size * 0.12; // big shapes drift slower (~46 to ~65 px/s)
+		const cruise = cruiseFor(size, f.width);
 		const body: Body = {
 			el,
-			x: r0.left - f.left + size / 2,
-			y: r0.top - f.top + size / 2,
+			x: r0.left - f.left + r0.width / 2,
+			y: r0.top - f.top + r0.height / 2,
 			vx: Math.cos(angle) * cruise,
 			vy: Math.sin(angle) * cruise,
 			size,
@@ -61,8 +65,8 @@ export function startShapeField(field: HTMLElement): () => void {
 			a: 0,
 			va: (Math.random() - 0.5) * 20,
 			cruise,
-			hx: (r0.left - f.left + size / 2) / f.width,
-			hy: (r0.top - f.top + size / 2) / f.height,
+			hx: (r0.left - f.left + r0.width / 2) / f.width,
+			hy: (r0.top - f.top + r0.height / 2) / f.height,
 		};
 		// Pin to the field's top-left and position by transform. Clear right/bottom
 		// too, or a shape placed with `right:` would stretch to the full width.
@@ -70,6 +74,7 @@ export function startShapeField(field: HTMLElement): () => void {
 		el.style.top = '0px';
 		el.style.right = 'auto';
 		el.style.bottom = 'auto';
+		el.style.translate = 'none'; // the CSS centring offset; the transform takes over
 		return body;
 	});
 
@@ -155,6 +160,20 @@ export function startShapeField(field: HTMLElement): () => void {
 				p.vy += (dy / d) * pull;
 				q.vx -= (dx / d) * pull;
 				q.vy -= (dy / d) * pull;
+			}
+		}
+
+		// Sizes follow the screen (fluid tokens), so re-read them in case of a resize.
+		// Home spots are fractions of the field and adapt on their own.
+		for (const b of bodies) {
+			const size = b.el.offsetWidth;
+			if (size !== b.size) {
+				b.size = size;
+				b.r = size * 0.5;
+				b.rHit = size * 0.6;
+				b.rWall = size * 0.35;
+				b.m = size * size;
+				b.cruise = cruiseFor(size, W);
 			}
 		}
 

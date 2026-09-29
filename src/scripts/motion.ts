@@ -121,9 +121,9 @@ mm.add('(prefers-reduced-motion: no-preference)', () => {
 	}
 });
 
-// The hero's floating shapes (only shown from 1280px up). Its own media query so
-// it starts and stops when the window crosses that width or motion settings change.
-mm.add('(prefers-reduced-motion: no-preference) and (min-width: 1280px)', () => {
+// The hero's floating shapes, at every screen size. Started here (inside the
+// no-reduced-motion query) so it stops if the visitor turns animations off.
+mm.add('(prefers-reduced-motion: no-preference)', () => {
 	const field = document.querySelector<HTMLElement>('[data-shape-field]');
 	if (!field) return;
 	const stop = startShapeField(field);

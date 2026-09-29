@@ -5,31 +5,43 @@ import Icon from '../Icon.astro';
 import { person } from '../../data/home';
 import type { IconName } from '../../lib/icons';
 
-// The four marks float around the headline on wide screens (the reference's
-// sticker slots). These percentages are where they start (and where they stay
-// for reduced motion); scripts/shape-field.ts then keeps them drifting,
-// bouncing off the text marked data-shape-obstacle and off each other.
+// The four marks float around the headline (the reference's sticker slots).
+// x/y are each shape's centre as a percentage of the hero: `wide` from 1280px
+// up (beside the headline), `narrow` below (in the open bands above and below
+// the text). They start there, stay there for reduced motion on wide screens,
+// and are the spots scripts/shape-field.ts gently pulls them back toward while
+// they drift, bounce off text marked data-shape-obstacle and bump each other.
 const floaters: {
 	name: IconName;
 	size: 'lg' | 'xl' | '2xl' | '3xl';
 	variant: 'solid' | 'outline';
-	pos: string;
+	wide: [number, number];
+	narrow: [number, number];
 }[] = [
-	// Four sizes, one each (200 / 120 / 64 / 44px), for contrast: one dominant
-	// shape, one supporting, two accents.
-	{ name: 'leaf', size: '3xl', variant: 'solid', pos: 'right: 4%; top: 12%' },
-	{ name: 'quarter', size: '2xl', variant: 'solid', pos: 'left: 5%; top: 56%' },
-	{ name: 'circle', size: 'xl', variant: 'outline', pos: 'left: 13%; top: 20%' },
-	{ name: 'half', size: 'lg', variant: 'solid', pos: 'right: 17%; top: 66%' },
+	// Four sizes, one each, for contrast: one dominant shape, one supporting,
+	// two accents. The sizes scale down with the screen (see <style> below).
+	{ name: 'leaf', size: '3xl', variant: 'solid', wide: [89, 23], narrow: [80, 17] },
+	{ name: 'quarter', size: '2xl', variant: 'solid', wide: [9, 63], narrow: [78, 80] },
+	{ name: 'circle', size: 'xl', variant: 'outline', wide: [15, 24], narrow: [20, 15] },
+	{ name: 'half', size: 'lg', variant: 'solid', wide: [81, 68], narrow: [24, 78] },
 ];
 const marks: IconName[] = ['half', 'quarter', 'circle', 'leaf'];
 ---
 
 <section id="top" class="relative flex min-h-svh flex-col pt-section pb-stack">
-	<div data-shape-field aria-hidden="true" class="pointer-events-none absolute inset-0 hidden overflow-hidden xl:block">
+	{/* Moving shapes at every size; with reduced motion, only wide screens keep them (static). */}
+	<div
+		data-shape-field
+		aria-hidden="true"
+		class="pointer-events-none absolute inset-0 block overflow-hidden motion-reduce:hidden xl:motion-reduce:block"
+	>
 		{
 			floaters.map((f) => (
-				<div data-shape-body class="absolute" style={f.pos}>
+				<div
+					data-shape-body
+					class="shape-body absolute -translate-x-1/2 -translate-y-1/2"
+					style={`--x: ${f.wide[0]}%; --y: ${f.wide[1]}%; --xn: ${f.narrow[0]}%; --yn: ${f.narrow[1]}%`}
+				>
 					<div data-shape-pop>
 						<Icon name={f.name} size={f.size} variant={f.variant} tone="mark" />
 					</div>
@@ -40,8 +52,8 @@ const marks: IconName[] = ['half', 'quarter', 'circle', 'leaf'];
 
 	<Container outerClass="flex flex-1 flex-col" class="flex flex-1 flex-col gap-title">
 		<div class="flex flex-1 flex-col items-center justify-center gap-stack text-center">
-			{/* Narrower screens get the four marks as a row instead of floating around the headline. */}
-			<div aria-hidden="true" class="flex items-center gap-tight xl:hidden">
+			{/* Reduced motion below 1280px: the four marks as a still row instead of the moving field. */}
+			<div aria-hidden="true" class="hidden items-center gap-tight motion-reduce:flex xl:motion-reduce:hidden">
 				{
 					marks.map((m) => (
 						<div data-shape-pop>
@@ -73,3 +85,26 @@ const marks: IconName[] = ['half', 'quarter', 'circle', 'leaf'];
 		</div>
 	</Container>
 </section>
+
+<style>
+	/* Hero shape sizes scale with the screen: full size at 1440px wide, floored
+	   so the smallest still reads on a phone. */
+	[data-shape-field] {
+		--icon-3xl: clamp(96px, 13.9vw, 200px);
+		--icon-2xl: clamp(64px, 8.33vw, 120px);
+		--icon-xl: clamp(40px, 4.44vw, 64px);
+		--icon-lg: clamp(32px, 3.06vw, 44px);
+	}
+
+	.shape-body {
+		left: var(--xn);
+		top: var(--yn);
+	}
+
+	@media (min-width: 1280px) {
+		.shape-body {
+			left: var(--x);
+			top: var(--y);
+		}
+	}
+</style>
