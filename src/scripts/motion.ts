@@ -5,6 +5,7 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { CustomEase } from 'gsap/CustomEase';
+import { startShapeField } from './shape-field';
 
 gsap.registerPlugin(ScrollTrigger, CustomEase);
 
@@ -39,8 +40,8 @@ mm.add('(prefers-reduced-motion: no-preference)', () => {
 			);
 	}
 
-	// Hero shapes: pop in just after the headline, then drift up and turn as
-	// the hero scrolls away (each by its data-speed, alternating direction).
+	// Hero shapes: pop in just after the headline, then keep drifting and
+	// bumping into each other and the text (scripts/shape-field.ts).
 	if (document.querySelector('[data-shape-pop]')) {
 		gsap.fromTo(
 			'[data-shape-pop]',
@@ -48,15 +49,6 @@ mm.add('(prefers-reduced-motion: no-preference)', () => {
 			{ opacity: 1, scale: 1, rotate: 0, duration: t.slow, ease: t.ease, stagger: 0.08, delay: 0.5 },
 		);
 	}
-	gsap.utils.toArray<HTMLElement>('[data-shape-float]').forEach((el, i) => {
-		const speed = Number(el.dataset.speed) || 1;
-		gsap.to(el, {
-			y: -160 * speed,
-			rotate: 90 * speed * (i % 2 ? 1 : -1),
-			ease: 'none',
-			scrollTrigger: { trigger: '#top', start: 'top top', end: 'bottom top', scrub: 0.6 },
-		});
-	});
 
 	// Shapes elsewhere: pop in when they enter the viewport.
 	ScrollTrigger.batch('[data-shape-in]', {
@@ -127,6 +119,15 @@ mm.add('(prefers-reduced-motion: no-preference)', () => {
 			scrollTrigger: { trigger: quote, start: 'top top', end: 'bottom bottom', scrub: 0.4 },
 		});
 	}
+});
+
+// The hero's floating shapes (only shown from 1280px up). Its own media query so
+// it starts and stops when the window crosses that width or motion settings change.
+mm.add('(prefers-reduced-motion: no-preference) and (min-width: 1280px)', () => {
+	const field = document.querySelector<HTMLElement>('[data-shape-field]');
+	if (!field) return;
+	const stop = startShapeField(field);
+	return () => stop();
 });
 
 // Late layout shifts (images, fonts) move trigger positions; recompute once settled.

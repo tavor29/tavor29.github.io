@@ -109,7 +109,7 @@ Sizes: `sm` 12 (arrows), `md` 24, `lg` 44 (row marks, the original site's mark s
 
 **The marks are the site's colour.** Text stays ink, and the four bright shapes carry the colour. Where they appear:
 
-- The hero: four floating shapes around the headline on wide screens (≥1280px), which pop in and then drift and turn on scroll. On narrower screens they sit in a small row above the eyebrow.
+- The hero: four shapes around the headline on wide screens (≥1280px). They pop in, then keep drifting, bouncing off the text and bumping into each other. On narrower screens they sit in a small row above the eyebrow.
 - Next to each section number (About quarter, What I do circle, Selected work half, Writing leaf).
 - One per service row, and on every work and index row (filled or outline).
 - A row under the scroll statement that turns half a revolution as the words fill.
@@ -129,7 +129,8 @@ Easing `--ease-out` cubic-bezier(0.16, 1, 0.3, 1). Durations 400 / 600 / 800ms. 
 | `data-hero-line` / `data-hero-fade` | Headline lines rise out of a mask (800ms, 80ms stagger), then sub copy and meta fade up |
 | `data-portrait-track` + `data-portrait` | Sticky portrait across hero + About. It starts at 45% scale and face-down (grayscale back face), then scrubs to full size and face-up in colour, landing in About's middle column (cols 5–8, 400:456). Desktop only; mobile and reduced motion get a static image. |
 | `data-quote` + `data-word` | Pinned statement; words fill from 10% to full ink in reading order, scrubbed to scroll |
-| `data-shape-pop` / `data-shape-float` | Hero shapes pop in (scale 0 → 1, -90° → 0°, 800ms) after the headline, then drift up and turn with scroll, each by its `data-speed` |
+| `data-shape-pop` | Hero shapes pop in (scale 0 → 1, -90° → 0°, 800ms) after the headline |
+| `data-shape-field` + `data-shape-body` / `data-shape-obstacle` | From 1280px up, the four hero shapes keep moving: a small physics loop (`src/scripts/shape-field.ts`, no library). Each cruises at 45–65px/s (bigger is slower), bounces off the hero edges (it may run partly off the page), off every element marked `data-shape-obstacle` (tight text boxes plus 12px), the nav pill and the portrait, and bumps into the other shapes. A weak pull between shapes makes them meet, and a weak spring toward each start spot keeps the layout balanced. The pointer nudges them. It only runs while the hero is on screen; reduced motion leaves them at their CSS positions. |
 | `data-shape-in` | Shapes elsewhere pop in the same way when they enter the viewport |
 | `data-shape-spin` | Statement's shape row turns 180° across the statement's scroll |
 | `data-reveal` | Opacity 0 → 1, y 20 → 0, 600ms, 60ms stagger, at 95% of viewport |
