@@ -1,0 +1,50 @@
+---
+import Container from '../ui/Container.astro';
+import SectionHead from '../ui/SectionHead.astro';
+import Label from '../ui/Label.astro';
+import Rule from '../ui/Rule.astro';
+import ArrowChip from '../ui/ArrowChip.astro';
+import Icon from '../Icon.astro';
+import { work } from '../../data/home';
+import { withBase } from '../../lib/base';
+---
+
+<section id="work" class="pt-section">
+	<Container class="flex flex-col gap-title">
+		<SectionHead index="03" title="Selected work" />
+		<ol>
+			{
+				work.map((w) => (
+					<li data-reveal class="relative">
+						<Rule />
+						<a
+							href={withBase(w.href)}
+							class="group grid grid-cols-[auto_1fr_auto] items-start gap-x-gutter gap-y-tight py-stack md:grid-cols-12"
+						>
+							{/* Solid mark = real work, outline = fictional company (as on the original site). */}
+							<span class="md:col-span-1">
+								<Icon
+									name={w.mark}
+									size="lg"
+									variant={w.real ? 'solid' : 'outline'}
+									label={w.real ? 'Real work' : 'Fictional company'}
+									class="transition-transform duration-fast ease-out group-hover:rotate-90"
+								/>
+							</span>
+							<h3 class="font-display text-xl leading-title tracking-display transition-transform duration-base ease-out group-hover:translate-x-tight md:col-span-5">
+								{w.title}
+							</h3>
+							<div class="col-start-2 row-start-2 flex flex-col gap-tight md:col-span-5 md:col-start-7 md:row-start-1">
+								<p class="text-base text-ink-muted">{w.blurb}</p>
+								<Label>{w.label}</Label>
+							</div>
+							<div class="col-start-3 row-start-1 justify-self-end md:col-span-1 md:col-start-12">
+								<ArrowChip />
+							</div>
+						</a>
+					</li>
+				))
+			}
+		</ol>
+	</Container>
+</section>

@@ -1,0 +1,14 @@
+---
+// Hairline that draws left to right on enter (see scripts/motion.ts).
+interface Props {
+	tone?: 'ink' | 'paper';
+}
+const { tone = 'ink' } = Astro.props;
+---
+
+<div
+	data-rule
+	aria-hidden="true"
+	class:list={['absolute inset-x-0 top-0 h-px', tone === 'ink' ? 'bg-ink-rule' : 'bg-paper-rule']}
+>
+</div>

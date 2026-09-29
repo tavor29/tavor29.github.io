@@ -1,6 +1,8 @@
 # Tavor Ben Shahar: portfolio site
 
-Static [Astro](https://astro.build) site, live at [tavor29.github.io](https://tavor29.github.io/). No paid custom domain wired yet.
+Static [Astro](https://astro.build) site with Tailwind v4 and GSAP, live at [tavor29.github.io](https://tavor29.github.io/). No paid custom domain wired yet.
+
+The design system (tokens, type, icons, motion) is documented in [`docs/DESIGN.md`](docs/DESIGN.md).
 
 ## Local
 

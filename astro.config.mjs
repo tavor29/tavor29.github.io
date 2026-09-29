@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import tailwindcss from '@tailwindcss/vite';
 
 // Served from the tavor29.github.io root (repo literally named
 // tavor29.github.io), a user site, not a project page, so no `base` path.
@@ -11,5 +12,8 @@ export default defineConfig({
 	site: 'https://tavor29.github.io/',
 	devToolbar: {
 		enabled: false,
+	},
+	vite: {
+		plugins: [tailwindcss()],
 	},
 });

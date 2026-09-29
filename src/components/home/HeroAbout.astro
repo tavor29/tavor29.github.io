@@ -1,0 +1,65 @@
+---
+/*
+ * Hero + About share one track so the portrait can stay pinned across both:
+ * it sits small and flipped at the bottom of the hero, then scripts/motion.ts
+ * scrubs it to full size and face-up as About scrolls in, landing in About's
+ * middle column (same 12-col grid, so the widths match exactly).
+ * Desktop only; mobile and reduced motion get the static image in About.
+ */
+import { Image } from 'astro:assets';
+import profile from '../../assets/profile.jpeg';
+import Container from '../ui/Container.astro';
+import Label from '../ui/Label.astro';
+import ArrowLink from '../ui/ArrowLink.astro';
+import Hero from './Hero.astro';
+import PortraitFaces from './PortraitFaces.astro';
+import { person } from '../../data/home';
+import { withBase } from '../../lib/base';
+---
+
+<div data-portrait-track class="relative">
+	<div class="pointer-events-none absolute inset-0 z-10 hidden md:block md:motion-reduce:hidden">
+		<div class="sticky top-0 flex h-svh items-end pb-gutter">
+			<Container outerClass="w-full" class="grid grid-cols-12 gap-gutter">
+				<div class="col-span-4 col-start-5 perspective-[1200px]">
+					<div data-portrait class="relative aspect-[400/456] transform-3d">
+						<PortraitFaces />
+					</div>
+				</div>
+			</Container>
+		</div>
+	</div>
+
+	<Hero />
+
+	<section id="about" class="flex flex-col pt-section pb-gutter md:h-svh md:justify-end">
+		<Container class="grid gap-stack md:grid-cols-12 md:gap-gutter">
+			{/* Side columns share the portrait's aspect so their tops and bottoms line up with it. */}
+			<div class="flex flex-col justify-between gap-stack md:col-span-4 md:aspect-[400/456]">
+				<div class="flex flex-col gap-tight">
+					<Label class="text-ink-muted">(01) About</Label>
+					<h2 data-reveal class="font-display text-3xl leading-display tracking-display">Hey!</h2>
+				</div>
+				<p data-reveal class="text-lg font-semibold tracking-text">{person.positioning}</p>
+			</div>
+
+			{/* Holds the portrait's landing spot; shows a static copy on mobile and with reduced motion. */}
+			<div class="relative aspect-[400/456] md:col-span-4 md:invisible md:motion-reduce:visible">
+				<Image
+					src={profile}
+					alt="Portrait of Tavor Ben Shahar"
+					widths={[400, 800]}
+					sizes="(min-width: 768px) 400px, 100vw"
+					class="absolute inset-0 h-full w-full rounded-md object-cover"
+				/>
+			</div>
+
+			<div data-reveal class="flex flex-col justify-end gap-gutter md:col-span-4 md:aspect-[400/456]">
+				<p class="text-base text-ink-muted">{person.positioningMore}</p>
+				<div>
+					<ArrowLink href={withBase(person.resume)}>Download résumé</ArrowLink>
+				</div>
+			</div>
+		</Container>
+	</section>
+</div>

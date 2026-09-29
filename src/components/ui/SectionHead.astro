@@ -1,0 +1,14 @@
+---
+import Label from './Label.astro';
+
+interface Props {
+	index: string;
+	title: string;
+}
+const { index, title } = Astro.props;
+---
+
+<div data-reveal class="flex items-baseline justify-between gap-gutter">
+	<h2 class="font-display text-2xl tracking-display leading-title">{title}</h2>
+	<Label class="text-ink-muted">({index})</Label>
+</div>

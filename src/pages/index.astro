@@ -1,98 +1,18 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import ContactBar from '../components/ContactBar.astro';
-import WorkIndex from '../components/WorkIndex.astro';
-import Resume from '../components/Resume.astro';
+import HeroAbout from '../components/home/HeroAbout.astro';
+import Statement from '../components/home/Statement.astro';
+import Services from '../components/home/Services.astro';
+import Work from '../components/home/Work.astro';
+import Writing from '../components/home/Writing.astro';
 ---
 
-<BaseLayout>
-	<ContactBar slot="subnav" />
-
-	<div class="home">
-		<!-- Print only: the site header (name, contact buttons) is hidden in
-		     print, so the printed resume gets its own header, matching the PDF. -->
-		<div class="print-header">
-			<p class="print-name">Tavor Ben Shahar</p>
-			<p>Business Operations &amp; Program Manager</p>
-			<p>
-				Tel Aviv, Israel &middot; 050-492-2040 &middot; tzavor29@gmail.com &middot;
-				linkedin.com/in/tavor-bs &middot; github.com/tavor29
-			</p>
-		</div>
-
-		<header class="hero">
-			<p class="hero-eyebrow">Business Operations &amp; Program Manager</p>
-			<h1 class="hero-line">I turn ad hoc requests into <em>repeatable processes.</em></h1>
-			<p class="hero-sub">
-				Most recently Business Operations Manager at Keshet Media Group. Before that, Applied
-				Materials and IBM. Based in Tel Aviv.
-			</p>
-		</header>
-
-		<WorkIndex />
-		<Resume />
+<BaseLayout bare>
+	<div data-ui>
+		<HeroAbout />
+		<Statement />
+		<Services />
+		<Work />
+		<Writing />
 	</div>
 </BaseLayout>
-
-<style>
-	.home {
-		display: flex;
-		flex-direction: column;
-		gap: var(--space-5);
-	}
-
-	.hero-eyebrow {
-		font-size: var(--text-xs);
-		font-weight: 600;
-		text-transform: uppercase;
-		letter-spacing: 0.06em;
-		color: var(--color-accent);
-		margin: 0 0 var(--space-2);
-	}
-
-	.hero-line {
-		font-size: clamp(2rem, 1.4rem + 2.6vw, 3.75rem);
-		line-height: 1.08;
-		font-weight: 700;
-		letter-spacing: -0.02em;
-		margin: 0;
-	}
-
-	.hero-line em {
-		font-family: var(--font-serif);
-		font-style: italic;
-		font-weight: 400;
-		color: var(--color-accent);
-	}
-
-	.hero-sub {
-		max-width: 40rem;
-		color: var(--color-text-muted);
-		margin: var(--space-3) 0 0;
-	}
-
-	.print-header {
-		display: none;
-	}
-
-	/* Printing the homepage prints the resume: its own header, site-only parts hidden. */
-	@media print {
-		.print-header {
-			display: block;
-		}
-
-		.print-header p {
-			margin: 0 0 0.2rem;
-		}
-
-		.print-name {
-			font-size: var(--text-2xl);
-			font-weight: 700;
-		}
-
-		.hero,
-		.home > :global(.work) {
-			display: none;
-		}
-	}
-</style>

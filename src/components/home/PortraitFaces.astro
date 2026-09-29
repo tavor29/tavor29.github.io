@@ -1,0 +1,26 @@
+---
+// Colour on the front, grayscale on the back; the card flips between them.
+import { Image } from 'astro:assets';
+import profile from '../../assets/profile.jpeg';
+---
+
+<div class="absolute inset-0 overflow-hidden rounded-md backface-hidden">
+	<Image
+		src={profile}
+		alt="Portrait of Tavor Ben Shahar"
+		widths={[400, 800]}
+		sizes="400px"
+		loading="eager"
+		class="h-full w-full object-cover"
+	/>
+</div>
+<div aria-hidden="true" class="absolute inset-0 overflow-hidden rounded-md backface-hidden rotate-y-180">
+	<Image
+		src={profile}
+		alt=""
+		widths={[400, 800]}
+		sizes="400px"
+		loading="eager"
+		class="h-full w-full object-cover grayscale contrast-125"
+	/>
+</div>

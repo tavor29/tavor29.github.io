@@ -1,4 +1,5 @@
 ---
+import Icon from '../../../components/Icon.astro';
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { withBase } from '../../../lib/base';
@@ -35,7 +36,7 @@ const decks = (await getCollection('slides')).sort(
 		)
 	}
 
-	<p class="back-link"><a href={withBase('blog/')}>&larr; Back to the blog</a></p>
+	<p class="back-link"><a class="icon-link" href={withBase('blog/')}><Icon name="arrow" size="sm" class="rotate-180" />Back to the blog</a></p>
 </BaseLayout>
 
 <style>

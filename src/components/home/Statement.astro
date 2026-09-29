@@ -1,0 +1,17 @@
+---
+// Pinned statement whose words fill from 10% to full ink as you scroll.
+import Container from '../ui/Container.astro';
+import { quote } from '../../data/home';
+
+const words = quote.split(' ');
+---
+
+<section data-quote class="relative h-[250svh]">
+	<div class="sticky top-0 flex h-svh items-center">
+		<Container outerClass="w-full">
+			<p class="font-display text-xl leading-title tracking-display md:text-2xl">
+				{words.map((w) => <span data-word>{w} </span>)}
+			</p>
+		</Container>
+	</div>
+</section>

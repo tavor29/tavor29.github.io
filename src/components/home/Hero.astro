@@ -1,0 +1,32 @@
+---
+import Container from '../ui/Container.astro';
+import Label from '../ui/Label.astro';
+import { person } from '../../data/home';
+---
+
+<section id="top" class="flex min-h-svh flex-col pt-section pb-stack">
+	<Container outerClass="flex flex-1 flex-col" class="flex flex-1 flex-col gap-title">
+		<div class="flex flex-1 flex-col items-center justify-center gap-stack text-center">
+			<Label class="flex items-center gap-tight text-ink-muted">
+				<span aria-hidden="true" class="size-dot rounded-full bg-accent"></span>
+				{person.role}
+			</Label>
+			<h1 class="font-display text-2xl leading-display tracking-display md:text-3xl">
+				<span class="block overflow-hidden pb-1">
+					<span data-hero-line class="block text-balance">{person.heroLead}</span>
+				</span>
+				<span class="block overflow-hidden pb-1">
+					<span data-hero-line class="block text-balance font-serif">
+						{person.heroEmphasis}<span class="text-accent">.</span>
+					</span>
+				</span>
+			</h1>
+			<p data-hero-fade class="max-w-xl text-lg text-balance text-ink-muted">{person.heroSub}</p>
+		</div>
+
+		<div data-hero-fade class="flex items-end justify-between gap-gutter">
+			<p class="font-display text-2xl leading-display tracking-display">©2026</p>
+			<Label class="text-right">/Five years · IT, R&amp;D, Ops</Label>
+		</div>
+	</Container>
+</section>

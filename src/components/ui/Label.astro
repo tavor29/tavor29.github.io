@@ -1,0 +1,9 @@
+---
+// Small uppercase label: section indexes, dates, meta lines.
+interface Props {
+	class?: string;
+}
+const { class: className = '' } = Astro.props;
+---
+
+<p class:list={['font-label text-xs uppercase tracking-label', className]}><slot /></p>

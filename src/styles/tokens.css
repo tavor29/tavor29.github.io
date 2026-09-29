@@ -1,39 +1,85 @@
-/* Design tokens shared by every page. Swap --color-accent for a brand color later. */
+/*
+ * Design tokens, single source of truth for every page. See docs/DESIGN.md.
+ * tailwind.config.ts maps utilities onto these variables; components never
+ * hard-code a size, color, duration or easing.
+ *
+ * The block at the bottom ("Legacy aliases") keeps the older token names the
+ * case studies, project pages, blog and charts were written against, pointed
+ * at the current system, so those pages follow the redesign without edits.
+ */
 :root {
-	--color-accent: #2563eb;
-	--color-accent-contrast: #ffffff;
-
-	--color-bg: #ffffff;
-	--color-bg-subtle: #f8fafc;
-	--color-text: #0f172a;
-	--color-text-muted: #475569;
-	--color-border: #e2e8f0;
-
+	/* Type families: system faces only, no webfont request. */
 	--font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-	/* Accent serif (homepage hero). System faces only, no webfont request. */
 	--font-serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+	--font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	--font-display: var(--font-sans);
+	--font-ui: var(--font-sans);
+	--font-label: var(--font-sans);
 
-	--text-xs: 0.8rem;
-	--text-sm: 0.9rem;
-	--text-base: 1rem;
-	--text-lg: 1.15rem;
-	--text-xl: 1.5rem;
-	--text-2xl: 2rem;
-	--text-3xl: 2.75rem;
+	/* Weights per role */
+	--weight-display: 700;
+	--weight-label: 600;
+	--weight-serif: 400;
 
-	--space-1: 0.25rem;
-	--space-2: 0.5rem;
-	--space-3: 1rem;
-	--space-4: 1.5rem;
-	--space-5: 2.5rem;
-	--space-6: 4rem;
+	/* Type scale, 7 steps. The top three scale between 390px and 1440px viewports. */
+	--text-xs: 12px;
+	--text-sm: 14px;
+	--text-base: 16px;
+	--text-lg: 20px;
+	--text-xl: clamp(22px, 19.77px + 0.571vw, 28px);
+	--text-2xl: clamp(32px, 27.54px + 1.143vw, 44px);
+	--text-3xl: clamp(40px, 28.11px + 3.048vw, 72px);
 
-	--max-width: 72rem;
-	/* Portfolio site frame: near full width, with gutters that grow with the
-	   screen. The demo apps keep --max-width. */
-	--page-width: 110rem;
-	--gutter: clamp(1rem, 3vw, 3rem);
-	--radius: 0.5rem;
+	/* Line-height and tracking */
+	--leading-display: 1.04;
+	--leading-title: 1.15;
+	--leading-text: 1.5;
+	--leading-prose: 1.6;
+	--tracking-display: -0.03em;
+	--tracking-serif: -0.01em;
+	--tracking-text: -0.011em;
+	--tracking-label: 0.06em;
+
+	/* Color: ink on paper, one accent, alpha steps of ink */
+	--color-ink: #0a0a0a;
+	--color-paper: #fafafa;
+	--color-accent: #e5484d;
+	--color-ink-muted: rgb(10 10 10 / 0.6);
+	--color-ink-rule: rgb(10 10 10 / 0.12);
+	--color-ink-ghost: rgb(10 10 10 / 0.1);
+	--color-ink-wash: rgb(10 10 10 / 0.04);
+	--color-paper-muted: rgb(250 250 250 / 0.6);
+	--color-paper-rule: rgb(250 250 250 / 0.14);
+	/* Links, selected states and primary buttons on the long-read pages. Ink,
+	   so red stays reserved for small marks. */
+	--color-link: var(--color-ink);
+	--color-link-contrast: var(--color-paper);
+
+	/* Spacing (4px base) */
+	--space-dot: 4px;
+	--space-tight: 10px;
+	--space-gutter: 16px;
+	--space-stack: 40px;
+	--space-title: 60px;
+	--space-section: 120px;
+	--container: 1180px;
+
+	/* Radius */
+	--radius-sm: 8px;
+	--radius-md: 20px;
+	--radius-full: 9999px;
+
+	/* Icons (components/Icon.astro) */
+	--icon-stroke: 1.5px;
+	--icon-sm: 12px;
+	--icon-md: 18px;
+	--icon-lg: 28px;
+
+	/* Motion */
+	--ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+	--dur-fast: 400ms;
+	--dur-base: 600ms;
+	--dur-slow: 800ms;
 
 	/* Chart colors (Block 5), dataviz skill's validated default palette,
 	   slots 1-2 for categorical series, fixed status colors for state.
@@ -47,33 +93,21 @@
 	--chart-status-warning: #fab219;
 	--chart-status-serious: #ec835a;
 	--chart-status-critical: #d03b3b;
-}
 
-*,
-*::before,
-*::after {
-	box-sizing: border-box;
-}
-
-html {
-	-webkit-text-size-adjust: 100%;
-}
-
-body {
-	margin: 0;
-	font-family: var(--font-sans);
-	font-size: var(--text-base);
-	line-height: 1.6;
-	color: var(--color-text);
-	background: var(--color-bg);
-}
-
-img,
-svg {
-	max-width: 100%;
-	display: block;
-}
-
-a {
-	color: var(--color-accent);
+	/* Legacy aliases (pre-redesign names used by inner pages and charts). */
+	--color-bg: var(--color-paper);
+	--color-bg-subtle: var(--color-ink-wash);
+	--color-text: var(--color-ink);
+	--color-text-muted: var(--color-ink-muted);
+	--color-border: var(--color-ink-rule);
+	--space-1: 0.25rem;
+	--space-2: 0.5rem;
+	--space-3: 1rem;
+	--space-4: 1.5rem;
+	--space-5: 2.5rem;
+	--space-6: 4rem;
+	--max-width: 72rem;
+	--page-width: 110rem;
+	--gutter: clamp(1rem, 3vw, 3rem);
+	--radius: var(--radius-sm);
 }

@@ -1,0 +1,20 @@
+---
+// The 28px square arrow chip; the arrow rotates to point at the target on hover
+// (the parent link needs the `group` class).
+import Icon from '../Icon.astro';
+
+interface Props {
+	inverted?: boolean;
+}
+const { inverted = false } = Astro.props;
+---
+
+<span
+	aria-hidden="true"
+	class:list={[
+		'inline-flex size-7 shrink-0 items-center justify-center rounded-sm',
+		inverted ? 'bg-paper text-ink' : 'bg-ink text-paper',
+	]}
+>
+	<Icon name="arrow" size="sm" class="-rotate-45 transition-transform duration-fast ease-out group-hover:rotate-0" />
+</span>

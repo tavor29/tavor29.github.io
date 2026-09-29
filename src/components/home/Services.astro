@@ -1,0 +1,33 @@
+---
+import Container from '../ui/Container.astro';
+import SectionHead from '../ui/SectionHead.astro';
+import Rule from '../ui/Rule.astro';
+import { services } from '../../data/home';
+---
+
+<section id="services" class="pt-section">
+	<Container class="flex flex-col gap-title">
+		<SectionHead index="02" title="What I do" />
+		<ul>
+			{
+				services.map((s) => (
+					<li
+						data-reveal
+						class="relative flex min-h-section flex-col justify-center gap-tight py-stack md:flex-row md:items-center md:justify-between md:py-0"
+					>
+						<Rule />
+						<h3 class="font-display text-xl tracking-display">{s.title}</h3>
+						<ul class="flex flex-wrap items-center gap-tight text-sm text-ink-muted">
+							{s.tags.map((t, i) => (
+								<li class="flex items-center gap-tight">
+									{i > 0 && <span aria-hidden="true" class="size-dot rounded-full bg-ink" />}
+									{t}
+								</li>
+							))}
+						</ul>
+					</li>
+				))
+			}
+		</ul>
+	</Container>
+</section>

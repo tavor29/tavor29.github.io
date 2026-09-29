@@ -1,0 +1,18 @@
+---
+import ArrowChip from './ArrowChip.astro';
+
+interface Props {
+	href: string;
+	external?: boolean;
+}
+const { href, external = false } = Astro.props;
+---
+
+<a
+	href={href}
+	{...external ? { target: '_blank', rel: 'noreferrer' } : {}}
+	class="group inline-flex items-center gap-tight text-base font-medium"
+>
+	<span class="transition-transform duration-fast ease-out group-hover:translate-x-1"><slot /></span>
+	<ArrowChip />
+</a>

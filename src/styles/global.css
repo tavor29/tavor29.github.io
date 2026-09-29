@@ -1,0 +1,130 @@
+/*
+ * Tailwind without its preflight reset: the long-read pages (case studies,
+ * projects, blog) rely on default heading, paragraph and list styles. The
+ * redesigned chrome and homepage opt into a reset through [data-ui] instead.
+ */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+@import "./tokens.css";
+@config "../../tailwind.config.ts";
+
+/* Font roles that carry a weight as well as a family. */
+@utility font-display {
+	font-family: var(--font-display);
+	font-weight: var(--weight-display);
+}
+@utility font-label {
+	font-family: var(--font-label);
+	font-weight: var(--weight-label);
+}
+@utility font-serif {
+	font-family: var(--font-serif);
+	font-style: italic;
+	font-weight: var(--weight-serif);
+	letter-spacing: var(--tracking-serif);
+}
+
+@layer base {
+	*,
+	*::before,
+	*::after {
+		box-sizing: border-box;
+	}
+
+	html {
+		-webkit-text-size-adjust: 100%;
+		background: var(--color-paper);
+		color: var(--color-ink);
+		-webkit-font-smoothing: antialiased;
+	}
+
+	body {
+		margin: 0;
+		font-family: var(--font-ui);
+		font-size: var(--text-base);
+		line-height: var(--leading-text);
+		letter-spacing: var(--tracking-text);
+		color: var(--color-ink);
+		background: var(--color-paper);
+	}
+
+	img,
+	svg {
+		max-width: 100%;
+		display: block;
+	}
+
+	a {
+		color: var(--color-link);
+	}
+
+	::selection {
+		background: var(--color-ink);
+		color: var(--color-paper);
+	}
+
+	:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 3px;
+	}
+
+	/* Text link with a leading or trailing <Icon>. */
+	.icon-link {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-2);
+	}
+
+	/* Scoped reset for the redesigned chrome (nav, footer) and homepage. */
+	:where([data-ui]) :where(h1, h2, h3, h4, p, ul, ol, li, figure, blockquote) {
+		margin: 0;
+		padding: 0;
+	}
+	:where([data-ui]) :where(ul, ol) {
+		list-style: none;
+	}
+	/* Same specificity as the global `a` rule above and later, so it wins;
+	   utility classes (utilities layer) still override it. */
+	:where([data-ui]) a {
+		color: inherit;
+		text-decoration: inherit;
+	}
+	:where([data-ui]) :where(h1, h2, h3, h4) {
+		font-size: inherit;
+		font-weight: inherit;
+	}
+}
+
+/* Hidden until GSAP runs; reduced motion and no-JS show the final state. */
+.js [data-reveal],
+.js [data-hero-fade] {
+	opacity: 0;
+}
+.js [data-hero-line] {
+	transform: translateY(110%);
+}
+.js [data-word] {
+	opacity: 0.1;
+}
+/* Matches the portrait's scroll-start state so there's no flash before GSAP takes over. */
+.js [data-portrait] {
+	transform: scale(0.45) rotateY(180deg);
+	transform-origin: 50% 100%;
+}
+.js [data-rule] {
+	transform: scaleX(0);
+	transform-origin: left;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.js [data-reveal],
+	.js [data-hero-fade],
+	.js [data-word] {
+		opacity: 1;
+	}
+	.js [data-hero-line],
+	.js [data-rule] {
+		transform: none;
+	}
+}

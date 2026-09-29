@@ -1,0 +1,48 @@
+---
+import { getCollection } from 'astro:content';
+import Container from '../ui/Container.astro';
+import SectionHead from '../ui/SectionHead.astro';
+import Label from '../ui/Label.astro';
+import Rule from '../ui/Rule.astro';
+import ArrowChip from '../ui/ArrowChip.astro';
+import ArrowLink from '../ui/ArrowLink.astro';
+import { withBase } from '../../lib/base';
+
+// Newest six posts from the blog collection, so new posts show up here on their own.
+const posts = (await getCollection('blog'))
+	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+	.slice(0, 6);
+
+const formatDate = (d: Date) =>
+	d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+---
+
+<section id="writing" class="pt-section">
+	<Container class="flex flex-col gap-title">
+		<SectionHead index="04" title="Writing" />
+		<ul>
+			{
+				posts.map((p) => (
+					<li data-reveal class="relative">
+						<Rule />
+						<a
+							href={withBase(`blog/${p.id}/`)}
+							class="group grid grid-cols-[1fr_auto] items-center gap-x-gutter gap-y-1 py-gutter md:grid-cols-12"
+						>
+							<Label class="text-ink-muted md:col-span-3">{formatDate(p.data.date)}</Label>
+							<p class="col-start-1 text-lg font-medium transition-transform duration-base ease-out group-hover:translate-x-tight md:col-span-8 md:col-start-4">
+								{p.data.title}
+							</p>
+							<div class="col-start-2 row-span-2 row-start-1 justify-self-end md:col-span-1 md:col-start-12 md:row-span-1">
+								<ArrowChip />
+							</div>
+						</a>
+					</li>
+				))
+			}
+		</ul>
+		<div data-reveal>
+			<ArrowLink href={withBase('blog/')}>All posts</ArrowLink>
+		</div>
+	</Container>
+</section>

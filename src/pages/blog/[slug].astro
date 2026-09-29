@@ -1,4 +1,5 @@
 ---
+import Icon from '../../components/Icon.astro';
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { withBase } from '../../lib/base';
@@ -26,7 +27,7 @@ const formattedDate = post.data.date.toLocaleDateString('en-US', {
 	<div class="post-layout">
 		<aside class="post-meta">
 			<p class="post-date">{formattedDate}</p>
-			<p class="back-link back-link--top"><a href={withBase('blog/')}>&larr; All posts</a></p>
+			<p class="back-link back-link--top"><a class="icon-link" href={withBase('blog/')}><Icon name="arrow" size="sm" class="rotate-180" />All posts</a></p>
 		</aside>
 
 		<article class="post">
@@ -34,7 +35,7 @@ const formattedDate = post.data.date.toLocaleDateString('en-US', {
 			<div class="post-body">
 				<Content />
 			</div>
-			<p class="back-link"><a href={withBase('blog/')}>&larr; Back to all posts</a></p>
+			<p class="back-link"><a class="icon-link" href={withBase('blog/')}><Icon name="arrow" size="sm" class="rotate-180" />Back to all posts</a></p>
 		</article>
 
 		{
@@ -134,7 +135,7 @@ const formattedDate = post.data.date.toLocaleDateString('en-US', {
 	}
 
 	.post-toc a:hover {
-		color: var(--color-accent);
+		color: var(--color-link);
 	}
 
 	.post h1 {
@@ -190,7 +191,7 @@ const formattedDate = post.data.date.toLocaleDateString('en-US', {
 	}
 
 	.post-body :global(a) {
-		color: var(--color-accent);
+		color: var(--color-link);
 	}
 
 	.back-link {

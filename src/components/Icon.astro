@@ -1,0 +1,61 @@
+---
+/*
+ * The site's only icon source. Draws in currentColor; size and stroke come
+ * from the --icon-* tokens. The four shapes are the original site's marks
+ * (solid = real work, outline = fictional); `arrow` is the link arrow.
+ * Add a new icon by adding a path here, not by inlining an <svg> elsewhere.
+ */
+import type { IconName } from '../lib/icons';
+
+interface Props {
+	name: IconName;
+	size?: 'sm' | 'md' | 'lg';
+	/** Shapes only: filled (default) or outlined. The arrow is always stroked. */
+	variant?: 'solid' | 'outline';
+	label?: string;
+	class?: string;
+}
+
+const { name, size = 'md', variant = 'solid', label, class: className = '' } = Astro.props;
+
+const shapes: Record<Exclude<IconName, 'arrow'>, string> = {
+	half: 'M0 0A24 12 0 0 1 0 24Z',
+	quarter: 'M0 0A24 24 0 0 1 24 24H0Z',
+	circle: 'M12 0a12 12 0 1 1 0 24a12 12 0 1 1 0-24Z',
+	leaf: 'M0 0H12A12 12 0 0 1 24 12V24H12A12 12 0 0 1 0 12Z',
+};
+
+const stroked = name === 'arrow' || variant === 'outline';
+---
+
+<svg
+	class:list={['icon', className]}
+	style={`--icon-size: var(--icon-${size})`}
+	viewBox={name === 'arrow' ? '0 0 24 24' : '-1.5 -1.5 27 27'}
+	fill={stroked ? 'none' : 'currentColor'}
+	stroke={stroked ? 'currentColor' : 'none'}
+	stroke-linecap="round"
+	stroke-linejoin="round"
+	role={label ? 'img' : undefined}
+	aria-label={label}
+	aria-hidden={label ? undefined : 'true'}
+	focusable="false"
+>
+	{
+		name === 'arrow' ? (
+			<path d="M3 12h18M13 4l8 8-8 8" vector-effect="non-scaling-stroke" />
+		) : (
+			<path d={shapes[name]} vector-effect="non-scaling-stroke" />
+		)
+	}
+</svg>
+
+<style>
+	.icon {
+		width: var(--icon-size);
+		height: var(--icon-size);
+		flex-shrink: 0;
+		stroke-width: var(--icon-stroke);
+		overflow: visible;
+	}
+</style>
