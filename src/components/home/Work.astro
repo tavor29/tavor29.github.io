@@ -1,33 +1,19 @@
 ---
-// Selected work: each case study as a full-width hero card, then the coded
-// projects as image cards, two to a row.
+// Selected work: each case study as a full-width hero card.
 import Container from '../ui/Container.astro';
 import SectionHead from '../ui/SectionHead.astro';
 import CaseCard from '../cards/CaseCard.astro';
-import WorkCard from '../cards/WorkCard.astro';
 import { caseStudies } from '../../data/case-studies';
-import { work } from '../../data/work';
-
-const projects = work.filter((w) => !w.real);
 ---
 
 <section id="work" class="pt-section">
 	<Container class="flex flex-col gap-title">
-		<SectionHead index="03" title="Selected work" mark="half" />
+		<SectionHead index="03" eyebrow="Case studies" title="Selected work" mark="half" />
 		<ul class="flex flex-col gap-gutter">
 			{
 				caseStudies.map((c) => (
 					<li>
 						<CaseCard c={c} />
-					</li>
-				))
-			}
-		</ul>
-		<ul class="grid gap-x-gutter gap-y-stack md:grid-cols-2">
-			{
-				projects.map((item) => (
-					<li>
-						<WorkCard item={item} />
 					</li>
 				))
 			}

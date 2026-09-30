@@ -1,8 +1,10 @@
 ---
-// The hero badges: three headline numbers under About. Each number counts up once as the row
-// scrolls in (data-count, scripts/motion.ts); the final value is in the HTML,
-// so no-JS and reduced motion just show it.
+// "Results from recent roles": six countable facts under About, each with the
+// company it happened at. Numbers count up once as they scroll in (data-count,
+// scripts/motion.ts); the final value is in the HTML, so no-JS and reduced
+// motion just show it.
 import Container from '../ui/Container.astro';
+import Label from '../ui/Label.astro';
 import Rule from '../ui/Rule.astro';
 import Icon from '../Icon.astro';
 import { stats } from '../../data/home';
@@ -10,18 +12,22 @@ import { stats } from '../../data/home';
 const format = (n: number) => n.toLocaleString('en-US');
 ---
 
-<section aria-label="In numbers" class="pt-section">
-	<Container>
-		<ul class="grid grid-cols-1 gap-x-gutter sm:grid-cols-3">
+<section aria-labelledby="results-heading" class="pt-section">
+	<Container class="flex flex-col gap-stack">
+		<Label class="text-ink-muted"><span id="results-heading">Results from recent roles</span></Label>
+		<ul class="grid grid-cols-1 gap-x-gutter sm:grid-cols-2 lg:grid-cols-3">
 			{
 				stats.map((s) => (
 					<li data-reveal class="group relative flex flex-col gap-tight py-stack pr-gutter">
 						<Rule />
-						<Icon name={s.mark} size="md" tone="mark" class="transition-transform duration-fast ease-out group-hover:rotate-90" />
 						<p class="font-display text-3xl leading-display tracking-display">
 							{s.prefix}<span data-count={s.value}>{format(s.value)}</span>{s.suffix}
 						</p>
-						<p class="text-sm text-ink-muted">{s.label}</p>
+						<p class="text-base">{s.label}</p>
+						<Label class="flex items-center gap-tight text-ink-muted">
+							<Icon name={s.mark} size="sm" tone="mark" class="transition-transform duration-fast ease-out group-hover:rotate-90" />
+							{s.where}
+						</Label>
 					</li>
 				))
 			}

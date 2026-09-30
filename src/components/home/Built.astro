@@ -1,0 +1,30 @@
+---
+// Things I've built: the coded projects as image cards.
+import Container from '../ui/Container.astro';
+import SectionHead from '../ui/SectionHead.astro';
+import WorkCard from '../cards/WorkCard.astro';
+import ArrowLink from '../ui/ArrowLink.astro';
+import { work } from '../../data/work';
+import { withBase } from '../../lib/base';
+
+const projects = work.filter((w) => !w.real);
+---
+
+<section id="built" class="pt-section">
+	<Container class="flex flex-col gap-title">
+		<SectionHead index="04" eyebrow="Things I’ve built" title="Real pain. Real solutions." mark="leaf" />
+		<ul class="grid gap-x-gutter gap-y-stack md:grid-cols-2">
+			{
+				projects.map((item) => (
+					<li>
+						<WorkCard item={item} />
+					</li>
+				))
+			}
+		</ul>
+		<div data-reveal class="flex flex-wrap gap-x-stack gap-y-gutter">
+			<ArrowLink href={withBase('projects/')}>View all projects</ArrowLink>
+			<ArrowLink href={withBase('templates/')}>Templates &amp; docs</ArrowLink>
+		</div>
+	</Container>
+</section>

@@ -11,7 +11,13 @@ import { services } from '../../data/home';
 
 <section id="services" class="pt-section">
 	<Container class="flex flex-col gap-title">
-		<SectionHead index="02" title="What I do" mark="circle" />
+		<SectionHead
+			index="02"
+			eyebrow="Discipline"
+			title="What I actually do"
+			intro="Technical program delivery, AI governance, and the tools I build when the right one doesn’t exist."
+			mark="circle"
+		/>
 		<ul class="grid gap-gutter md:grid-cols-3">
 			{
 				services.map((s) => (
