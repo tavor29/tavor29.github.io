@@ -67,11 +67,13 @@ const marks: IconName[] = ['half', 'quarter', 'circle', 'leaf'];
 				<span aria-hidden="true" class="size-dot rounded-full bg-accent"></span>
 				{person.role}
 			</Label>
+			{/* Each line rises out of its own mask on load. The masks are padded (and pulled
+			    back with negative margins) so ascenders and descenders aren't clipped. */}
 			<h1 class="font-display text-2xl leading-display tracking-display md:text-3xl">
-				<span class="block overflow-hidden pb-1">
+				<span class="block overflow-hidden pt-tight pb-gutter -mt-tight -mb-gutter">
 					<span data-hero-line data-shape-obstacle class="block text-balance">{person.heroLead}</span>
 				</span>
-				<span class="block overflow-hidden pb-1">
+				<span class="block overflow-hidden pt-tight pb-gutter -mt-tight -mb-gutter">
 					<span data-hero-line data-shape-obstacle class="block text-balance font-serif">
 						{person.heroEmphasis}<span class="text-accent">.</span>
 					</span>

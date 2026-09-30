@@ -10,12 +10,12 @@ import { caseStudies } from '../../data/case-studies';
 import { withBase } from '../../lib/base';
 import type { IconName } from '../../lib/icons';
 
-// Real case studies first, then the coded projects (fictional company).
+// Case studies first, then the coded projects.
 const rows: { title: string; blurb: string; label: string; href: string; mark: IconName; real: boolean }[] = [
 	...caseStudies.map((c) => ({
 		title: c.title,
 		blurb: c.challenge,
-		label: `Real work · ${c.org} · ${c.years}`,
+		label: `${c.org} · ${c.years}`,
 		href: `case-studies/${c.slug}/`,
 		mark: c.mark,
 		real: true,
@@ -36,14 +36,13 @@ const rows: { title: string; blurb: string; label: string; href: string; mark: I
 							href={withBase(w.href)}
 							class="group grid grid-cols-[auto_1fr_auto] items-start gap-x-gutter gap-y-tight py-stack md:grid-cols-12"
 						>
-							{/* Solid mark = real work, outline = fictional company (as on the original site). */}
+							{/* Solid mark = case study, outline = coded project (as on the original site). */}
 							<span class="md:col-span-1">
 								<Icon
 									name={w.mark}
 									size="lg"
 									variant={w.real ? 'solid' : 'outline'}
 									tone="mark"
-									label={w.real ? 'Real work' : 'Fictional company'}
 									class="transition-transform duration-fast ease-out group-hover:rotate-90"
 								/>
 							</span>

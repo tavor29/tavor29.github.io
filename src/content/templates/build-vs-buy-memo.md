@@ -7,7 +7,7 @@ mark: 'circle'
 order: 4
 ---
 
-A worked example from the AI Project Intake & Governance Agent, written for **Meridian Dynamics, a fictional company**. Reuse the structure: one question, each option's real trade-off, one recommendation with the condition that would change it.
+A worked example from the AI Project Intake & Governance Agent demo, written for Meridian Dynamics, the company the demo is set in. Reuse the structure: one question, each option's real trade-off, one recommendation with the condition that would change it.
 
 ## Build vs. buy vs. partner: AI project intake and governance tooling
 

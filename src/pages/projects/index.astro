@@ -5,7 +5,7 @@ import { withBase } from '../../lib/base';
 import type { IconName } from '../../lib/icons';
 
 // Blurbs verbatim from portfolio-content-package.md's "Homepage copy" section.
-// Marks match the homepage's Selected work rows (outline = fictional company).
+// Marks match the homepage's Selected work rows (outline = coded project).
 const projects: Array<{ title: string; body: string; href: string; mark: IconName }> = [
 	{
 		title: 'AI Project Intake & Governance Agent, flagship',
@@ -33,7 +33,7 @@ const projects: Array<{ title: string; body: string; href: string; mark: IconNam
 					href={p.href}
 					title={p.title}
 					body={p.body}
-					label="Coded project · fictional company"
+					label="Coded project"
 					mark={p.mark}
 					real={false}
 				/>

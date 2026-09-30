@@ -15,12 +15,12 @@ interface Props {
 	href: string;
 	title: string;
 	body?: string;
-	/** Small uppercase line under the body, e.g. "Real work · case study". */
+	/** Small uppercase line under the body, e.g. "Keshet Media Group · 2026". */
 	label?: string;
 	/** Leading date or short text, used instead of a mark. */
 	meta?: string;
 	mark?: IconName;
-	/** Solid mark for real work, outline for a fictional company. */
+	/** Solid mark for case studies and real-work items, outline for coded projects and worked examples. */
 	real?: boolean;
 }
 
@@ -42,7 +42,6 @@ const { href, title, body, label, meta, mark, real = true } = Astro.props;
 						size="lg"
 						variant={real ? 'solid' : 'outline'}
 						tone="mark"
-						label={real ? 'Real work' : 'Fictional company'}
 						class="transition-transform duration-fast ease-out group-hover:rotate-90"
 					/>
 				) : (

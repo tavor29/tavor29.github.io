@@ -7,7 +7,7 @@ import { caseStudies } from '../../data/case-studies';
 
 <BaseLayout title="Case Studies">
 	<h1>Case Studies</h1>
-	<p class="dek">Real work, each in context, challenge, actions and results.</p>
+	<p class="dek">Each told as context, challenge, actions and results.</p>
 
 	<ol data-ui class="rows">
 		{
@@ -16,7 +16,7 @@ import { caseStudies } from '../../data/case-studies';
 					href={withBase(`case-studies/${c.slug}/`)}
 					title={c.title}
 					body={c.challenge}
-					label={`Real work · ${c.role} · ${c.org} · ${c.years}`}
+					label={`${c.role} · ${c.org} · ${c.years}`}
 					mark={c.mark}
 				/>
 			))

@@ -2,7 +2,6 @@
 import Icon from '../../../components/Icon.astro';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import '../../../styles/editorial.css';
-import OriginBadge from '../../../components/OriginBadge.astro';
 import { withBase } from '../../../lib/base';
 
 const repoUrl = 'https://github.com/tavor29/citizen-development-governance';
@@ -11,9 +10,8 @@ const demoUrl = 'https://tavor29.github.io/citizen-development-governance/';
 
 <BaseLayout title="Citizen Development Governance Model">
 	<div class="editorial">
-		<!-- Same mark as this page's row on the homepage (solid = real work, outline = fictional). -->
+		<!-- Same mark as this page's row on the homepage. -->
 		<div data-shape-in class="page-mark"><Icon name="leaf" size="xl" variant="outline" tone="mark" /></div>
-		<OriginBadge origin="fictional" />
 		<h1>Citizen Development Governance Model</h1>
 
 		<p class="links">

@@ -51,7 +51,7 @@ const templates = defineCollection({
 		summary: z.string(),
 		/** What kind of document it is, shown as the row's label. */
 		kind: z.string(),
-		/** Worked examples set in the fictional company must say so on the page. */
+		/** `fictional` = worked example from a coded-project demo (outline mark); `generic` = a blank template. */
 		origin: z.enum(['fictional', 'generic']),
 		mark: z.enum(['half', 'quarter', 'circle', 'leaf']),
 		order: z.number(),

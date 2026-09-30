@@ -7,7 +7,7 @@ mark: 'leaf'
 order: 5
 ---
 
-A worked example from the Citizen Development Governance Model, **illustrative, set in a fictional company**. Reuse the columns for your own list; the value is in writing the sequencing recommendation, not just the scores.
+An illustrative worked example from the Citizen Development Governance Model demo. Reuse the columns for your own list; the value is in writing the sequencing recommendation, not just the scores.
 
 ## Matrix
 

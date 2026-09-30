@@ -57,7 +57,7 @@ export const services: { title: string; text: string; mark: IconName }[] = [
 ];
 
 // Coded projects for the Selected work list (case studies come first, from
-// ./case-studies.ts). Outline mark = fictional company.
+// ./case-studies.ts). They get an outline mark; case studies get a solid one.
 export const projects: {
 	title: string;
 	blurb: string;
@@ -69,7 +69,7 @@ export const projects: {
 		title: 'AI Project Intake & Governance Agent',
 		blurb:
 			'An agent that turns a chat-based tool request into a structured intake with a duplication check and a risk score.',
-		label: 'Flagship · coded project · fictional company',
+		label: 'Flagship · coded project',
 		href: 'projects/ai-intake-governance-agent/',
 		mark: 'circle',
 	},
@@ -77,7 +77,7 @@ export const projects: {
 		title: 'Citizen Development Governance Model',
 		blurb:
 			'A tracked path from idea to production for internally built tools, with a maintenance owner at every stage.',
-		label: 'Coded project · fictional company',
+		label: 'Coded project',
 		href: 'projects/citizen-development-governance/',
 		mark: 'leaf',
 	},

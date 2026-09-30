@@ -3,7 +3,6 @@
 // Results from src/data/case-studies.ts, then the page's own artifacts (charts,
 // diagrams) passed in as the default slot.
 import BaseLayout from '../layouts/BaseLayout.astro';
-import OriginBadge from './OriginBadge.astro';
 import Icon from './Icon.astro';
 import { withBase } from '../lib/base';
 import { caseStudyBySlug } from '../data/case-studies';
@@ -19,7 +18,6 @@ const c = caseStudyBySlug(Astro.props.slug);
 <BaseLayout title={c.org} description={c.challenge}>
 	<div class="editorial">
 		<div data-shape-in class="page-mark"><Icon name={c.mark} size="xl" tone="mark" /></div>
-		<OriginBadge origin="real" />
 		<h1>{c.title}</h1>
 		<p class="dek">Case study {c.number} · {c.role} · {c.org} · {c.years}</p>
 
