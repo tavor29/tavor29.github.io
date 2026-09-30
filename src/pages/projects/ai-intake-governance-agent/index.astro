@@ -4,6 +4,12 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import '../../../styles/editorial.css';
 import IntakeWalkthrough from '../../../components/charts/IntakeWalkthrough.astro';
 import { withBase } from '../../../lib/base';
+import { work } from '../../../data/work';
+import PageCover from '../../../components/cards/PageCover.astro';
+import MoreWork from '../../../components/cards/MoreWork.astro';
+
+const href = 'projects/ai-intake-governance-agent/';
+const item = work.find((w) => w.href === href)!;
 
 const repoUrl = 'https://github.com/tavor29/ai-intake-governance-agent';
 const demoUrl = 'https://ai-intake-governance-agent.vercel.app';
@@ -19,6 +25,7 @@ const demoUrl = 'https://ai-intake-governance-agent.vercel.app';
 			<a href={demoUrl}>Live demo</a> &middot; <a href={repoUrl}>Source on GitHub</a> &middot;
 			<a href={withBase('case-studies/keshet/')}>The real problem behind this</a>
 		</p>
+		<PageCover item={item} />
 
 		<section>
 			<h2>Problem</h2>
@@ -112,6 +119,7 @@ const demoUrl = 'https://ai-intake-governance-agent.vercel.app';
 				</table>
 			</div>
 		</section>
+		<MoreWork href={href} />
 	</div>
 </BaseLayout>
 

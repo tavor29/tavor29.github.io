@@ -25,7 +25,11 @@ const caseStudies = defineCollection({
 
 const blog = defineCollection({
 	loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/blog' }),
-	schema: z.object(entryFields),
+	schema: z.object({
+		...entryFields,
+		/** Short topic shown as the pill on the post's card, e.g. 'Governance'. */
+		tag: z.string().optional(),
+	}),
 });
 
 const openSource = defineCollection({

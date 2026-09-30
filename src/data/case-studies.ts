@@ -1,7 +1,11 @@
 // The three real-work case studies, in Context / Challenge / Actions / Results
 // form. Copy from ../portfolio-copy-merged.md. Used by the homepage's Selected
 // work list, the case-studies index and each case-study page.
+import type { ImageMetadata } from 'astro';
 import type { IconName } from '../lib/icons';
+import keshetCover from '../assets/work/keshet.jpg';
+import appliedCover from '../assets/work/applied-materials.jpg';
+import ibmCover from '../assets/work/ibm.jpg';
 
 export type CaseStudy = {
 	slug: string;
@@ -12,11 +16,18 @@ export type CaseStudy = {
 	role: string;
 	years: string;
 	mark: IconName;
+	/** Key impact line for the case study's card. */
+	summary: string;
+	/** Pill badges on the card. */
+	badges: string[];
 	context: string;
 	challenge: string;
 	actions: string[];
 	/** `lead` is set in bold before the rest of the sentence. */
 	results: { lead: string; text: string }[];
+	/** Cover photo (src/assets/work/); cards fall back to generated art without one. */
+	cover?: ImageMetadata;
+	coverAlt?: string;
 };
 
 export const caseStudies: CaseStudy[] = [
@@ -28,6 +39,11 @@ export const caseStudies: CaseStudy[] = [
 		role: 'Business Operations Manager',
 		years: '2026',
 		mark: 'half',
+		cover: keshetCover,
+		coverAlt: 'A single light glowing in a dark room',
+		summary:
+			'Established an executive AI steering committee alongside the CIO to transition 40+ unmonitored employee workflows into secure, compliant enterprise tools.',
+		badges: ['AI Governance', 'Security Boundaries', 'SaaS License Optimization'],
 		context: 'Rapid adoption of generative AI across business units created workflows that sat outside R&D oversight.',
 		challenge:
 			'40+ employees were building AI workflows with no standard security protocols, budget lines, or data-protection rules.',
@@ -50,6 +66,11 @@ export const caseStudies: CaseStudy[] = [
 		role: 'IT Project Manager & Infrastructure Lead',
 		years: '2023–2026',
 		mark: 'quarter',
+		cover: appliedCover,
+		coverAlt: 'Network cables patched into a switch panel',
+		summary:
+			'Managed the multi-year IT/R&D infrastructure portfolio for a 1,200+ employee facility, building automated SQL & Tableau dashboards for live C-suite visibility.',
+		badges: ['CapEx/OpEx', 'SQL & Tableau Telemetry'],
 		context: 'Overhaul of R&D and production IT infrastructure supporting a facility of 1,200+ employees.',
 		challenge:
 			'High-stakes delivery across R&D, IT, Finance, and external contractors, with strict production schedules and long-lead hardware bottlenecks.',
@@ -72,6 +93,11 @@ export const caseStudies: CaseStudy[] = [
 		role: 'Operations Manager',
 		years: '2021–2023',
 		mark: 'circle',
+		cover: ibmCover,
+		coverAlt: 'Bundles of network cables running into a rack',
+		summary:
+			'Led cross-system migrations and disaster-recovery initiatives with hands-on UAT ownership, achieving zero operational downtime for end users.',
+		badges: ['UAT & Hypercare', 'Disaster Recovery'],
 		context: 'Cross-system IT transformation and infrastructure migrations for enterprise clients.',
 		challenge: 'Migrating mission-critical systems while keeping operations running with no user disruption.',
 		actions: [

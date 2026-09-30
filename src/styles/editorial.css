@@ -10,6 +10,11 @@
 }
 
 
+/* A case-study or project page's cover image, under the title. */
+.editorial > .page-cover {
+	margin-top: var(--space-5);
+}
+
 .editorial section {
 	margin-top: var(--space-5);
 	max-width: 44rem;

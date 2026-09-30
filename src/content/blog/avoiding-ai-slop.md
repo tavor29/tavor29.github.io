@@ -3,6 +3,7 @@ title: 'How to Avoid Slop (Content, Visual, Ideation), and Why You Need to Ask t
 summary: 'Why default AI output trends toward generic, agreeable slop, and the technique (asking the model to argue against you) that fixes it.'
 origin: real
 date: 2026-09-15
+tag: 'AI practice'
 ---
 "Slop" gets talked about like it's a quality problem, like the AI just isn't good enough yet. It isn't. It's a default-settings problem. AI tools default to agreeable, safe, statistically average output unless you deliberately push them somewhere else. Slop is what you get when you accept the first, most expected answer.
 

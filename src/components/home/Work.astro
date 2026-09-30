@@ -1,65 +1,36 @@
 ---
+// Selected work: each case study as a full-width hero card, then the coded
+// projects as image cards, two to a row.
 import Container from '../ui/Container.astro';
 import SectionHead from '../ui/SectionHead.astro';
-import Label from '../ui/Label.astro';
-import Rule from '../ui/Rule.astro';
-import ArrowChip from '../ui/ArrowChip.astro';
-import Icon from '../Icon.astro';
-import { projects } from '../../data/home';
+import CaseCard from '../cards/CaseCard.astro';
+import WorkCard from '../cards/WorkCard.astro';
 import { caseStudies } from '../../data/case-studies';
-import { withBase } from '../../lib/base';
-import type { IconName } from '../../lib/icons';
+import { work } from '../../data/work';
 
-// Case studies first, then the coded projects.
-const rows: { title: string; blurb: string; label: string; href: string; mark: IconName; real: boolean }[] = [
-	...caseStudies.map((c) => ({
-		title: c.title,
-		blurb: c.challenge,
-		label: `${c.org} · ${c.years}`,
-		href: `case-studies/${c.slug}/`,
-		mark: c.mark,
-		real: true,
-	})),
-	...projects.map((p) => ({ ...p, real: false })),
-];
+const projects = work.filter((w) => !w.real);
 ---
 
 <section id="work" class="pt-section">
 	<Container class="flex flex-col gap-title">
 		<SectionHead index="03" title="Selected work" mark="half" />
-		<ol>
+		<ul class="flex flex-col gap-gutter">
 			{
-				rows.map((w) => (
-					<li data-reveal class="relative">
-						<Rule />
-						<a
-							href={withBase(w.href)}
-							class="group grid grid-cols-[auto_1fr_auto] items-start gap-x-gutter gap-y-tight py-stack md:grid-cols-12"
-						>
-							{/* Solid mark = case study, outline = coded project (as on the original site). */}
-							<span class="md:col-span-1">
-								<Icon
-									name={w.mark}
-									size="lg"
-									variant={w.real ? 'solid' : 'outline'}
-									tone="mark"
-									class="transition-transform duration-fast ease-out group-hover:rotate-90"
-								/>
-							</span>
-							<h3 class="font-display text-xl leading-title tracking-display transition-transform duration-base ease-out group-hover:translate-x-tight md:col-span-5">
-								{w.title}
-							</h3>
-							<div class="col-start-2 row-start-2 flex flex-col gap-tight md:col-span-5 md:col-start-7 md:row-start-1">
-								<p class="text-base text-ink-muted">{w.blurb}</p>
-								<Label>{w.label}</Label>
-							</div>
-							<div class="col-start-3 row-start-1 justify-self-end md:col-span-1 md:col-start-12">
-								<ArrowChip />
-							</div>
-						</a>
+				caseStudies.map((c) => (
+					<li>
+						<CaseCard c={c} />
 					</li>
 				))
 			}
-		</ol>
+		</ul>
+		<ul class="grid gap-x-gutter gap-y-stack md:grid-cols-2">
+			{
+				projects.map((item) => (
+					<li>
+						<WorkCard item={item} />
+					</li>
+				))
+			}
+		</ul>
 	</Container>
 </section>

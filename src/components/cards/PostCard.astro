@@ -1,0 +1,71 @@
+---
+// An insight card (the reference's Thoughts cards, laid out like Tavor's
+// playbook sketch): generated cover art dimmed behind an ink fade, "DATE • TOPIC"
+// on top, then title, excerpt and a "Read" line at the bottom.
+import CoverArt from '../CoverArt.astro';
+import Icon from '../Icon.astro';
+import Label from '../ui/Label.astro';
+
+interface Props {
+	href: string;
+	slug: string;
+	title: string;
+	date: Date;
+	summary?: string;
+	tag?: string;
+}
+
+const { href, slug, title, date, summary, tag } = Astro.props;
+const formatted = date.toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' });
+---
+
+<a
+	href={href}
+	data-reveal
+	class="post-card group relative flex aspect-[3/4] flex-col justify-between overflow-hidden rounded-md bg-ink p-gutter text-paper no-underline md:p-stack"
+>
+	<CoverArt
+		seed={slug}
+		dark
+		class="post-card__art absolute inset-0 transition-[transform,opacity] duration-slow ease-out group-hover:scale-105"
+	/>
+	<div aria-hidden="true" class="post-card__shade absolute inset-0"></div>
+
+	<Label class="relative text-paper-muted">
+		{formatted}{tag && <span class="text-paper"> • {tag}</span>}
+	</Label>
+
+	<div class="relative flex flex-col gap-tight">
+		<h3 class="font-display text-xl leading-title tracking-display text-balance">{title}</h3>
+		{summary && <p class="post-card__summary text-sm text-paper-muted">{summary}</p>}
+		<p class="mt-tight flex items-center gap-tight text-sm font-semibold">
+			Read
+			<Icon name="arrow" size="sm" class="-rotate-45 transition-transform duration-fast ease-out group-hover:rotate-0" />
+		</p>
+	</div>
+</a>
+
+<style>
+	/* The art sits back so the text leads; it comes forward a little on hover. */
+	.post-card__art {
+		opacity: 0.55;
+	}
+	.post-card:hover .post-card__art,
+	.post-card:focus-visible .post-card__art {
+		opacity: 0.8;
+	}
+
+	/* Ink at the bottom (title) and a lighter band at the top (date line) so white text reads over any art. */
+	.post-card__shade {
+		background:
+			linear-gradient(to bottom, rgb(10 10 10 / 0.7) 0%, rgb(10 10 10 / 0) 22%),
+			linear-gradient(to top, var(--color-ink) 0%, rgb(10 10 10 / 0.75) 45%, rgb(10 10 10 / 0.1) 80%);
+	}
+
+	.post-card__summary {
+		display: -webkit-box;
+		-webkit-line-clamp: 3;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+</style>

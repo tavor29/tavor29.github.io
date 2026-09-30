@@ -1,5 +1,8 @@
 ---
 import Icon from '../../components/Icon.astro';
+import CoverArt from '../../components/CoverArt.astro';
+import PostCard from '../../components/cards/PostCard.astro';
+import SectionHead from '../../components/ui/SectionHead.astro';
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { withBase } from '../../lib/base';
@@ -15,6 +18,12 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content, headings } = await render(post);
 const sections = headings.filter((h) => h.depth === 2);
+
+// "More articles": the three newest other posts.
+const more = (await getCollection('blog'))
+	.filter((p) => p.id !== post.id)
+	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+	.slice(0, 3);
 
 const formattedDate = post.data.date.toLocaleDateString('en-US', {
 	year: 'numeric',
@@ -32,6 +41,7 @@ const formattedDate = post.data.date.toLocaleDateString('en-US', {
 
 		<article class="post">
 			<h1>{post.data.title}</h1>
+			<div class="post-cover"><CoverArt seed={post.id} shape="wide" /></div>
 			<div class="post-body">
 				<Content />
 			</div>
@@ -53,9 +63,33 @@ const formattedDate = post.data.date.toLocaleDateString('en-US', {
 			)
 		}
 	</div>
+	<section data-ui class="more-articles flex flex-col gap-title">
+		<SectionHead title="More articles" mark="leaf" />
+		<ul class="grid gap-gutter sm:grid-cols-2 lg:grid-cols-3">
+			{
+				more.map((p) => (
+					<li>
+						<PostCard href={withBase(`blog/${p.id}/`)} slug={p.id} title={p.data.title} date={p.data.date} summary={p.data.summary} tag={p.data.tag} />
+					</li>
+				))
+			}
+		</ul>
+	</section>
 </BaseLayout>
 
 <style>
+	/* Generated cover under the title (lib/cover-art.ts), the reference's article image. */
+	.post-cover {
+		aspect-ratio: 74 / 43;
+		border-radius: var(--radius-md);
+		overflow: hidden;
+		margin-top: var(--space-4);
+	}
+
+	.more-articles {
+		margin-top: var(--space-section);
+	}
+
 	/* Reading layout: the article stays at a comfortable line length in the
 	   middle; on wide screens the date/back link and an "On this page" list
 	   take the side columns. Below 72rem it's a single column. */

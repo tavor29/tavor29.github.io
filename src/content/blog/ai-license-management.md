@@ -3,6 +3,7 @@ title: 'How to Manage AI Licenses (Shadow AI, Onboarding/Offboarding, and Empty 
 summary: 'Shadow AI, slow onboarding/offboarding, and empty seats are SaaS license sprawl''s problems again, faster and higher-stakes.'
 origin: real
 date: 2026-09-11
+tag: 'Licensing'
 ---
 Remember when SaaS sprawl became a real budget line item, with dozens of tools, half of them redundant, and license counts nobody could fully account for? The AI tool stack is repeating that pattern, faster, with higher stakes. Most companies haven't caught up on managing it yet, and the cost shows up in two places at once: the budget, and the security posture.
 

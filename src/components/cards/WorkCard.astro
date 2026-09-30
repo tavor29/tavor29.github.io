@@ -1,0 +1,52 @@
+---
+// A work card (the reference's project cards): a wide rounded image, then the
+// title and label underneath. The image is the item's cover photo, or its
+// generated art until a photo is chosen. The item's mark sits on the image.
+import { Image } from 'astro:assets';
+import CoverArt from '../CoverArt.astro';
+import Icon from '../Icon.astro';
+import Label from '../ui/Label.astro';
+import ArrowChip from '../ui/ArrowChip.astro';
+import type { WorkItem } from '../../data/work';
+import { withBase } from '../../lib/base';
+
+interface Props {
+	item: WorkItem;
+}
+
+const { item } = Astro.props;
+---
+
+<a href={withBase(item.href)} data-reveal class="group flex flex-col gap-gutter text-ink no-underline">
+	<div class="relative aspect-[29/20] overflow-hidden rounded-md bg-ink">
+		{
+			item.cover ? (
+				<Image
+					src={item.cover}
+					alt={item.coverAlt ?? ''}
+					widths={[600, 1200]}
+					sizes="(min-width: 768px) 580px, 100vw"
+					class="absolute inset-0 h-full w-full object-cover grayscale transition-transform duration-slow ease-out group-hover:scale-105"
+				/>
+			) : (
+				<CoverArt seed={item.slug} shape="wide" class="absolute inset-0 transition-transform duration-slow ease-out group-hover:scale-105" />
+			)
+		}
+		<span aria-hidden="true" class="absolute top-gutter left-gutter">
+			<Icon
+				name={item.mark}
+				size="lg"
+				variant={item.real ? 'solid' : 'outline'}
+				tone="mark"
+				class="transition-transform duration-fast ease-out group-hover:rotate-90"
+			/>
+		</span>
+	</div>
+	<div class="flex items-start justify-between gap-gutter">
+		<div class="flex flex-col gap-tight">
+			<h3 class="font-display text-xl leading-title tracking-display">{item.title}</h3>
+			<Label class="text-ink-muted">{item.label}</Label>
+		</div>
+		<ArrowChip />
+	</div>
+</a>

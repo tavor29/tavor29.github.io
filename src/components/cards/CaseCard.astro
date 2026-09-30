@@ -1,0 +1,77 @@
+---
+// A case study as a hero-sized card: the cover (photo, or generated art until
+// one is chosen) fills the card under an ink fade; company and "year / case"
+// on top, then title, key impact, pill badges and the call to action.
+import { Image } from 'astro:assets';
+import CoverArt from '../CoverArt.astro';
+import Icon from '../Icon.astro';
+import Label from '../ui/Label.astro';
+import type { CaseStudy } from '../../data/case-studies';
+import { withBase } from '../../lib/base';
+
+interface Props {
+	c: CaseStudy;
+}
+
+const { c } = Astro.props;
+const yearEnd = c.years.split('–').pop();
+---
+
+<a
+	href={withBase(`case-studies/${c.slug}/`)}
+	data-reveal
+	class="case-card group relative flex min-h-[34rem] flex-col justify-between overflow-hidden rounded-md bg-ink p-gutter text-paper no-underline md:aspect-[16/8] md:min-h-0 md:p-stack"
+>
+	{
+		c.cover ? (
+			<Image
+				src={c.cover}
+				alt=""
+				widths={[800, 1600, 2400]}
+				sizes="(min-width: 1260px) 1180px, 100vw"
+				class="case-card__art absolute inset-0 h-full w-full object-cover grayscale transition-transform duration-slow ease-out group-hover:scale-105"
+			/>
+		) : (
+			<CoverArt seed={c.slug} shape="wide" dark class="case-card__art absolute inset-0 transition-transform duration-slow ease-out group-hover:scale-105" />
+		)
+	}
+	<div aria-hidden="true" class="case-card__shade absolute inset-0"></div>
+
+	<div class="relative flex items-center justify-between gap-gutter">
+		<Label class="flex items-center gap-tight">
+			<Icon name={c.mark} size="md" tone="mark" class="transition-transform duration-fast ease-out group-hover:rotate-90" />
+			{c.org}
+		</Label>
+		<Label class="text-paper-muted">{yearEnd} / Case {c.number}</Label>
+	</div>
+
+	<div class="relative flex max-w-3xl flex-col gap-gutter">
+		<h3 class="font-display text-2xl leading-title tracking-display text-balance">{c.title}</h3>
+		<p class="text-base text-paper-muted md:text-lg">
+			<span class="font-semibold text-paper">Key impact:</span>{' '}
+			{c.summary}
+		</p>
+		<ul class="flex flex-wrap gap-tight">
+			{c.badges.map((b) => <li class="rounded-full border border-paper-rule bg-ink px-tight py-1 text-xs font-semibold">{b}</li>)}
+		</ul>
+		<p class="flex items-center gap-tight text-sm font-semibold">
+			Explore full case study
+			<Icon name="arrow" size="sm" class="transition-transform duration-fast ease-out group-hover:translate-x-1" />
+		</p>
+	</div>
+</a>
+
+<style>
+	.case-card__art {
+		opacity: 0.7;
+	}
+	.case-card:hover .case-card__art,
+	.case-card:focus-visible .case-card__art {
+		opacity: 0.85;
+	}
+
+	/* Ink from the bottom-left, where the text sits. */
+	.case-card__shade {
+		background: linear-gradient(to top, var(--color-ink) 0%, rgb(10 10 10 / 0.7) 45%, rgb(10 10 10 / 0.2) 100%);
+	}
+</style>

@@ -1,35 +1,43 @@
 ---
+// What I do: the three operating pillars as bento cards. Each card has an
+// illustration in the site's palette behind a frosted-glass text panel.
 import Container from '../ui/Container.astro';
 import SectionHead from '../ui/SectionHead.astro';
-import Rule from '../ui/Rule.astro';
+import Label from '../ui/Label.astro';
 import Icon from '../Icon.astro';
+import PillarArt from '../PillarArt.astro';
 import { services } from '../../data/home';
 ---
 
 <section id="services" class="pt-section">
 	<Container class="flex flex-col gap-title">
 		<SectionHead index="02" title="What I do" mark="circle" />
-		<ul>
+		<ul class="grid gap-gutter md:grid-cols-3">
 			{
 				services.map((s) => (
-					<li
-						data-reveal
-						class="group relative flex min-h-section flex-col justify-center gap-tight py-stack md:flex-row md:items-center md:justify-between md:py-0"
-					>
-						<Rule />
-						<h3 class="flex items-center gap-gutter font-display text-xl tracking-display">
-							<Icon
-								name={s.mark}
-								size="lg"
-								tone="mark"
-								class="transition-transform duration-fast ease-out group-hover:rotate-90"
-							/>
-							{s.title}
-						</h3>
-						<p class="max-w-md text-base text-ink-muted md:text-right">{s.text}</p>
+					<li data-reveal class="group relative flex aspect-[4/5] flex-col justify-end overflow-hidden rounded-md bg-ink p-gutter text-paper">
+						<PillarArt variant={s.art} class="absolute inset-0 transition-transform duration-slow ease-out group-hover:scale-105" />
+						<div class="glass relative flex flex-col gap-tight rounded-sm p-gutter">
+							<Label class="flex items-center gap-tight text-paper-muted">
+								<Icon name={s.mark} size="sm" tone="mark" />
+								{s.tag}
+							</Label>
+							<h3 class="font-display text-xl leading-title tracking-display">{s.title}</h3>
+							<p class="text-sm text-paper-muted">{s.text}</p>
+						</div>
 					</li>
 				))
 			}
 		</ul>
 	</Container>
 </section>
+
+<style>
+	/* Frosted glass: the illustration shows through, blurred, behind the text. */
+	.glass {
+		background: var(--glass-bg);
+		border: 1px solid var(--color-paper-rule);
+		-webkit-backdrop-filter: blur(var(--glass-blur));
+		backdrop-filter: blur(var(--glass-blur));
+	}
+</style>

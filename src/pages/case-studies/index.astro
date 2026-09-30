@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import IndexRow from '../../components/ui/IndexRow.astro';
-import { withBase } from '../../lib/base';
+import CaseCard from '../../components/cards/CaseCard.astro';
 import { caseStudies } from '../../data/case-studies';
 ---
 
@@ -9,19 +8,15 @@ import { caseStudies } from '../../data/case-studies';
 	<h1>Case Studies</h1>
 	<p class="dek">Each told as context, challenge, actions and results.</p>
 
-	<ol data-ui class="rows">
+	<ul data-ui class="cards flex flex-col gap-gutter">
 		{
 			caseStudies.map((c) => (
-				<IndexRow
-					href={withBase(`case-studies/${c.slug}/`)}
-					title={c.title}
-					body={c.challenge}
-					label={`${c.role} · ${c.org} · ${c.years}`}
-					mark={c.mark}
-				/>
+				<li>
+					<CaseCard c={c} />
+				</li>
 			))
 		}
-	</ol>
+	</ul>
 </BaseLayout>
 
 <style>
@@ -31,7 +26,7 @@ import { caseStudies } from '../../data/case-studies';
 		margin-top: var(--space-2);
 	}
 
-	.rows {
+	.cards {
 		margin-top: var(--space-title);
 	}
 </style>

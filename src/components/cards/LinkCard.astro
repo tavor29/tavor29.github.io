@@ -1,0 +1,39 @@
+---
+// A dark card that closes a grid of cards with a link onward, like the
+// reference's "All posts" card. Same size as the cards beside it.
+import Icon from '../Icon.astro';
+import Label from '../ui/Label.astro';
+import ArrowChip from '../ui/ArrowChip.astro';
+import type { IconName } from '../../lib/icons';
+
+interface Props {
+	href: string;
+	title: string;
+	meta?: string;
+	/** Match the neighbouring cards: tall writing cards or wide work images. */
+	aspect?: 'portrait' | 'wide';
+}
+
+const { href, title, meta, aspect = 'portrait' } = Astro.props;
+const marks: IconName[] = ['half', 'quarter', 'circle', 'leaf'];
+---
+
+<a
+	href={href}
+	data-reveal
+	class:list={[
+		'group flex flex-col justify-between rounded-md bg-ink p-gutter text-paper no-underline md:p-stack',
+		aspect === 'portrait' ? 'aspect-[3/4]' : 'aspect-[29/20]',
+	]}
+>
+	<div aria-hidden="true" class="flex gap-tight">
+		{marks.map((m) => <Icon name={m} size="md" tone="mark" class="transition-transform duration-fast ease-out group-hover:rotate-90" />)}
+	</div>
+	<div class="flex items-end justify-between gap-gutter">
+		<div class="flex flex-col gap-tight">
+			{meta && <Label class="text-paper-muted">{meta}</Label>}
+			<p class="font-display text-2xl leading-title tracking-display">{title}</p>
+		</div>
+		<ArrowChip inverted />
+	</div>
+</a>

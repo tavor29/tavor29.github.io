@@ -4,7 +4,8 @@ import Icon from '../Icon.astro';
 import type { IconName } from '../../lib/icons';
 
 interface Props {
-	index: string;
+	/** Section number, shown as (01). Omit for unnumbered sections. */
+	index?: string;
 	title: string;
 	/** Colour mark shown beside the section number. */
 	mark?: IconName;
@@ -16,6 +17,6 @@ const { index, title, mark } = Astro.props;
 	<h2 class="font-display text-2xl tracking-display leading-title">{title}</h2>
 	<span class="flex items-center gap-tight">
 		{mark && <Icon name={mark} size="md" tone="mark" class="self-center" />}
-		<Label class="text-ink-muted">({index})</Label>
+		{index && <Label class="text-ink-muted">({index})</Label>}
 	</span>
 </div>

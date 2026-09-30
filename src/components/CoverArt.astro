@@ -1,0 +1,35 @@
+---
+// Generated cover art (lib/cover-art.ts) as an inline SVG that fills its box.
+// Decorative: the card or page it sits in carries the real title.
+import { coverArt } from '../lib/cover-art';
+
+interface Props {
+	seed: string;
+	/** portrait = 3:4 cards, wide = page and work covers. */
+	shape?: 'portrait' | 'wide';
+	/** Always an ink ground, for cards with white text over the art. */
+	dark?: boolean;
+	class?: string;
+}
+
+const { seed, shape = 'portrait', dark = false, class: className = '' } = Astro.props;
+const [w, h, cols] = shape === 'portrait' ? [300, 400, 3] : [600, 400, 5];
+const art = coverArt(seed, w, h, cols, dark);
+---
+
+<svg
+	class:list={['cover-art', className]}
+	viewBox={`0 0 ${w} ${h}`}
+	preserveAspectRatio="xMidYMid slice"
+	aria-hidden="true"
+	focusable="false"
+	set:html={art}
+></svg>
+
+<style>
+	.cover-art {
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+</style>

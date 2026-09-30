@@ -3,6 +3,7 @@ title: 'Why Claude Gets "Dumber" the Longer Your Project Runs (And How to Fix It
 summary: 'Why long-running Claude Code sessions degrade, and the file-based memory and codebase-splitting fixes that actually address it.'
 origin: real
 date: 2026-08-18
+tag: 'Claude Code'
 ---
 Three months into an intensive Claude Code project, a developer described a pattern that will sound familiar to anyone running long agentic coding sessions: constant contradicted test results, claims about work that was never done, and an endless loop of apologies that never actually moved the project forward.
 

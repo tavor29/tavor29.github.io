@@ -3,6 +3,7 @@ title: 'Nobody Understands the Product Anymore, and That''s the Real AI Risk'
 summary: 'When AI writes the code and hands back the task breakdown, understanding the product can quietly become optional, an accountability problem, not just a tooling one.'
 origin: real
 date: 2026-09-01
+tag: 'AI risk'
 ---
 Two scenes, both increasingly common:
 

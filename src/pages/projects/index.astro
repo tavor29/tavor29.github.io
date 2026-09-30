@@ -1,45 +1,24 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import IndexRow from '../../components/ui/IndexRow.astro';
-import { withBase } from '../../lib/base';
-import type { IconName } from '../../lib/icons';
+import WorkCard from '../../components/cards/WorkCard.astro';
+import { work } from '../../data/work';
 
-// Blurbs verbatim from portfolio-content-package.md's "Homepage copy" section.
-// Marks match the homepage's Selected work rows (outline = coded project).
-const projects: Array<{ title: string; body: string; href: string; mark: IconName }> = [
-	{
-		title: 'AI Project Intake & Governance Agent, flagship',
-		body: 'An agent that turns a chat-based tool request into a structured intake with a duplication check and a risk score.',
-		href: withBase('projects/ai-intake-governance-agent/'),
-		mark: 'circle',
-	},
-	{
-		title: 'Citizen Development Governance Model',
-		body: 'A tracked path from idea to production for internally built tools, with a maintenance owner at every stage.',
-		href: withBase('projects/citizen-development-governance/'),
-		mark: 'leaf',
-	},
-];
+const items = work.filter((w) => !w.real);
 ---
 
 <BaseLayout title="Projects">
 	<h1>Projects</h1>
 	<p class="dek">Two coded projects, each with a live demo and its own repo.</p>
 
-	<ol data-ui class="rows">
+	<ul data-ui class="cards grid gap-x-gutter gap-y-stack md:grid-cols-2">
 		{
-			projects.map((p) => (
-				<IndexRow
-					href={p.href}
-					title={p.title}
-					body={p.body}
-					label="Coded project"
-					mark={p.mark}
-					real={false}
-				/>
+			items.map((item) => (
+				<li>
+					<WorkCard item={item} />
+				</li>
 			))
 		}
-	</ol>
+	</ul>
 </BaseLayout>
 
 <style>
@@ -49,7 +28,7 @@ const projects: Array<{ title: string; body: string; href: string; mark: IconNam
 		margin-top: var(--space-2);
 	}
 
-	.rows {
+	.cards {
 		margin-top: var(--space-title);
 	}
 </style>

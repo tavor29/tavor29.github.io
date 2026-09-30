@@ -3,6 +3,7 @@ title: 'What Claude Code Actually Costs You (And How to Cut It Without Cutting Q
 summary: 'What actually drives Claude Code''s token costs and eight concrete habits that cut spend without cutting quality.'
 origin: real
 date: 2026-08-25
+tag: 'Claude Code'
 ---
 Here's a scenario that confuses a lot of people: you send a single short prompt late in a long Claude Code session, and it costs far more than a short prompt should. Nothing about what you typed changed. So what happened?
 

@@ -1,7 +1,10 @@
 // Homepage copy. Comes from ../portfolio-copy-merged.md (source of truth since
 // 2026-09-30); don't write new claims here. Blog posts come from the content
 // collection, case studies from ./case-studies.ts, the About page from ./about.ts.
+import type { ImageMetadata } from 'astro';
 import type { IconName } from '../lib/icons';
+import intakeCover from '../assets/work/ai-intake-governance-agent.jpg';
+import citizenCover from '../assets/work/citizen-development-governance.jpg';
 
 export const person = {
 	name: 'Tavor Ben-Shahar',
@@ -37,22 +40,29 @@ export const stats: { value: number; prefix?: string; suffix?: string; label: st
 	{ value: 40, suffix: '+', label: 'AI workflows brought under enterprise security compliance', mark: 'circle' },
 ];
 
-// "What I do": the three operating pillars, one mark each.
-export const services: { title: string; text: string; mark: IconName }[] = [
+// "What I do": the three operating pillars, as bento cards. `art` picks the
+// card's background illustration (components/PillarArt.astro).
+export const services: { tag: string; title: string; text: string; mark: IconName; art: 'network' | 'shield' | 'telemetry' }[] = [
 	{
+		tag: '01 / Operations',
 		title: 'Cross-functional alignment',
-		text: 'Bridging technical teams (R&D, IT) and corporate functions (Finance, Purchasing, Security).',
+		text: 'Unifying engineering and technical teams with Finance, Purchasing, Security, and C-suite leadership behind a shared operational cadence.',
 		mark: 'half',
+		art: 'network',
 	},
 	{
+		tag: '02 / Governance',
 		title: 'Proactive AI governance',
-		text: 'Turning unmonitored “shadow AI” into secure, compliant, enterprise-grade workflows.',
-		mark: 'circle',
+		text: 'Transitioning unmonitored, ad-hoc technology adoption into secure, compliant, enterprise-grade workflows.',
+		mark: 'leaf',
+		art: 'shield',
 	},
 	{
+		tag: '03 / Analytics',
 		title: 'Data-driven transparency',
-		text: 'Real-time tracking so leadership never has to ask where a project stands.',
+		text: 'Building live tracking systems and data telemetry so leadership always has clear visibility into program health.',
 		mark: 'quarter',
+		art: 'telemetry',
 	},
 ];
 
@@ -64,6 +74,8 @@ export const projects: {
 	label: string;
 	href: string;
 	mark: IconName;
+	cover?: ImageMetadata;
+	coverAlt?: string;
 }[] = [
 	{
 		title: 'AI Project Intake & Governance Agent',
@@ -72,6 +84,8 @@ export const projects: {
 		label: 'Flagship · coded project',
 		href: 'projects/ai-intake-governance-agent/',
 		mark: 'circle',
+		cover: intakeCover,
+		coverAlt: 'Sticky notes and a printed plan on a desk',
 	},
 	{
 		title: 'Citizen Development Governance Model',
@@ -80,6 +94,8 @@ export const projects: {
 		label: 'Coded project',
 		href: 'projects/citizen-development-governance/',
 		mark: 'leaf',
+		cover: citizenCover,
+		coverAlt: 'Two people working through something on a laptop',
 	},
 ];
 

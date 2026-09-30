@@ -1,0 +1,32 @@
+---
+// "More work" at the end of a case-study or project page: the next two items.
+import SectionHead from '../ui/SectionHead.astro';
+import WorkCard from './WorkCard.astro';
+import { moreWork } from '../../data/work';
+
+interface Props {
+	/** The current page's href, as in data/work.ts (e.g. "case-studies/ibm/"). */
+	href: string;
+}
+
+const items = moreWork(Astro.props.href);
+---
+
+<section data-ui class="more-work flex flex-col gap-title">
+	<SectionHead title="More work" mark="half" />
+	<ul class="grid gap-x-gutter gap-y-stack md:grid-cols-2">
+		{
+			items.map((item) => (
+				<li>
+					<WorkCard item={item} />
+				</li>
+			))
+		}
+	</ul>
+</section>
+
+<style>
+	.more-work {
+		margin-top: var(--space-section);
+	}
+</style>

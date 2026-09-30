@@ -3,6 +3,7 @@ title: 'How to Enable Citizen Developers (Without Losing Control of Your Stack)'
 summary: 'How to let non-engineers keep building their own AI tools without losing visibility into what touches sensitive data or who owns it.'
 origin: real
 date: 2026-09-08
+tag: 'Governance'
 ---
 AI has made "building your own tool" accessible to anyone who can describe what they want. A sales ops person can build a lead-scoring automation. A finance analyst can stand up a reconciliation script. An HR coordinator can wire together an onboarding checklist bot. None of them wrote code five years ago. Now they don't have to wait for one of the six engineers on the internal tools team to get to their ticket.
 

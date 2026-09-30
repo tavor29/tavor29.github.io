@@ -1,0 +1,30 @@
+---
+// The large cover at the top of a case-study or project page: the item's photo,
+// or its generated art until one is chosen. Same image as its card.
+import { Image } from 'astro:assets';
+import CoverArt from '../CoverArt.astro';
+import type { WorkItem } from '../../data/work';
+
+interface Props {
+	item: WorkItem;
+}
+
+const { item } = Astro.props;
+---
+
+<div class="page-cover relative aspect-[29/20] overflow-hidden rounded-md bg-ink md:aspect-[16/7]">
+	{
+		item.cover ? (
+			<Image
+				src={item.cover}
+				alt={item.coverAlt ?? ''}
+				widths={[800, 1600, 2400]}
+				sizes="(min-width: 1260px) 1180px, 100vw"
+				loading="eager"
+				class="absolute inset-0 h-full w-full object-cover grayscale"
+			/>
+		) : (
+			<CoverArt seed={item.slug} shape="wide" class="absolute inset-0" />
+		)
+	}
+</div>

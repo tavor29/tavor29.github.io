@@ -1,48 +1,31 @@
 ---
+// Writing: the two newest posts as cover cards, then a dark "All posts" card
+// (the reference's Thoughts section). Posts come from the blog collection.
 import { getCollection } from 'astro:content';
 import Container from '../ui/Container.astro';
 import SectionHead from '../ui/SectionHead.astro';
-import Label from '../ui/Label.astro';
-import Rule from '../ui/Rule.astro';
-import ArrowChip from '../ui/ArrowChip.astro';
-import ArrowLink from '../ui/ArrowLink.astro';
+import PostCard from '../cards/PostCard.astro';
+import LinkCard from '../cards/LinkCard.astro';
 import { withBase } from '../../lib/base';
 
-// Newest six posts from the blog collection, so new posts show up here on their own.
-const posts = (await getCollection('blog'))
-	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-	.slice(0, 6);
-
-const formatDate = (d: Date) =>
-	d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+const all = (await getCollection('blog')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const latest = all.slice(0, 2);
 ---
 
 <section id="writing" class="pt-section">
 	<Container class="flex flex-col gap-title">
-		<SectionHead index="04" title="Writing" mark="leaf" />
-		<ul>
+		<SectionHead index="04" title="Insights & playbooks" mark="leaf" />
+		<ul class="grid gap-gutter sm:grid-cols-2 lg:grid-cols-3">
 			{
-				posts.map((p) => (
-					<li data-reveal class="relative">
-						<Rule />
-						<a
-							href={withBase(`blog/${p.id}/`)}
-							class="group grid grid-cols-[1fr_auto] items-center gap-x-gutter gap-y-1 py-gutter md:grid-cols-12"
-						>
-							<Label class="text-ink-muted md:col-span-3">{formatDate(p.data.date)}</Label>
-							<p class="col-start-1 text-lg font-medium transition-transform duration-base ease-out group-hover:translate-x-tight md:col-span-8 md:col-start-4">
-								{p.data.title}
-							</p>
-							<div class="col-start-2 row-span-2 row-start-1 justify-self-end md:col-span-1 md:col-start-12 md:row-span-1">
-								<ArrowChip />
-							</div>
-						</a>
+				latest.map((p) => (
+					<li>
+						<PostCard href={withBase(`blog/${p.id}/`)} slug={p.id} title={p.data.title} date={p.data.date} summary={p.data.summary} tag={p.data.tag} />
 					</li>
 				))
 			}
+			<li>
+				<LinkCard href={withBase('blog/')} title="All posts" meta={`${all.length} articles`} />
+			</li>
 		</ul>
-		<div data-reveal>
-			<ArrowLink href={withBase('blog/')}>All posts</ArrowLink>
-		</div>
 	</Container>
 </section>

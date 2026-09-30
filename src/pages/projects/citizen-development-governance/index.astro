@@ -3,6 +3,12 @@ import Icon from '../../../components/Icon.astro';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import '../../../styles/editorial.css';
 import { withBase } from '../../../lib/base';
+import { work } from '../../../data/work';
+import PageCover from '../../../components/cards/PageCover.astro';
+import MoreWork from '../../../components/cards/MoreWork.astro';
+
+const href = 'projects/citizen-development-governance/';
+const item = work.find((w) => w.href === href)!;
 
 const repoUrl = 'https://github.com/tavor29/citizen-development-governance';
 const demoUrl = 'https://tavor29.github.io/citizen-development-governance/';
@@ -17,6 +23,7 @@ const demoUrl = 'https://tavor29.github.io/citizen-development-governance/';
 		<p class="links">
 			<a href={demoUrl}>Live demo</a> &middot; <a href={repoUrl}>Source on GitHub</a>
 		</p>
+		<PageCover item={item} />
 
 		<section>
 			<h2>Problem</h2>
@@ -95,6 +102,7 @@ const demoUrl = 'https://tavor29.github.io/citizen-development-governance/';
 				</table>
 			</div>
 		</section>
+		<MoreWork href={href} />
 	</div>
 </BaseLayout>
 
