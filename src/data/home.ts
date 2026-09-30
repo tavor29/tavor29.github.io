@@ -38,9 +38,9 @@ export const quote =
 // content package.
 export const stats: { value: number; prefix?: string; suffix?: string; label: string; where: string; mark: IconName }[] = [
 	{ value: 40, suffix: '+', label: 'AI workflows moved under IT/R&D security compliance', where: 'Keshet Media Group', mark: 'half' },
-	{ value: 0, label: 'Security incidents under the new data-privacy boundaries', where: 'Keshet Media Group', mark: 'half' },
-	{ value: 750, prefix: '~', label: 'License seats in a completed usage review before renewal', where: 'Keshet Media Group', mark: 'half' },
-	{ value: 80, suffix: '+', label: 'AI and automation use cases mapped across departments', where: 'Keshet Media Group', mark: 'half' },
+	{ value: 7, label: 'Redundant tools cut through unified AI tool licensing', where: 'Keshet Media Group', mark: 'half' },
+	{ value: 900, label: 'Project boards archived or consolidated in a platform cleanup', where: 'Keshet Media Group', mark: 'half' },
+	{ value: 30, prefix: '−', suffix: '%', label: 'Compute cost after moving servers to a colocation site', where: 'Applied Materials', mark: 'quarter' },
 	{ value: 1200, suffix: '+', label: 'Employee facility whose IT infrastructure was modernized', where: 'Applied Materials', mark: 'quarter' },
 	{ value: 0, label: 'User disruption across system migrations', where: 'IBM', mark: 'circle' },
 ];

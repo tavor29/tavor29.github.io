@@ -10,6 +10,12 @@
 }
 
 
+/* "More work" at the end of a page spans the full width, not the reading column. */
+.editorial section.more-work {
+	display: flex;
+	max-width: none;
+}
+
 /* A case-study or project page's cover image, under the title. */
 .editorial > .page-cover {
 	margin-top: var(--space-5);

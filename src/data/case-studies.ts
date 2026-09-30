@@ -25,6 +25,8 @@ export type CaseStudy = {
 	actions: string[];
 	/** `lead` is set in bold before the rest of the sentence. */
 	results: { lead: string; text: string }[];
+	/** "What I'd do differently": one honest closing line. Optional. */
+	lesson?: string;
 	/** Cover photo (src/assets/work/); cards fall back to generated art without one. */
 	cover?: ImageMetadata;
 	coverAlt?: string;
@@ -51,12 +53,17 @@ export const caseStudies: CaseStudy[] = [
 			'Helped establish an executive AI steering committee with the CIO and senior leadership.',
 			'Designed the approval workflow defining budget ownership and security boundaries.',
 			'Built a phased rollout to move unmonitored workflows into official, compliant tools without hurting productivity.',
+			'Reviewed ~750 license seats against actual usage ahead of renewal.',
+			'Ran a platform cleanup that archived or consolidated 900 project boards, and removed tens of excess admin-level permissions across document sites.',
 		],
 		results: [
 			{ lead: '100% transition:', text: 'All 40+ workflows brought under IT/R&D security compliance.' },
 			{ lead: 'Zero security incidents', text: 'under the new data-privacy boundaries.' },
-			{ lead: 'Clear financial governance:', text: 'Redundant SaaS spend reduced through unified AI tool licensing.' },
+			{ lead: '7 redundant tools cut', text: 'through unified AI tool licensing.' },
+			{ lead: '900 project boards', text: 'archived or consolidated.' },
 		],
+		lesson:
+			'I’d write the intake requirements and the rollout plan together, from the first week. A requirements document is a starting point, not a shipped system; the rollout is where governance actually gets tested.',
 	},
 	{
 		slug: 'applied-materials',
@@ -76,14 +83,18 @@ export const caseStudies: CaseStudy[] = [
 			'High-stakes delivery across R&D, IT, Finance, and external contractors, with strict production schedules and long-lead hardware bottlenecks.',
 		actions: [
 			'Translated R&D technical requirements into bills of materials and procurement schedules.',
-			'Tracked long-lead items end to end, from vendor sourcing through installation and handover.',
-			'Built automated SQL and Tableau dashboards giving leadership live visibility into milestones, risks, and budget.',
+			'Tracked dozens of long-lead items end to end, from vendor sourcing through installation and handover.',
+			'Built one automated SQL and Tableau dashboard per project, giving tens of executives live visibility into milestones, risks, and budget.',
+			'Moved server workloads to a colocation site.',
 		],
 		results: [
+			{ lead: '30% lower compute cost', text: 'after moving servers to a colocation site.' },
 			{ lead: 'On-time milestones', text: 'with no downtime to R&D schedules during the upgrade.' },
 			{ lead: 'Full executive visibility:', text: 'Manual status reporting replaced by real-time KPI dashboards.' },
 			{ lead: 'Streamlined forecasting:', text: 'Recurring budget cycles run in step with Finance and Purchasing.' },
 		],
+		lesson:
+			'I’d assign an owner to every dashboard input on day one. A dashboard is only as reliable as the data feeding it, and keeping inputs current turned out to be its own ongoing effort, not a one-time build.',
 	},
 	{
 		slug: 'ibm',

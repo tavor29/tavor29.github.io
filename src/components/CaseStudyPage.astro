@@ -57,6 +57,15 @@ const item = work.find((w) => w.href === href)!;
 			</ul>
 		</section>
 
+		{
+			c.lesson && (
+				<section>
+					<h3>What I’d do differently</h3>
+					<p>{c.lesson}</p>
+				</section>
+			)
+		}
+
 		<slot />
 
 		<MoreWork href={href} />
