@@ -2,6 +2,7 @@
 import Container from '../ui/Container.astro';
 import Label from '../ui/Label.astro';
 import Icon from '../Icon.astro';
+import ArrowLink from '../ui/ArrowLink.astro';
 import { person } from '../../data/home';
 import type { IconName } from '../../lib/icons';
 
@@ -76,12 +77,16 @@ const marks: IconName[] = ['half', 'quarter', 'circle', 'leaf'];
 					</span>
 				</span>
 			</h1>
-			<p data-hero-fade data-shape-obstacle class="max-w-xl text-lg text-balance text-ink-muted">{person.heroSub}</p>
+			<p data-hero-fade data-shape-obstacle class="max-w-2xl text-lg text-balance text-ink-muted">{person.heroSub}</p>
+			<div data-hero-fade class="flex flex-wrap items-center justify-center gap-x-stack gap-y-gutter">
+				<span data-shape-obstacle><ArrowLink href="#work">Explore case studies</ArrowLink></span>
+				<span data-shape-obstacle><ArrowLink href="#contact">Get in touch</ArrowLink></span>
+			</div>
 		</div>
 
 		<div data-hero-fade class="flex items-end justify-between gap-gutter">
 			<p data-shape-obstacle class="font-display text-2xl leading-display tracking-display">©2026</p>
-			<Label data-shape-obstacle class="text-right">/Five years · IT, R&amp;D, Ops</Label>
+			<Label data-shape-obstacle class="max-w-md text-right">/{person.focus}</Label>
 		</div>
 	</Container>
 </section>

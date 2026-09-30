@@ -3,6 +3,7 @@ import '../styles/global.css';
 import SiteNav from '../components/SiteNav.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import { withBase } from '../lib/base';
+import { person } from '../data/home';
 
 interface Props {
 	title?: string;
@@ -12,8 +13,8 @@ interface Props {
 }
 
 const {
-	title = 'Tavor Ben Shahar',
-	description = 'Business operations and program management. Governance, intake, and reporting systems that turn ad hoc requests into repeatable processes.',
+	title = person.name,
+	description = 'Business Operations & Program Manager leading technology programs across R&D, IT, Security, and Finance: AI governance, technical program delivery, and enterprise infrastructure.',
 	bare = false,
 } = Astro.props;
 
@@ -29,7 +30,7 @@ const {
 		<meta name="generator" content={Astro.generator} />
 		<link rel="icon" type="image/svg+xml" href={withBase('favicon.svg')} />
 		<link rel="icon" type="image/png" sizes="32x32" href={withBase('favicon.png')} />
-		<title>{title === 'Tavor Ben Shahar' ? `${title}, Business Operations & Program Manager` : `${title} | Tavor Ben Shahar`}</title>
+		<title>{title === person.name ? `${person.name}, ${person.role}` : `${title} | ${person.name}`}</title>
 		<!-- Lets CSS hide reveal targets before GSAP runs, without hiding them for no-JS visitors. -->
 		<script is:inline>
 			document.documentElement.classList.add('js');

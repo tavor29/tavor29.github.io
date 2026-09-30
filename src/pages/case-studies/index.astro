@@ -2,34 +2,23 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import IndexRow from '../../components/ui/IndexRow.astro';
 import { withBase } from '../../lib/base';
-import type { IconName } from '../../lib/icons';
-
-// Blurbs verbatim from portfolio-content-package.md's "Homepage copy" section.
-// Marks match the homepage's Selected work rows (solid = real work).
-const caseStudies: Array<{ title: string; body: string; href: string; mark: IconName }> = [
-	{
-		title: 'Real work at Keshet',
-		body: 'Helped design AI governance and intake for around 40 unsanctioned tool builders, and reviewed licensing across roughly 750 seats.',
-		href: withBase('case-studies/keshet/'),
-		mark: 'half',
-	},
-	{
-		title: 'Real work at Applied Materials',
-		body: 'Built the dashboards a 1,200-plus-employee capital program’s leadership used to see schedule and budget risk without asking around.',
-		href: withBase('case-studies/applied-materials/'),
-		mark: 'quarter',
-	},
-];
+import { caseStudies } from '../../data/case-studies';
 ---
 
 <BaseLayout title="Case Studies">
 	<h1>Case Studies</h1>
-	<p class="dek">Real work, written up context through outcome.</p>
+	<p class="dek">Real work, each in context, challenge, actions and results.</p>
 
 	<ol data-ui class="rows">
 		{
 			caseStudies.map((c) => (
-				<IndexRow href={c.href} title={c.title} body={c.body} label="Real work · case study" mark={c.mark} />
+				<IndexRow
+					href={withBase(`case-studies/${c.slug}/`)}
+					title={c.title}
+					body={c.challenge}
+					label={`Real work · ${c.role} · ${c.org} · ${c.years}`}
+					mark={c.mark}
+				/>
 			))
 		}
 	</ol>

@@ -1,51 +1,69 @@
-// Homepage copy. Comes from ../portfolio-content-package.md (source of truth);
-// don't write new claims here. Blog posts come from the content collection.
+// Homepage copy. Comes from ../portfolio-copy-merged.md (source of truth since
+// 2026-09-30); don't write new claims here. Blog posts come from the content
+// collection, case studies from ./case-studies.ts, the About page from ./about.ts.
 import type { IconName } from '../lib/icons';
 
 export const person = {
-	name: 'Tavor Ben Shahar',
+	name: 'Tavor Ben-Shahar',
 	role: 'Business Operations & Program Manager',
-	heroLead: 'I turn ad hoc requests into',
-	heroEmphasis: 'repeatable processes',
+	focus: 'AI governance · Technical program delivery · Enterprise infrastructure',
+	heroLead: 'Turning operational friction into',
+	heroEmphasis: 'structured, high-impact programs',
 	heroSub:
-		'Most recently Business Operations Manager at Keshet Media Group. Before that, Applied Materials and IBM. Based in Tel Aviv.',
+		'Business Operations & Program Manager with 5 years of experience leading complex technology programs across R&D, IT, Security, and Finance. I specialize in AI tool rollouts, multi-million-dollar infrastructure modernization, and automated executive reporting.',
+	// Executive summary, split across About's two columns.
 	positioning:
-		'Business operations and program management, with five years running technology and AI-adoption programs across IT, R&D, and operations teams.',
+		'I work at the intersection of software, AI adoption, product delivery, and cross-functional operations.',
 	positioningMore:
-		'I build the governance, intake, and reporting systems that turn ad hoc requests into repeatable processes, and I use AI-assisted development tools daily to build the systems themselves, not just manage them.',
+		'With a hands-on technical foundation and experience at Applied Materials, IBM, and Keshet Media Group, I take fragmented processes and align R&D, IT, Security, and Finance to a single cadence.',
+	location: 'Tel Aviv, Israel',
+	phone: '+972 50-492-2040',
+	phoneHref: 'tel:+972504922040',
+	email: 'tzavor29@gmail.com',
+	availability:
+		'I’m open to select operations and program management roles at the intersection of software, AI, product, and cross-functional delivery. If you’re scaling technical delivery or AI initiatives, I’d like to hear about it.',
 	resume: 'Tavor_Ben_Shahar_Resume.pdf',
 };
 
+// The scroll-filled statement: the executive summary's second paragraph.
 export const quote =
-	'From ad hoc to repeatable. A place to see what already exists, a lightweight way to flag risk, and a fast path from “I built this for myself” to a supported tool. The goal isn’t to slow people down. It’s to make sure the organization can see what it’s actually running.';
+	'Whether I’m establishing an executive AI steering committee, managing multi-million-dollar infrastructure procurement, or building SQL and Tableau dashboards for senior leadership, the goal is the same: move fast, with governance that holds up.';
 
-// Headline numbers for the stats row. Only figures already in the content
-// package; no budget or dollar figures (confidentiality). `value` counts up
-// on scroll; prefix/suffix are shown as-is.
+// Hero badges, shown as the stats row under About. `value` counts up on
+// scroll; prefix/suffix are shown as-is.
 export const stats: { value: number; prefix?: string; suffix?: string; label: string; mark: IconName }[] = [
-	{ value: 5, label: 'Years running technology and AI-adoption programs', mark: 'half' },
-	{ value: 80, suffix: '+', label: 'AI and automation use cases mapped across departments', mark: 'circle' },
-	{ value: 750, prefix: '~', label: 'License seats in a usage review ahead of renewal', mark: 'quarter' },
-	{ value: 1200, suffix: '+', label: 'Employees in the new office behind a multi-year capital program', mark: 'leaf' },
+	{ value: 5, suffix: '+', label: 'Years of enterprise program delivery', mark: 'half' },
+	{ value: 1200, suffix: '+', label: 'Employee facility modernized', mark: 'quarter' },
+	{ value: 40, suffix: '+', label: 'AI workflows brought under enterprise security compliance', mark: 'circle' },
 ];
 
-// Each service carries one of the four marks, for colour.
-export const services: { title: string; tags: string[]; mark: IconName }[] = [
-	{ title: 'AI governance & intake', tags: ['Steering committees', 'Intake design', 'Risk scoring'], mark: 'circle' },
-	{ title: 'Licensing & SaaS cost', tags: ['Usage review', 'Tier rightsizing', 'Pilot scoping'], mark: 'half' },
-	{ title: 'Program management', tags: ['Capital programs', 'Cross-functional', 'Forecast cycles'], mark: 'leaf' },
-	{ title: 'Reporting & dashboards', tags: ['KPI dashboards', 'Schedule risk', 'Budget visibility'], mark: 'quarter' },
+// "What I do": the three operating pillars, one mark each.
+export const services: { title: string; text: string; mark: IconName }[] = [
+	{
+		title: 'Cross-functional alignment',
+		text: 'Bridging technical teams (R&D, IT) and corporate functions (Finance, Purchasing, Security).',
+		mark: 'half',
+	},
+	{
+		title: 'Proactive AI governance',
+		text: 'Turning unmonitored “shadow AI” into secure, compliant, enterprise-grade workflows.',
+		mark: 'circle',
+	},
+	{
+		title: 'Data-driven transparency',
+		text: 'Real-time tracking so leadership never has to ask where a project stands.',
+		mark: 'quarter',
+	},
 ];
 
-// Each item keeps its mark from the original work index: solid = real work,
-// outline = fictional company.
-export const work: {
+// Coded projects for the Selected work list (case studies come first, from
+// ./case-studies.ts). Outline mark = fictional company.
+export const projects: {
 	title: string;
 	blurb: string;
 	label: string;
 	href: string;
 	mark: IconName;
-	real: boolean;
 }[] = [
 	{
 		title: 'AI Project Intake & Governance Agent',
@@ -54,16 +72,6 @@ export const work: {
 		label: 'Flagship · coded project · fictional company',
 		href: 'projects/ai-intake-governance-agent/',
 		mark: 'circle',
-		real: false,
-	},
-	{
-		title: 'Keshet Media Group',
-		blurb:
-			'Helped design AI governance and intake for around 40 unsanctioned tool builders, and reviewed licensing across roughly 750 seats.',
-		label: 'Real work · case study',
-		href: 'case-studies/keshet/',
-		mark: 'half',
-		real: true,
 	},
 	{
 		title: 'Citizen Development Governance Model',
@@ -72,16 +80,6 @@ export const work: {
 		label: 'Coded project · fictional company',
 		href: 'projects/citizen-development-governance/',
 		mark: 'leaf',
-		real: false,
-	},
-	{
-		title: 'Applied Materials',
-		blurb:
-			'Built the dashboards a 1,200-plus-employee capital program’s leadership used to see schedule and budget risk without asking around.',
-		label: 'Real work · case study',
-		href: 'case-studies/applied-materials/',
-		mark: 'quarter',
-		real: true,
 	},
 ];
 

@@ -12,7 +12,7 @@ export const GET: APIRoute = ({ props }) => {
 	const { doc } = props as { doc: CollectionEntry<'templates'> };
 	const note =
 		doc.data.origin === 'fictional' ? '\n_Worked example set in a fictional company (Meridian Dynamics)._\n' : '';
-	const text = `# ${doc.data.title}\n${note}\n${doc.body ?? ''}\n\n---\nTavor Ben Shahar · https://tavor29.github.io/templates/${doc.id}/\n`;
+	const text = `# ${doc.data.title}\n${note}\n${doc.body ?? ''}\n\n---\nTavor Ben-Shahar · https://tavor29.github.io/templates/${doc.id}/\n`;
 	return new Response(text, {
 		headers: { 'Content-Type': 'text/markdown; charset=utf-8' },
 	});

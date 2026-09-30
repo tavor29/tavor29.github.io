@@ -1,0 +1,211 @@
+---
+// About & how I work: executive summary, professional profile, skills (with
+// filter tabs), education, recognition, and testimonials once they have real
+// names. Copy lives in src/data/home.ts and src/data/about.ts.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionHead from '../../components/ui/SectionHead.astro';
+import Label from '../../components/ui/Label.astro';
+import Rule from '../../components/ui/Rule.astro';
+import ArrowLink from '../../components/ui/ArrowLink.astro';
+import Icon from '../../components/Icon.astro';
+import { person, quote, services } from '../../data/home';
+import { profile, skills, skillFilters, education, languages, recognition, testimonials } from '../../data/about';
+import { withBase } from '../../lib/base';
+
+const attributed = testimonials.filter((t) => t.name.trim() && t.title.trim());
+---
+
+<BaseLayout title="About" description={`${person.positioning} ${person.positioningMore}`}>
+	<div data-ui class="flex flex-col gap-section">
+		<header class="flex flex-col gap-stack">
+			<div data-shape-in><Icon name="quarter" size="xl" tone="mark" /></div>
+			<h1 class="font-display text-3xl leading-display tracking-display">About &amp; how I work</h1>
+			<div class="grid gap-gutter md:grid-cols-2 md:gap-stack">
+				<p class="text-lg font-semibold">{person.positioning} {person.positioningMore}</p>
+				<p class="text-lg text-ink-muted">{quote}</p>
+			</div>
+			<div class="flex flex-wrap gap-x-stack gap-y-gutter">
+				<ArrowLink href={withBase(person.resume)}>Download résumé</ArrowLink>
+				<ArrowLink href="#contact">Get in touch</ArrowLink>
+			</div>
+		</header>
+
+		<section aria-labelledby="pillars-heading" class="flex flex-col gap-title">
+			<div id="pillars-heading"><SectionHead index="01" title="Operating pillars" mark="half" /></div>
+			<ul>
+				{
+					services.map((s) => (
+						<li data-reveal class="group relative flex flex-col gap-tight py-stack md:flex-row md:items-center md:justify-between">
+							<Rule />
+							<h3 class="flex items-center gap-gutter font-display text-xl tracking-display">
+								<Icon name={s.mark} size="lg" tone="mark" class="transition-transform duration-fast ease-out group-hover:rotate-90" />
+								{s.title}
+							</h3>
+							<p class="max-w-md text-base text-ink-muted md:text-right">{s.text}</p>
+						</li>
+					))
+				}
+			</ul>
+		</section>
+
+		<section aria-labelledby="profile-heading" class="flex flex-col gap-title">
+			<div id="profile-heading"><SectionHead index="02" title="Professional profile" mark="quarter" /></div>
+			<div class="grid gap-stack md:grid-cols-3 md:gap-gutter">
+				{
+					profile.map((col) => (
+						<div class="flex flex-col">
+							<Label class="flex items-center gap-tight pb-gutter text-ink-muted">
+								<Icon name={col.mark} size="md" tone="mark" />
+								{col.heading}
+							</Label>
+							<ul>
+								{col.items.map((item) => (
+									<li data-reveal class="relative flex flex-col gap-tight py-gutter md:pr-gutter">
+										<Rule />
+										<p class="font-display text-lg tracking-display">{item.lead}</p>
+										<p class="text-base text-ink-muted">{item.text}</p>
+									</li>
+								))}
+							</ul>
+						</div>
+					))
+				}
+			</div>
+		</section>
+
+		<section aria-labelledby="skills-heading" class="flex flex-col gap-title">
+			<div id="skills-heading"><SectionHead index="03" title="Skills & competencies" mark="circle" /></div>
+			{/* Filter tabs appear once JS runs; without it every group simply shows. */}
+			<div data-skill-tabs hidden role="group" aria-label="Filter skills" class="flex flex-wrap gap-tight">
+				{
+					skillFilters.map((f, i) => (
+						<button
+							type="button"
+							data-filter={f.id}
+							aria-pressed={i === 0 ? 'true' : 'false'}
+							class="skill-tab cursor-pointer rounded-full border border-ink-rule bg-transparent px-gutter py-1 font-ui text-sm text-ink transition-colors duration-fast ease-out"
+						>
+							{f.label}
+						</button>
+					))
+				}
+			</div>
+			<ul>
+				{
+					skills.map((g) => (
+						<li
+							data-skill-group={g.group}
+							class="group relative flex flex-col gap-tight py-stack md:flex-row md:items-center md:justify-between md:gap-stack"
+						>
+							<Rule />
+							<h3 class="flex shrink-0 items-center gap-gutter font-display text-xl tracking-display">
+								<Icon name={g.mark} size="lg" tone="mark" class="transition-transform duration-fast ease-out group-hover:rotate-90" />
+								{g.title}
+							</h3>
+							<ul class="flex flex-wrap items-center gap-tight text-base text-ink-muted md:justify-end">
+								{g.items.map((item, i) => (
+									<li class="flex items-center gap-tight">
+										{i > 0 && <span aria-hidden="true" class="size-dot rounded-full bg-ink" />}
+										{item}
+									</li>
+								))}
+							</ul>
+						</li>
+					))
+				}
+			</ul>
+		</section>
+
+		<section aria-labelledby="education-heading" class="flex flex-col gap-title">
+			<div id="education-heading"><SectionHead index="04" title="Education & certifications" mark="leaf" /></div>
+			<ul>
+				{
+					education.map((e) => (
+						<li data-reveal class="relative flex flex-col gap-tight py-stack md:flex-row md:items-center md:justify-between">
+							<Rule />
+							<h3 class="flex items-center gap-gutter font-display text-xl tracking-display">
+								<Icon name={e.mark} size="lg" tone="mark" />
+								{e.title}
+							</h3>
+							<Label class="text-ink-muted">{e.detail}</Label>
+						</li>
+					))
+				}
+			</ul>
+			<Label class="text-ink-muted">Languages: {languages}</Label>
+		</section>
+
+		<section aria-labelledby="recognition-heading" class="flex flex-col gap-title">
+			<div id="recognition-heading"><SectionHead index="05" title="Awards & recognition" mark="half" /></div>
+			<ul>
+				{
+					recognition.map((r) => (
+						<li data-reveal class="relative grid gap-tight py-stack md:grid-cols-12 md:gap-gutter">
+							<Rule />
+							<h3 class="flex items-center gap-gutter font-display text-xl tracking-display md:col-span-5">
+								<Icon name={r.mark} size="lg" tone="mark" />
+								{r.title}
+							</h3>
+							<div class="flex flex-col gap-tight md:col-span-6 md:col-start-7">
+								<p class="text-base text-ink-muted">{r.text}</p>
+								<Label>{r.org}</Label>
+							</div>
+						</li>
+					))
+				}
+			</ul>
+		</section>
+
+		{
+			attributed.length > 0 && (
+				<section aria-labelledby="testimonials-heading" class="flex flex-col gap-title">
+					<div id="testimonials-heading">
+						<SectionHead index="06" title="What people say" mark="leaf" />
+					</div>
+					<ul class="grid gap-stack md:grid-cols-3 md:gap-gutter">
+						{attributed.map((t) => (
+							<li data-reveal class="relative flex flex-col gap-gutter pt-stack">
+								<Rule />
+								<blockquote class="font-serif text-xl leading-title">“{t.quote}”</blockquote>
+								<Label>
+									{t.name}, {t.title} · {t.org}
+								</Label>
+							</li>
+						))}
+					</ul>
+				</section>
+			)
+		}
+	</div>
+</BaseLayout>
+
+<style>
+	.skill-tab[aria-pressed='true'] {
+		background: var(--color-ink);
+		border-color: var(--color-ink);
+		color: var(--color-paper);
+	}
+
+	.skill-tab:hover {
+		border-color: var(--color-ink);
+	}
+</style>
+
+<script>
+	// Skill filter tabs: show every group for "All", otherwise only the chosen one.
+	const tabs = document.querySelector<HTMLElement>('[data-skill-tabs]');
+	if (tabs) {
+		tabs.hidden = false;
+		const buttons = [...tabs.querySelectorAll<HTMLButtonElement>('[data-filter]')];
+		const groups = [...document.querySelectorAll<HTMLElement>('[data-skill-group]')];
+		buttons.forEach((btn) =>
+			btn.addEventListener('click', () => {
+				const f = btn.dataset.filter;
+				buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+				groups.forEach((g) => (g.hidden = f !== 'all' && g.dataset.skillGroup !== f));
+				// Rows that were hidden missed their scroll trigger; a resize makes ScrollTrigger re-check.
+				window.dispatchEvent(new Event('resize'));
+			}),
+		);
+	}
+</script>

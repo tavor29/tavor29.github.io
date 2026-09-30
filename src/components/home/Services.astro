@@ -26,14 +26,7 @@ import { services } from '../../data/home';
 							/>
 							{s.title}
 						</h3>
-						<ul class="flex flex-wrap items-center gap-tight text-sm text-ink-muted">
-							{s.tags.map((t, i) => (
-								<li class="flex items-center gap-tight">
-									{i > 0 && <span aria-hidden="true" class="size-dot rounded-full bg-ink" />}
-									{t}
-								</li>
-							))}
-						</ul>
+						<p class="max-w-md text-base text-ink-muted md:text-right">{s.text}</p>
 					</li>
 				))
 			}

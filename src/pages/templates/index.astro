@@ -5,6 +5,26 @@ import IndexRow from '../../components/ui/IndexRow.astro';
 import { withBase } from '../../lib/base';
 
 const docs = (await getCollection('templates')).sort((a, b) => a.data.order - b.data.order);
+
+// Tools built in real roles. Sanitized previews aren't published yet, so these
+// link to an email request; swap the href for a page once a preview exists.
+const realTools: { title: string; body: string; mark: 'half' | 'quarter' | 'circle' | 'leaf' }[] = [
+	{
+		title: 'Executive Budget & Milestone KPI Tracker (SQL + Tableau)',
+		body: 'Automated dashboard for tracking multi-million-dollar program spend, milestone risk, and long-lead bottlenecks in real time.',
+		mark: 'quarter',
+	},
+	{
+		title: 'Shadow AI Intake & Compliance Matrix',
+		body: 'A standard framework for evaluating AI tools on data privacy, API security, cost, and architecture fit.',
+		mark: 'half',
+	},
+	{
+		title: 'Long-Lead Procurement & BOM Tracker',
+		body: 'Links R&D specifications to vendor lead times, PO approvals, and site delivery handoffs.',
+		mark: 'quarter',
+	},
+];
 ---
 
 <BaseLayout title="Templates & Docs" description="Working templates and worked examples: pilot readiness, license audits, one-page PRDs, decision memos and prioritization.">
@@ -24,6 +44,17 @@ const docs = (await getCollection('templates')).sort((a, b) => a.data.order - b.
 					label={d.data.kind}
 					mark={d.data.mark}
 					real={d.data.origin !== 'fictional'}
+				/>
+			))
+		}
+		{
+			realTools.map((t) => (
+				<IndexRow
+					href={`mailto:tzavor29@gmail.com?subject=${encodeURIComponent(`${t.title}: preview request`)}`}
+					title={t.title}
+					body={t.body}
+					label="Real work · sanitized preview on request"
+					mark={t.mark}
 				/>
 			))
 		}

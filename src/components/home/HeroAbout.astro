@@ -61,7 +61,8 @@ import { withBase } from '../../lib/base';
 
 			<div data-reveal class="flex flex-col justify-center gap-stack md:col-span-4 md:aspect-[400/456] md:pl-stack">
 				<p class="text-lg text-ink-muted">{person.positioningMore}</p>
-				<div>
+				<div class="flex flex-col items-start gap-gutter">
+					<ArrowLink href={withBase('about/')}>More on how I work</ArrowLink>
 					<ArrowLink href={withBase(person.resume)}>Download résumé</ArrowLink>
 				</div>
 			</div>

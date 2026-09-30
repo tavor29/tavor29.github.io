@@ -19,6 +19,10 @@ const resolve = (href: string) => (/^(https?:|mailto:)/.test(href) ? href : with
 			<div class="flex flex-col gap-gutter">
 				<Label class="text-paper-muted">(05) Contact</Label>
 				<h2 data-reveal class="font-serif text-2xl leading-display md:text-3xl">Let’s talk.</h2>
+				<p data-reveal class="max-w-xl text-lg text-paper-muted">{person.availability}</p>
+				<Label class="text-paper-muted">
+					{person.location} · <a class="text-paper hover:underline" href={person.phoneHref}>{person.phone}</a>
+				</Label>
 			</div>
 			{/* The four marks as a block: a row on phones, a 2×2 grid from md up. Each turns on hover. */}
 			<div aria-hidden="true" class="grid w-max grid-cols-4 gap-tight md:grid-cols-2">

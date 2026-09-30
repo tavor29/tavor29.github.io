@@ -5,8 +5,23 @@ import Label from '../ui/Label.astro';
 import Rule from '../ui/Rule.astro';
 import ArrowChip from '../ui/ArrowChip.astro';
 import Icon from '../Icon.astro';
-import { work } from '../../data/home';
+import { projects } from '../../data/home';
+import { caseStudies } from '../../data/case-studies';
 import { withBase } from '../../lib/base';
+import type { IconName } from '../../lib/icons';
+
+// Real case studies first, then the coded projects (fictional company).
+const rows: { title: string; blurb: string; label: string; href: string; mark: IconName; real: boolean }[] = [
+	...caseStudies.map((c) => ({
+		title: c.title,
+		blurb: c.challenge,
+		label: `Real work · ${c.org} · ${c.years}`,
+		href: `case-studies/${c.slug}/`,
+		mark: c.mark,
+		real: true,
+	})),
+	...projects.map((p) => ({ ...p, real: false })),
+];
 ---
 
 <section id="work" class="pt-section">
@@ -14,7 +29,7 @@ import { withBase } from '../../lib/base';
 		<SectionHead index="03" title="Selected work" mark="half" />
 		<ol>
 			{
-				work.map((w) => (
+				rows.map((w) => (
 					<li data-reveal class="relative">
 						<Rule />
 						<a

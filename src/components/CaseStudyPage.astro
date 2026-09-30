@@ -1,0 +1,83 @@
+---
+// Shared layout for the real-work case studies: Context / Challenge / Actions /
+// Results from src/data/case-studies.ts, then the page's own artifacts (charts,
+// diagrams) passed in as the default slot.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import OriginBadge from './OriginBadge.astro';
+import Icon from './Icon.astro';
+import { withBase } from '../lib/base';
+import { caseStudyBySlug } from '../data/case-studies';
+import '../styles/editorial.css';
+
+interface Props {
+	slug: string;
+}
+
+const c = caseStudyBySlug(Astro.props.slug);
+---
+
+<BaseLayout title={c.org} description={c.challenge}>
+	<div class="editorial">
+		<div data-shape-in class="page-mark"><Icon name={c.mark} size="xl" tone="mark" /></div>
+		<OriginBadge origin="real" />
+		<h1>{c.title}</h1>
+		<p class="dek">Case study {c.number} · {c.role} · {c.org} · {c.years}</p>
+
+		<section>
+			<h3>Context</h3>
+			<p>{c.context}</p>
+		</section>
+
+		<section>
+			<h3>Challenge</h3>
+			<p>{c.challenge}</p>
+		</section>
+
+		<section>
+			<h3>Actions</h3>
+			<ul>
+				{c.actions.map((a) => <li>{a}</li>)}
+			</ul>
+		</section>
+
+		<section>
+			<h3>Results</h3>
+			<ul class="results">
+				{
+					c.results.map((r) => (
+						<li>
+							<strong>{r.lead}</strong> {r.text}
+						</li>
+					))
+				}
+			</ul>
+		</section>
+
+		<slot />
+
+		<p class="back">
+			<a class="icon-link" href={withBase('case-studies/')}><Icon name="arrow" size="sm" class="rotate-180" />All case studies</a>
+		</p>
+	</div>
+</BaseLayout>
+
+<style>
+	.dek {
+		max-width: 42rem;
+		color: var(--color-text-muted);
+		margin-top: var(--space-2);
+	}
+
+	.editorial :global(section > ul) {
+		padding-left: var(--space-4);
+	}
+
+	.editorial :global(section > ul > li + li) {
+		margin-top: var(--space-2);
+	}
+
+	.back {
+		margin-top: var(--space-6);
+		font-size: var(--text-sm);
+	}
+</style>

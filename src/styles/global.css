@@ -69,6 +69,11 @@
 		outline-offset: 3px;
 	}
 
+	/* The hidden attribute always wins over display utilities like `flex`. */
+	[hidden] {
+		display: none !important;
+	}
+
 	/* Text link with a leading or trailing <Icon>. */
 	.icon-link {
 		display: inline-flex;
