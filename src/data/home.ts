@@ -71,6 +71,31 @@ export const services: { tag: string; title: string; text: string; mark: IconNam
 	},
 ];
 
+// "How I think": four beliefs about product, shown as ruled rows after the
+// pillars. Each gets one of the four marks, in order.
+export const beliefs: { title: string; text: string; mark: IconName }[] = [
+	{
+		title: 'Early product work should expose the riskiest assumption, not prove the easiest one.',
+		text: 'Technical feasibility is almost never the assumption most likely to kill adoption. Whether the user who matters most actually has the problem you think they have usually is. I design the first weeks of any new product around stress-testing that assumption, not building the most demoable version.',
+		mark: 'half',
+	},
+	{
+		title: 'Value isn’t complete until users can perceive it.',
+		text: 'In complex categories like cybersecurity, AI and B2B platforms, a product can work perfectly and still feel like nothing is happening. The product job isn’t done until value is legible: visible enough to trust, specific enough to recommend, real enough to renew.',
+		mark: 'quarter',
+	},
+	{
+		title: 'Design is upstream, not downstream.',
+		text: 'The most important design decisions aren’t about color or polish. They’re structural: what appears first, what’s hidden, what’s the default, what the system implies about how users should behave. These choices shape behavior before anyone reads a single word, and they’re product strategy, not styling.',
+		mark: 'circle',
+	},
+	{
+		title: 'I’d rather build something a smaller group loves than something everyone tolerates.',
+		text: 'In early products, love is a more reliable signal than completeness. It tells you whether you’ve found something worth scaling, or just something that technically works. Minimum lovable, not minimum viable.',
+		mark: 'leaf',
+	},
+];
+
 // Coded projects for the Selected work list (case studies come first, from
 // ./case-studies.ts). They get an outline mark; case studies get a solid one.
 export const projects: {

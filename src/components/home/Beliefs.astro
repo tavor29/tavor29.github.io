@@ -1,0 +1,32 @@
+---
+// How I think: four beliefs about product as ruled rows. On wide screens the
+// number and mark, the belief, and the reasoning sit in three columns; on
+// phones they stack. Copy lives in data/home.ts.
+import Container from '../ui/Container.astro';
+import SectionHead from '../ui/SectionHead.astro';
+import Label from '../ui/Label.astro';
+import Rule from '../ui/Rule.astro';
+import Icon from '../Icon.astro';
+import { beliefs } from '../../data/home';
+---
+
+<section id="thinking" class="pt-section">
+	<Container class="flex flex-col gap-title">
+		<SectionHead index="03" eyebrow="How I think" title="A few things I believe about product" mark="quarter" />
+		<ol>
+			{
+				beliefs.map((b, i) => (
+					<li data-reveal class="group relative grid gap-gutter py-stack md:grid-cols-12">
+						<Rule />
+						<span class="flex items-center gap-tight md:col-span-2 md:items-start">
+							<Icon name={b.mark} size="md" tone="mark" class="transition-transform duration-fast ease-out group-hover:rotate-90" />
+							<Label class="text-ink-muted">{String(i + 1).padStart(2, '0')}</Label>
+						</span>
+						<h3 class="font-display text-xl leading-title tracking-display md:col-span-5">{b.title}</h3>
+						<p class="text-base text-ink-muted md:col-span-5">{b.text}</p>
+					</li>
+				))
+			}
+		</ol>
+	</Container>
+</section>
