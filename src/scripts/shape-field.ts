@@ -1,10 +1,14 @@
-// The hero's four floating shapes: a tiny physics loop, no library. Each shape
-// drifts at a slow, steady speed, bounces off the hero's edges, the text
-// (label, headline lines, subline, bottom row), the nav pill and the portrait,
-// and bumps into the other shapes. The pointer nudges them too. Runs only
-// while the hero is on screen; motion.ts starts it only when the visitor
-// hasn't asked for reduced motion, otherwise the shapes stay where the CSS
-// puts them.
+// The hero's four floating shapes: a tiny steering loop, no library. Each shape
+// glides slowly along long, gently curving paths, eases away from the hero's
+// edges, the text (label, headline lines, subline, bottom row), the nav pill,
+// the portrait and the other shapes before it reaches them, and turns slowly
+// as it goes. Nothing snaps or bounces: contact is a soft push, and a hard
+// constraint only exists as a safety net. The pointer nudges them gently.
+// On phones (under 768px) the text fills the hero, so the shapes don't dodge
+// it: they drift behind it as a faint ambient layer (Hero.astro dims them).
+// Runs only while the hero is on screen; motion.ts starts it only when the
+// visitor hasn't asked for reduced motion, otherwise the shapes stay where
+// the CSS puts them.
 
 type Body = {
 	el: HTMLElement;
@@ -13,27 +17,29 @@ type Body = {
 	vx: number;
 	vy: number;
 	size: number;
-	r: number; // radius for bumping into other shapes
+	r: number; // radius for spacing from other shapes
 	rHit: number; // radius for text and boxes: covers corners as the shape turns
 	rWall: number; // radius for the hero's edges: under half the shape, so it can run partly off the page
-	m: number; // mass, by area
 	a: number; // rotation, degrees
-	va: number; // spin, degrees per second
-	cruise: number; // the speed it settles back to, px/s
+	va: number; // spin, degrees per second (eased, never kicked)
+	spin: number; // this shape's own slow resting spin, degrees per second
+	cruise: number; // the speed it glides at, px/s
+	phase: [number, number]; // offsets for its wandering, so no two shapes turn in step
 	hx: number; // home: its starting spot as a fraction of the field, so it survives resizes
 	hy: number;
 };
 
 type Rect = { l: number; t: number; r: number; b: number };
 
-// Big shapes drift slower (~46 to ~65 px/s at 1440px); narrower screens slow
-// everything a little so small heroes don't feel busy.
-const cruiseFor = (size: number, width: number) => (70 - size * 0.12) * Math.min(1, Math.max(0.6, width / 1440));
+// Big shapes glide slower (~16 to ~27 px/s at 1440px); narrower screens slow
+// everything further so a phone hero stays calm.
+const cruiseFor = (size: number, width: number) => (30 - size * 0.07) * Math.min(1, Math.max(0.45, width / 1440));
 
 const PAD = 12; // breathing room kept around text and boxes, px
-const RESTITUTION = 0.9;
-const PULL = 14; // attraction between shapes, px/s², turns paths without adding speed
-const HOME = 0.08; // spring back toward each shape's starting spot, per s², keeps the layout balanced
+const HOME = 0.02; // faint pull back toward each shape's starting spot, keeps the layout balanced
+const TURN = 0.22; // how far a shape's heading wanders, rad/s at most
+const EASE = 0.6; // how quickly speed settles back to cruise, per second
+const AMBIENT_BELOW = 768; // px: narrower heroes use the behind-the-text layer
 
 export function startShapeField(field: HTMLElement): () => void {
 	const hero = field.closest('section') ?? field;
@@ -48,7 +54,6 @@ export function startShapeField(field: HTMLElement): () => void {
 	const bodies: Body[] = els.map((el, i) => {
 		const r0 = el.getBoundingClientRect();
 		const size = el.offsetWidth;
-		const r = size * 0.5;
 		const angle = (i / els.length) * Math.PI * 2 + Math.random() * 0.8;
 		const cruise = cruiseFor(size, f.width);
 		const body: Body = {
@@ -58,13 +63,14 @@ export function startShapeField(field: HTMLElement): () => void {
 			vx: Math.cos(angle) * cruise,
 			vy: Math.sin(angle) * cruise,
 			size,
-			r,
+			r: size * 0.5,
 			rHit: size * 0.6,
 			rWall: size * 0.35,
-			m: size * size,
 			a: 0,
-			va: (Math.random() - 0.5) * 20,
+			va: 0,
+			spin: (i % 2 ? 1 : -1) * (3 + Math.random() * 3),
 			cruise,
+			phase: [Math.random() * Math.PI * 2, Math.random() * Math.PI * 2],
 			hx: (r0.left - f.left + r0.width / 2) / f.width,
 			hy: (r0.top - f.top + r0.height / 2) / f.height,
 		};
@@ -107,108 +113,140 @@ export function startShapeField(field: HTMLElement): () => void {
 	hero.addEventListener('pointermove', onMove);
 	hero.addEventListener('pointerleave', onLeave);
 
-	const bounce = (b: Body, nx: number, ny: number, push: number) => {
-		b.x += nx * push;
-		b.y += ny * push;
+	// A soft push away from something `gap` px away, starting `margin` px out and
+	// growing smoothly as the gap closes. Returns px/s² to add to velocity.
+	const soft = (gap: number, margin: number, strength: number) => {
+		if (gap >= margin) return 0;
+		const t = 1 - Math.max(gap, 0) / margin;
+		return strength * t * t;
+	};
+
+	// Safety net: if a shape does end up overlapping, move it out and drop only
+	// the part of its velocity heading inward. No reflection, so no bounce.
+	const settle = (b: Body, nx: number, ny: number, depth: number) => {
+		b.x += nx * depth;
+		b.y += ny * depth;
 		const vn = b.vx * nx + b.vy * ny;
 		if (vn < 0) {
-			b.vx -= (1 + RESTITUTION) * vn * nx;
-			b.vy -= (1 + RESTITUTION) * vn * ny;
-			b.va += (b.vx * ny - b.vy * nx) * 0.15; // glancing hits add spin
+			b.vx -= vn * nx;
+			b.vy -= vn * ny;
 		}
 	};
 
-	// Push a body out of a rectangle it overlaps, reflecting its velocity.
-	const collideRect = (b: Body, o: Rect) => {
-		const cx = Math.max(o.l, Math.min(b.x, o.r));
-		const cy = Math.max(o.t, Math.min(b.y, o.b));
-		let dx = b.x - cx;
-		let dy = b.y - cy;
-		let d = Math.hypot(dx, dy);
-		if (d >= b.rHit) return;
-		if (d === 0) {
-			// Centre inside the box: leave by the nearest side.
-			const exits = [b.x - o.l, o.r - b.x, b.y - o.t, o.b - b.y];
-			const k = exits.indexOf(Math.min(...exits));
-			dx = [-1, 1, 0, 0][k];
-			dy = [0, 0, -1, 1][k];
-			d = 0;
-			bounce(b, dx, dy, exits[k] + b.rHit);
-			return;
-		}
-		bounce(b, dx / d, dy / d, b.rHit - d);
-	};
-
+	let t = 0;
 	const step = (dt: number) => {
+		t += dt;
 		f = origin();
 		const W = f.width;
 		const H = f.height;
-		const rects = obstacles();
+		// Phones: no dodging the text, the shapes float behind it.
+		const rects = W < AMBIENT_BELOW ? [] : obstacles();
+		const margin = Math.min(90, Math.max(40, W * 0.06)); // how early shapes start easing away
 
-		// A gentle pull between shapes bends their paths toward each other, so they
-		// meet and bump instead of each circling its own side of the headline.
-		for (let i = 0; i < bodies.length; i++) {
-			for (let j = i + 1; j < bodies.length; j++) {
-				const p = bodies[i];
-				const q = bodies[j];
-				const dx = q.x - p.x;
-				const dy = q.y - p.y;
-				const d = Math.hypot(dx, dy) || 1;
-				if (d < p.r + q.r + 20) continue;
-				const pull = PULL * dt;
-				p.vx += (dx / d) * pull;
-				p.vy += (dy / d) * pull;
-				q.vx -= (dx / d) * pull;
-				q.vy -= (dy / d) * pull;
-			}
-		}
-
-		// Sizes follow the screen (fluid tokens), so re-read them in case of a resize.
-		// Home spots are fractions of the field and adapt on their own.
 		for (const b of bodies) {
+			// Sizes follow the screen (fluid tokens), so re-read them in case of a resize.
 			const size = b.el.offsetWidth;
 			if (size !== b.size) {
 				b.size = size;
 				b.r = size * 0.5;
 				b.rHit = size * 0.6;
 				b.rWall = size * 0.35;
-				b.m = size * size;
-				b.cruise = cruiseFor(size, W);
 			}
+			b.cruise = cruiseFor(size, W);
 		}
 
 		for (const b of bodies) {
-			b.vx += (b.hx * W - b.x) * HOME * dt;
-			b.vy += (b.hy * H - b.y) * HOME * dt;
-			b.x += b.vx * dt;
-			b.y += b.vy * dt;
-			b.a += b.va * dt;
-			b.va *= 1 - 0.3 * dt; // spin eases off between hits
+			let ax = 0;
+			let ay = 0;
+			const strength = b.cruise * 2.2; // steering force scales with the shape's own pace
 
-			// Hero edges.
-			if (b.x < b.rWall) bounce(b, 1, 0, b.rWall - b.x);
-			if (b.x > W - b.rWall) bounce(b, -1, 0, b.x - (W - b.rWall));
-			if (b.y < b.rWall) bounce(b, 0, 1, b.rWall - b.y);
-			if (b.y > H - b.rWall) bounce(b, 0, -1, b.y - (H - b.rWall));
+			// Wander: turn the heading a little, by two slow overlapping waves.
+			const turn = TURN * (0.65 * Math.sin(t * 0.21 + b.phase[0]) + 0.35 * Math.sin(t * 0.47 + b.phase[1]));
+			const c = Math.cos(turn * dt);
+			const s = Math.sin(turn * dt);
+			[b.vx, b.vy] = [b.vx * c - b.vy * s, b.vx * s + b.vy * c];
 
-			for (const o of rects) collideRect(b, o);
+			// Faint pull home.
+			ax += (b.hx * W - b.x) * HOME;
+			ay += (b.hy * H - b.y) * HOME;
 
+			// Ease away from the hero's edges.
+			ax += soft(b.x - b.rWall, margin, strength) - soft(W - b.rWall - b.x, margin, strength);
+			ay += soft(b.y - b.rWall, margin, strength) - soft(H - b.rWall - b.y, margin, strength);
+
+			// Ease away from text, the nav and the portrait.
+			for (const o of rects) {
+				const cx = Math.max(o.l, Math.min(b.x, o.r));
+				const cy = Math.max(o.t, Math.min(b.y, o.b));
+				const dx = b.x - cx;
+				const dy = b.y - cy;
+				const d = Math.hypot(dx, dy);
+				if (d === 0) continue; // handled by the safety net below
+				const push = soft(d - b.rHit, margin, strength * 1.4);
+				ax += (dx / d) * push;
+				ay += (dy / d) * push;
+			}
+
+			// Ease away from the other shapes (they drift close, never collide hard).
+			for (const o of bodies) {
+				if (o === b) continue;
+				const dx = b.x - o.x;
+				const dy = b.y - o.y;
+				const d = Math.hypot(dx, dy) || 1;
+				const push = soft(d - (b.r + o.r), margin * 0.8, strength);
+				ax += (dx / d) * push;
+				ay += (dy / d) * push;
+			}
+
+			// The pointer parts them gently, like a hand through water.
 			if (pointer) {
 				const dx = b.x - pointer.x;
 				const dy = b.y - pointer.y;
-				const d = Math.hypot(dx, dy);
-				const reach = b.rHit + 40;
-				if (d > 0 && d < reach) bounce(b, dx / d, dy / d, reach - d);
+				const d = Math.hypot(dx, dy) || 1;
+				const push = soft(d - b.rHit, 120, strength * 1.5);
+				ax += (dx / d) * push;
+				ay += (dy / d) * push;
 			}
 
-			// Ease back toward cruising speed so they never stall or race.
-			const s = Math.hypot(b.vx, b.vy) || 1;
-			const k = 1 + ((b.cruise - s) / s) * Math.min(1, dt * 1.5);
-			b.vx *= k;
-			b.vy *= k;
+			b.vx += ax * dt;
+			b.vy += ay * dt;
+
+			// Settle speed back toward cruise, smoothly, and never let it race.
+			const sp = Math.hypot(b.vx, b.vy) || 1;
+			const target = b.cruise + (Math.min(sp, b.cruise * 2) - b.cruise) * (1 - EASE * dt);
+			b.vx *= target / sp;
+			b.vy *= target / sp;
+
+			b.x += b.vx * dt;
+			b.y += b.vy * dt;
+
+			// Rotation follows the drift: a slow resting spin plus a lean into the
+			// sideways motion, eased so it never jolts.
+			const vaTarget = b.spin + b.vx * 0.12;
+			b.va += (vaTarget - b.va) * Math.min(1, dt * 0.8);
+			b.a += b.va * dt;
+
+			// Safety nets: edges, then text and boxes.
+			if (b.x < b.rWall) settle(b, 1, 0, b.rWall - b.x);
+			if (b.x > W - b.rWall) settle(b, -1, 0, b.x - (W - b.rWall));
+			if (b.y < b.rWall) settle(b, 0, 1, b.rWall - b.y);
+			if (b.y > H - b.rWall) settle(b, 0, -1, b.y - (H - b.rWall));
+			for (const o of rects) {
+				const cx = Math.max(o.l, Math.min(b.x, o.r));
+				const cy = Math.max(o.t, Math.min(b.y, o.b));
+				const dx = b.x - cx;
+				const dy = b.y - cy;
+				const d = Math.hypot(dx, dy);
+				if (d >= b.rHit) continue;
+				if (d === 0) {
+					const exits = [b.x - o.l, o.r - b.x, b.y - o.t, o.b - b.y];
+					const k = exits.indexOf(Math.min(...exits));
+					settle(b, [-1, 1, 0, 0][k], [0, 0, -1, 1][k], exits[k] + b.rHit);
+				} else settle(b, dx / d, dy / d, b.rHit - d);
+			}
 		}
 
-		// Shape-to-shape bumps: elastic impulse along the line between centres.
+		// Safety net between shapes: separate any overlap, share the inward speed.
 		for (let i = 0; i < bodies.length; i++) {
 			for (let j = i + 1; j < bodies.length; j++) {
 				const p = bodies[i];
@@ -220,22 +258,9 @@ export function startShapeField(field: HTMLElement): () => void {
 				if (d === 0 || d >= min) continue;
 				const nx = dx / d;
 				const ny = dy / d;
-				const overlap = min - d;
-				const total = p.m + q.m;
-				p.x -= nx * overlap * (q.m / total);
-				p.y -= ny * overlap * (q.m / total);
-				q.x += nx * overlap * (p.m / total);
-				q.y += ny * overlap * (p.m / total);
-				const rel = (q.vx - p.vx) * nx + (q.vy - p.vy) * ny;
-				if (rel < 0) {
-					const jmp = (-(1 + RESTITUTION) * rel) / (1 / p.m + 1 / q.m);
-					p.vx -= (jmp / p.m) * nx;
-					p.vy -= (jmp / p.m) * ny;
-					q.vx += (jmp / q.m) * nx;
-					q.vy += (jmp / q.m) * ny;
-					p.va -= 25;
-					q.va += 25;
-				}
+				const half = (min - d) / 2;
+				settle(p, -nx, -ny, half);
+				settle(q, nx, ny, half);
 			}
 		}
 
