@@ -1,0 +1,30 @@
+---
+// Four headline numbers under About. Each number counts up once as the row
+// scrolls in (data-count, scripts/motion.ts); the final value is in the HTML,
+// so no-JS and reduced motion just show it.
+import Container from '../ui/Container.astro';
+import Rule from '../ui/Rule.astro';
+import Icon from '../Icon.astro';
+import { stats } from '../../data/home';
+
+const format = (n: number) => n.toLocaleString('en-US');
+---
+
+<section aria-label="In numbers" class="pt-section">
+	<Container>
+		<ul class="grid grid-cols-2 gap-x-gutter md:grid-cols-4">
+			{
+				stats.map((s) => (
+					<li data-reveal class="group relative flex flex-col gap-tight py-stack pr-gutter">
+						<Rule />
+						<Icon name={s.mark} size="md" tone="mark" class="transition-transform duration-fast ease-out group-hover:rotate-90" />
+						<p class="font-display text-3xl leading-display tracking-display">
+							{s.prefix}<span data-count={s.value}>{format(s.value)}</span>{s.suffix}
+						</p>
+						<p class="text-sm text-ink-muted">{s.label}</p>
+					</li>
+				))
+			}
+		</ul>
+	</Container>
+</section>

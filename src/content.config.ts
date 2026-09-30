@@ -42,7 +42,24 @@ const slides = defineCollection({
 	}),
 });
 
+// Templates & Docs: reusable working documents. Each entry's Markdown body is
+// both the page and the downloadable file (see pages/templates/[slug].md.ts).
+const templates = defineCollection({
+	loader: glob({ pattern: '**/*.md', base: './src/content/templates' }),
+	schema: z.object({
+		title: z.string(),
+		summary: z.string(),
+		/** What kind of document it is, shown as the row's label. */
+		kind: z.string(),
+		/** Worked examples set in the fictional company must say so on the page. */
+		origin: z.enum(['fictional', 'generic']),
+		mark: z.enum(['half', 'quarter', 'circle', 'leaf']),
+		order: z.number(),
+	}),
+});
+
 export const collections = {
+	templates,
 	projects,
 	'case-studies': caseStudies,
 	blog,

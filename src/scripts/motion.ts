@@ -93,6 +93,20 @@ mm.add('(prefers-reduced-motion: no-preference)', () => {
 			gsap.to(els, { opacity: 1, y: 0, duration: t.base, ease: t.ease, stagger: 0.06 }),
 	});
 
+	// Stats: each number counts up from 0 once, as its row scrolls in.
+	gsap.utils.toArray<HTMLElement>('[data-count]').forEach((el) => {
+		const target = Number(el.dataset.count) || 0;
+		const counter = { n: 0 };
+		el.textContent = '0';
+		gsap.to(counter, {
+			n: target,
+			duration: t.slow,
+			ease: t.ease,
+			scrollTrigger: { trigger: el, start: 'top 90%', once: true },
+			onUpdate: () => (el.textContent = Math.round(counter.n).toLocaleString('en-US')),
+		});
+	});
+
 	// Ruled rows: the hairline draws left to right.
 	gsap.utils.toArray<HTMLElement>('[data-rule]').forEach((el) => {
 		gsap.to(el, {

@@ -1,0 +1,50 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import IndexRow from '../../components/ui/IndexRow.astro';
+import { withBase } from '../../lib/base';
+
+const docs = (await getCollection('templates')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title="Templates & Docs" description="Working templates and worked examples: pilot readiness, license audits, one-page PRDs, decision memos and prioritization.">
+	<h1>Templates &amp; Docs</h1>
+	<p class="dek">
+		Working documents I use to turn ad hoc decisions into repeatable ones. Each one opens as a page and downloads as an
+		editable file.
+	</p>
+
+	<ol data-ui class="rows">
+		{
+			docs.map((d) => (
+				<IndexRow
+					href={withBase(`templates/${d.id}/`)}
+					title={d.data.title}
+					body={d.data.summary}
+					label={d.data.kind}
+					mark={d.data.mark}
+					real={d.data.origin !== 'fictional'}
+				/>
+			))
+		}
+		<IndexRow
+			href="mailto:tzavor29@gmail.com?subject=BRD%20request"
+			title="Business requirements document: structured AI intake"
+			body="The BRD I wrote at Keshet for a structured intake system with duplication checks and risk scoring. Internal, so it isn't published here."
+			label="Real work · available on request"
+			mark="half"
+		/>
+	</ol>
+</BaseLayout>
+
+<style>
+	.dek {
+		max-width: 42rem;
+		color: var(--color-text-muted);
+		margin-top: var(--space-2);
+	}
+
+	.rows {
+		margin-top: var(--space-title);
+	}
+</style>

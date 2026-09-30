@@ -1,0 +1,161 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import OriginBadge from '../../components/OriginBadge.astro';
+import Icon from '../../components/Icon.astro';
+import ArrowLink from '../../components/ui/ArrowLink.astro';
+import { withBase } from '../../lib/base';
+
+export async function getStaticPaths() {
+	const docs = await getCollection('templates');
+	return docs.map((doc) => ({ params: { slug: doc.id }, props: { doc } }));
+}
+
+const { doc } = Astro.props;
+const { Content } = await render(doc);
+const fictional = doc.data.origin === 'fictional';
+---
+
+<BaseLayout title={doc.data.title} description={doc.data.summary}>
+	<article class="doc">
+		<div data-shape-in class="doc-mark">
+			<Icon name={doc.data.mark} size="xl" variant={fictional ? 'outline' : 'solid'} tone="mark" />
+		</div>
+		{fictional && <OriginBadge origin="fictional" />}
+		<h1>{doc.data.title}</h1>
+		<p class="doc-kind">{doc.data.kind}</p>
+		<p class="doc-summary">{doc.data.summary}</p>
+
+		<div class="doc-actions">
+			<ArrowLink href={withBase(`templates/${doc.id}.md`)}>Download (.md)</ArrowLink>
+		</div>
+
+		<div class="doc-body">
+			<Content />
+		</div>
+
+		<p class="back">
+			<a class="icon-link" href={withBase('templates/')}><Icon name="arrow" size="sm" class="rotate-180" />All templates</a>
+		</p>
+	</article>
+</BaseLayout>
+
+<style>
+	.doc {
+		max-width: 52rem;
+	}
+
+	.doc-mark {
+		margin-bottom: var(--space-gutter);
+	}
+
+	.doc :global(.origin-badge) + h1 {
+		margin-top: var(--space-2);
+	}
+
+	.doc-kind {
+		font-family: var(--font-label);
+		font-weight: var(--weight-label);
+		font-size: var(--text-xs);
+		text-transform: uppercase;
+		letter-spacing: var(--tracking-label);
+		color: var(--color-text-muted);
+		margin: 0;
+	}
+
+	.doc-summary {
+		font-size: var(--text-lg);
+		color: var(--color-text-muted);
+		margin: var(--space-3) 0 0;
+		max-width: 44rem;
+	}
+
+	.doc-actions {
+		margin-top: var(--space-4);
+		padding-bottom: var(--space-5);
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	/* Rendered Markdown: tables and checklists on the same hairlines as the rest of the site. */
+	.doc-body {
+		margin-top: var(--space-5);
+		line-height: var(--leading-prose);
+	}
+
+	.doc-body :global(h2) {
+		font-size: var(--text-xl);
+		margin: var(--space-6) 0 var(--space-3);
+	}
+
+	.doc-body :global(h2:first-child) {
+		margin-top: 0;
+	}
+
+	.doc-body :global(p),
+	.doc-body :global(ul) {
+		max-width: 44rem;
+	}
+
+	.doc-body :global(table) {
+		width: 100%;
+		border-collapse: collapse;
+		margin: var(--space-3) 0;
+		font-size: var(--text-sm);
+	}
+
+	.doc-body :global(th) {
+		font-family: var(--font-label);
+		font-weight: var(--weight-label);
+		font-size: var(--text-xs);
+		text-transform: uppercase;
+		letter-spacing: var(--tracking-label);
+		color: var(--color-text-muted);
+		text-align: left;
+		padding: var(--space-2) var(--space-3) var(--space-2) 0;
+		border-bottom: 1px solid var(--color-ink);
+	}
+
+	.doc-body :global(td) {
+		padding: var(--space-2) var(--space-3) var(--space-2) 0;
+		border-bottom: 1px solid var(--color-border);
+		height: var(--space-stack); /* room to write in blank rows */
+		vertical-align: top;
+	}
+
+	.doc-body :global(ul.contains-task-list) {
+		list-style: none;
+		padding-left: 0;
+	}
+
+	.doc-body :global(.task-list-item) {
+		display: flex;
+		gap: var(--space-2);
+		align-items: baseline;
+		margin-bottom: var(--space-2);
+	}
+
+	.doc-body :global(.task-list-item input) {
+		accent-color: var(--color-ink);
+	}
+
+	.doc-body :global(pre) {
+		font-family: var(--font-mono);
+		font-size: var(--text-sm);
+		padding: var(--space-3);
+		border-radius: var(--radius-sm);
+		overflow-x: auto;
+	}
+
+	.back {
+		margin-top: var(--space-6);
+		font-size: var(--text-sm);
+	}
+
+	/* Table cells can't shrink below their words on a phone; let the table scroll instead of the page. */
+	@media (max-width: 40rem) {
+		.doc-body :global(table) {
+			display: block;
+			overflow-x: auto;
+		}
+	}
+</style>

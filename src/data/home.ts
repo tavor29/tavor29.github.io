@@ -19,6 +19,16 @@ export const person = {
 export const quote =
 	'From ad hoc to repeatable. A place to see what already exists, a lightweight way to flag risk, and a fast path from “I built this for myself” to a supported tool. The goal isn’t to slow people down. It’s to make sure the organization can see what it’s actually running.';
 
+// Headline numbers for the stats row. Only figures already in the content
+// package; no budget or dollar figures (confidentiality). `value` counts up
+// on scroll; prefix/suffix are shown as-is.
+export const stats: { value: number; prefix?: string; suffix?: string; label: string; mark: IconName }[] = [
+	{ value: 5, label: 'Years running technology and AI-adoption programs', mark: 'half' },
+	{ value: 80, suffix: '+', label: 'AI and automation use cases mapped across departments', mark: 'circle' },
+	{ value: 750, prefix: '~', label: 'License seats in a usage review ahead of renewal', mark: 'quarter' },
+	{ value: 1200, suffix: '+', label: 'Employees in the new office behind a multi-year capital program', mark: 'leaf' },
+];
+
 // Each service carries one of the four marks, for colour.
 export const services: { title: string; tags: string[]; mark: IconName }[] = [
 	{ title: 'AI governance & intake', tags: ['Steering committees', 'Intake design', 'Risk scoring'], mark: 'circle' },
