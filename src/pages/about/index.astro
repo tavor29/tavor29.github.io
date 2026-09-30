@@ -1,68 +1,48 @@
 ---
-// About & how I work: executive summary, professional profile, skills (with
-// filter tabs), education, recognition, and testimonials once they have real
-// names. Copy lives in src/data/home.ts and src/data/about.ts.
+// How I work: the operating profile, tools, and education. Deliberately no
+// executive summary or pillars (those are on the homepage) and no steering
+// committee (case study 01), so nothing here repeats. Copy: src/data/about.ts.
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SectionHead from '../../components/ui/SectionHead.astro';
 import Label from '../../components/ui/Label.astro';
 import Rule from '../../components/ui/Rule.astro';
 import ArrowLink from '../../components/ui/ArrowLink.astro';
 import Icon from '../../components/Icon.astro';
-import { person, quote, services } from '../../data/home';
-import { profile, skills, skillFilters, education, languages, recognition, testimonials } from '../../data/about';
+import { person } from '../../data/home';
+import { profile, tools, education, trainingNote, languages, testimonials } from '../../data/about';
 import { withBase } from '../../lib/base';
 
 const attributed = testimonials.filter((t) => t.name.trim() && t.title.trim());
 ---
 
-<BaseLayout title="About" description={`${person.positioning} ${person.positioningMore}`}>
+<BaseLayout title="How I work" description="Leadership style, delivery methodologies, domain specialization, tools and education.">
 	<div data-ui class="flex flex-col gap-section">
 		<header class="flex flex-col gap-stack">
 			<div data-shape-in><Icon name="quarter" size="xl" tone="mark" /></div>
-			<h1 class="font-display text-3xl leading-display tracking-display">About &amp; how I work</h1>
-			<div class="grid gap-gutter md:grid-cols-2 md:gap-stack">
-				<p class="text-lg font-semibold">{person.positioning} {person.positioningMore}</p>
-				<p class="text-lg text-ink-muted">{quote}</p>
-			</div>
+			<h1 class="font-display text-3xl leading-display tracking-display">How I work</h1>
+			<p class="max-w-2xl text-lg text-ink-muted">The way I lead, the methods I rely on, and the domains I know best.</p>
 			<div class="flex flex-wrap gap-x-stack gap-y-gutter">
 				<ArrowLink href={withBase(person.resume)}>Download résumé</ArrowLink>
 				<ArrowLink href="#contact">Get in touch</ArrowLink>
 			</div>
 		</header>
 
-		<section aria-labelledby="pillars-heading" class="flex flex-col gap-title">
-			<div id="pillars-heading"><SectionHead index="01" title="Operating pillars" mark="half" /></div>
-			<ul>
-				{
-					services.map((s) => (
-						<li data-reveal class="group relative flex flex-col gap-tight py-stack md:flex-row md:items-center md:justify-between">
-							<Rule />
-							<h3 class="flex items-center gap-gutter font-display text-xl tracking-display">
-								<Icon name={s.mark} size="lg" tone="mark" class="transition-transform duration-fast ease-out group-hover:rotate-90" />
-								{s.title}
-							</h3>
-							<p class="max-w-md text-base text-ink-muted md:text-right">{s.text}</p>
-						</li>
-					))
-				}
-			</ul>
-		</section>
-
 		<section aria-labelledby="profile-heading" class="flex flex-col gap-title">
-			<div id="profile-heading"><SectionHead index="02" title="Professional profile" mark="quarter" /></div>
-			<div class="grid gap-stack md:grid-cols-3 md:gap-gutter">
+			<div id="profile-heading"><SectionHead index="01" title="Operating profile" mark="half" /></div>
+			{/* Three columns divided by hairlines, each item ruled: a grid without boxes. */}
+			<div class="grid gap-stack md:grid-cols-3 md:gap-0">
 				{
-					profile.map((col) => (
-						<div class="flex flex-col">
+					profile.map((col, i) => (
+						<div class:list={['flex flex-col', i > 0 && 'md:border-l md:border-ink-rule md:pl-gutter', i < 2 && 'md:pr-gutter']}>
 							<Label class="flex items-center gap-tight pb-gutter text-ink-muted">
 								<Icon name={col.mark} size="md" tone="mark" />
 								{col.heading}
 							</Label>
 							<ul>
 								{col.items.map((item) => (
-									<li data-reveal class="relative flex flex-col gap-tight py-gutter md:pr-gutter">
+									<li data-reveal class="relative flex flex-col gap-tight py-stack">
 										<Rule />
-										<p class="font-display text-lg tracking-display">{item.lead}</p>
+										<h3 class="font-display text-xl leading-title tracking-display">{item.lead}</h3>
 										<p class="text-base text-ink-muted">{item.text}</p>
 									</li>
 								))}
@@ -73,28 +53,13 @@ const attributed = testimonials.filter((t) => t.name.trim() && t.title.trim());
 			</div>
 		</section>
 
-		<section aria-labelledby="skills-heading" class="flex flex-col gap-title">
-			<div id="skills-heading"><SectionHead index="03" title="Skills & competencies" mark="circle" /></div>
-			{/* Filter tabs appear once JS runs; without it every group simply shows. */}
-			<div data-skill-tabs hidden role="group" aria-label="Filter skills" class="flex flex-wrap gap-tight">
-				{
-					skillFilters.map((f, i) => (
-						<button
-							type="button"
-							data-filter={f.id}
-							aria-pressed={i === 0 ? 'true' : 'false'}
-							class="skill-tab cursor-pointer rounded-full border border-ink-rule bg-transparent px-gutter py-1 font-ui text-sm text-ink transition-colors duration-fast ease-out"
-						>
-							{f.label}
-						</button>
-					))
-				}
-			</div>
+		<section aria-labelledby="tools-heading" class="flex flex-col gap-title">
+			<div id="tools-heading"><SectionHead index="02" title="Tools & stack" mark="circle" /></div>
 			<ul>
 				{
-					skills.map((g) => (
+					tools.map((g) => (
 						<li
-							data-skill-group={g.group}
+							data-reveal
 							class="group relative flex flex-col gap-tight py-stack md:flex-row md:items-center md:justify-between md:gap-stack"
 						>
 							<Rule />
@@ -117,7 +82,7 @@ const attributed = testimonials.filter((t) => t.name.trim() && t.title.trim());
 		</section>
 
 		<section aria-labelledby="education-heading" class="flex flex-col gap-title">
-			<div id="education-heading"><SectionHead index="04" title="Education & certifications" mark="leaf" /></div>
+			<div id="education-heading"><SectionHead index="03" title="Education & certifications" mark="leaf" /></div>
 			<ul>
 				{
 					education.map((e) => (
@@ -132,35 +97,17 @@ const attributed = testimonials.filter((t) => t.name.trim() && t.title.trim());
 					))
 				}
 			</ul>
-			<Label class="text-ink-muted">Languages: {languages}</Label>
-		</section>
-
-		<section aria-labelledby="recognition-heading" class="flex flex-col gap-title">
-			<div id="recognition-heading"><SectionHead index="05" title="Awards & recognition" mark="half" /></div>
-			<ul>
-				{
-					recognition.map((r) => (
-						<li data-reveal class="relative grid gap-tight py-stack md:grid-cols-12 md:gap-gutter">
-							<Rule />
-							<h3 class="flex items-center gap-gutter font-display text-xl tracking-display md:col-span-5">
-								<Icon name={r.mark} size="lg" tone="mark" />
-								{r.title}
-							</h3>
-							<div class="flex flex-col gap-tight md:col-span-6 md:col-start-7">
-								<p class="text-base text-ink-muted">{r.text}</p>
-								<Label>{r.org}</Label>
-							</div>
-						</li>
-					))
-				}
-			</ul>
+			<div class="flex flex-col gap-tight">
+				<Label>{trainingNote}</Label>
+				<Label class="text-ink-muted">Languages: {languages}</Label>
+			</div>
 		</section>
 
 		{
 			attributed.length > 0 && (
 				<section aria-labelledby="testimonials-heading" class="flex flex-col gap-title">
 					<div id="testimonials-heading">
-						<SectionHead index="06" title="What people say" mark="leaf" />
+						<SectionHead index="04" title="What people say" mark="quarter" />
 					</div>
 					<ul class="grid gap-stack md:grid-cols-3 md:gap-gutter">
 						{attributed.map((t) => (
@@ -178,34 +125,3 @@ const attributed = testimonials.filter((t) => t.name.trim() && t.title.trim());
 		}
 	</div>
 </BaseLayout>
-
-<style>
-	.skill-tab[aria-pressed='true'] {
-		background: var(--color-ink);
-		border-color: var(--color-ink);
-		color: var(--color-paper);
-	}
-
-	.skill-tab:hover {
-		border-color: var(--color-ink);
-	}
-</style>
-
-<script>
-	// Skill filter tabs: show every group for "All", otherwise only the chosen one.
-	const tabs = document.querySelector<HTMLElement>('[data-skill-tabs]');
-	if (tabs) {
-		tabs.hidden = false;
-		const buttons = [...tabs.querySelectorAll<HTMLButtonElement>('[data-filter]')];
-		const groups = [...document.querySelectorAll<HTMLElement>('[data-skill-group]')];
-		buttons.forEach((btn) =>
-			btn.addEventListener('click', () => {
-				const f = btn.dataset.filter;
-				buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
-				groups.forEach((g) => (g.hidden = f !== 'all' && g.dataset.skillGroup !== f));
-				// Rows that were hidden missed their scroll trigger; a resize makes ScrollTrigger re-check.
-				window.dispatchEvent(new Event('resize'));
-			}),
-		);
-	}
-</script>
