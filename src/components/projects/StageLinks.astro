@@ -1,0 +1,60 @@
+---
+// "Where it connects": the hand-offs into and out of this project's stage,
+// each linking to the project on the other end.
+import Icon from '../Icon.astro';
+import StatusBadge from '../ui/StatusBadge.astro';
+import { handoffs } from '../../data/citizen-ai-governance';
+import { getProjects, projectHref, stages, type Stage } from '../../lib/projects';
+import { withBase } from '../../lib/base';
+
+interface Props {
+	stage: Stage;
+}
+
+const { stage } = Astro.props;
+const projects = await getProjects();
+const byStage = (s: Stage) => projects.find((p) => p.data.stage === s)!;
+
+const rows = handoffs
+	.filter((h) => h.from === stage || h.to === stage)
+	.map((h) => {
+		const other = byStage(h.from === stage ? h.to : h.from);
+		return { ...h, other, direction: h.from === stage ? 'Hands off to' : 'Receives from' };
+	});
+---
+
+<section>
+	<h2>Where it connects</h2>
+	<ul data-ui>
+		{
+			rows.map((r) => (
+				<li data-reveal class="border-t border-ink-rule">
+					<a href={withBase(projectHref(r.other))} class="group flex flex-col gap-tight py-gutter">
+						<span class="flex flex-wrap items-center gap-tight font-label text-xs uppercase tracking-label text-ink-muted">
+							{r.direction} · Stage {stages[r.other.data.stage].n}, {stages[r.other.data.stage].name}
+						</span>
+						<span class="flex flex-wrap items-center gap-tight">
+							<Icon name={r.other.data.mark} variant="outline" size="md" tone="mark" />
+							<span class="font-display text-xl leading-title tracking-display underline-offset-4 group-hover:underline">
+								{r.other.data.title}
+							</span>
+							<StatusBadge status={r.other.data.status} />
+						</span>
+						<span class="text-base text-ink-muted">
+							<strong class="font-semibold text-ink">{r.short}.</strong> {r.text}
+						</span>
+					</a>
+				</li>
+			))
+		}
+	</ul>
+	<p class="umbrella-link">
+		<a href={withBase('projects/citizen-ai-governance/')}>See how all three fit together</a>
+	</p>
+</section>
+
+<style>
+	.umbrella-link {
+		margin-top: var(--space-3);
+	}
+</style>

@@ -1,0 +1,172 @@
+---
+// The umbrella over the three coded projects. Copy lives in
+// src/data/citizen-ai-governance.ts; each project's title, status and stage
+// come from src/content/projects/*.md.
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Icon from '../../../components/Icon.astro';
+import StatusBadge from '../../../components/ui/StatusBadge.astro';
+import WorkCard from '../../../components/cards/WorkCard.astro';
+import LifecycleDiagram from '../../../components/projects/LifecycleDiagram.astro';
+import { umbrella, problems, principles } from '../../../data/citizen-ai-governance';
+import { getProjects, projectHref, stages } from '../../../lib/projects';
+import { getWork } from '../../../data/work';
+import { person } from '../../../data/home';
+import { withBase } from '../../../lib/base';
+import '../../../styles/editorial.css';
+
+const projects = await getProjects();
+const work = await getWork();
+const cards = projects.map((p) => work.find((w) => w.href === projectHref(p))!);
+const byStage = (s: (typeof problems)[number]['stage']) => projects.find((p) => p.data.stage === s)!;
+---
+
+<BaseLayout title={umbrella.title} description={umbrella.description} type="article">
+	<div class="editorial">
+		<nav aria-label="Breadcrumb" class="crumb">
+			<a href={withBase('projects/')}>Projects</a>
+			<Icon name="arrow" size="sm" class="sep" />
+			<span aria-current="page">{umbrella.title}</span>
+		</nav>
+		<div data-shape-in class="page-mark"><Icon name="quarter" size="xl" variant="outline" tone="mark" /></div>
+		<p class="kicker">{umbrella.kicker} · Three coded projects</p>
+		<h1>{umbrella.title}</h1>
+		<p class="thesis">{umbrella.thesis}</p>
+
+		<ul data-ui class="summary">
+			{
+				projects.map((p) => (
+					<li>
+						<a href={withBase(projectHref(p))} class="flex flex-col gap-tight border-t border-ink-rule py-gutter">
+							<span class="font-label text-xs uppercase tracking-label text-ink-muted">
+								{stages[p.data.stage].n} · {stages[p.data.stage].name}
+							</span>
+							<span class="font-semibold">{p.data.title}</span>
+							<StatusBadge status={p.data.status} class="self-start" />
+						</a>
+					</li>
+				))
+			}
+		</ul>
+
+		<section>
+			<h2>The problem</h2>
+			<p>Three gaps, one for each stage of a tool’s life inside a company.</p>
+			<ol data-ui class="problems">
+				{
+					problems.map((pr, i) => (
+						<li data-reveal class="flex gap-gutter border-t border-ink-rule py-gutter">
+							<Icon name={byStage(pr.stage).data.mark} variant="outline" size="md" tone="mark" class="shrink-0" />
+							<span class="flex flex-col gap-tight">
+								<span class="font-display text-xl leading-title tracking-display">{pr.title}</span>
+								<span class="text-ink-muted">{pr.text}</span>
+							</span>
+						</li>
+					))
+				}
+			</ol>
+		</section>
+
+		<section class="section--stacked">
+			<h2>How the three fit</h2>
+			<p>
+				Each project owns one stage and one question. Apps move between them through three hand-offs, and all three read
+				and write the same app catalog. Every number in the demos is synthetic.
+			</p>
+			<LifecycleDiagram />
+		</section>
+
+		<section class="section--stacked">
+			<h2>The three projects</h2>
+			<ul data-ui class="cards grid gap-x-gutter gap-y-stack md:grid-cols-3">
+				{
+					cards.map((item) => (
+						<li>
+							<WorkCard item={item} />
+						</li>
+					))
+				}
+			</ul>
+		</section>
+
+		<section>
+			<h2>Design principles</h2>
+			<ol data-ui class="principles grid gap-x-stack md:grid-cols-2">
+				{
+					principles.map((pr, i) => (
+						<li data-reveal class="flex flex-col gap-tight border-t border-ink-rule py-gutter">
+							<span class="font-label text-xs uppercase tracking-label text-ink-muted">{String(i + 1).padStart(2, '0')}</span>
+							<span class="font-display text-xl leading-title tracking-display">{pr.title}</span>
+							<span class="text-ink-muted">{pr.text}</span>
+						</li>
+					))
+				}
+			</ol>
+		</section>
+
+		<section>
+			<h2>The real problem behind this</h2>
+			<p>
+				These projects are generalized and run on synthetic data. The real version of this problem, and what I did about
+				it, is in the <a href={withBase('case-studies/keshet/')}>Keshet Media Group case study</a>. For the rest of my
+				background, see my <a href={withBase(person.resume)}>résumé</a>.
+			</p>
+		</section>
+	</div>
+</BaseLayout>
+
+<style>
+	.crumb {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--space-2);
+		margin-bottom: var(--space-4);
+		font-size: var(--text-sm);
+		color: var(--color-text-muted);
+	}
+
+	.crumb a {
+		color: inherit;
+	}
+
+	.crumb :global(.sep) {
+		opacity: 0.5;
+	}
+
+	.kicker {
+		font-family: var(--font-label);
+		font-weight: var(--weight-label);
+		font-size: var(--text-xs);
+		text-transform: uppercase;
+		letter-spacing: var(--tracking-label);
+		color: var(--color-text-muted);
+		margin-bottom: var(--space-2);
+	}
+
+	.thesis {
+		font-family: var(--font-serif);
+		font-style: italic;
+		font-size: var(--text-xl);
+		line-height: var(--leading-title);
+		max-width: 44rem;
+		margin-top: var(--space-3);
+	}
+
+	.summary {
+		display: grid;
+		gap: 0 var(--space-gutter);
+		margin-top: var(--space-5);
+	}
+
+	@media (min-width: 768px) {
+		.summary {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+
+	.problems,
+	.principles,
+	.cards {
+		margin-top: var(--space-3);
+	}
+</style>

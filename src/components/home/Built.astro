@@ -1,27 +1,67 @@
 ---
-// Things I've built: the coded projects as image cards.
+// Things I've built: the umbrella over the coded projects as one featured
+// card, then its three projects as ruled rows in lifecycle order, each with
+// its status. Copy: data/citizen-ai-governance.ts and content/projects/*.md.
 import Container from '../ui/Container.astro';
 import SectionHead from '../ui/SectionHead.astro';
-import WorkCard from '../cards/WorkCard.astro';
+import Label from '../ui/Label.astro';
+import ArrowChip from '../ui/ArrowChip.astro';
 import ArrowLink from '../ui/ArrowLink.astro';
-import { work } from '../../data/work';
+import IndexRow from '../ui/IndexRow.astro';
+import CoverArt from '../CoverArt.astro';
+import { umbrella } from '../../data/citizen-ai-governance';
+import { getProjects, projectHref, stageLabel } from '../../lib/projects';
 import { withBase } from '../../lib/base';
 
-const projects = work.filter((w) => !w.real);
+const projects = await getProjects();
 ---
 
 <section id="built" class="pt-section">
 	<Container class="flex flex-col gap-title">
 		<SectionHead index="05" eyebrow="Things I’ve built" title="Real pain. Real solutions." mark="leaf" />
-		<ul class="grid gap-x-gutter gap-y-stack md:grid-cols-2">
-			{
-				projects.map((item) => (
-					<li>
-						<WorkCard item={item} />
-					</li>
-				))
-			}
-		</ul>
+		<div class="flex flex-col gap-gutter">
+			<a
+				href={withBase('projects/citizen-ai-governance/')}
+				data-reveal
+				class="group grid overflow-hidden rounded-md bg-ink text-paper md:grid-cols-2"
+			>
+				<div class="relative aspect-[29/20] overflow-hidden md:order-2 md:aspect-auto">
+					<CoverArt
+						seed="citizen-ai-governance"
+						shape="wide"
+						dark
+						class="absolute inset-0 transition-transform duration-slow ease-out group-hover:scale-105"
+					/>
+				</div>
+				<div class="flex flex-col justify-between gap-stack p-gutter md:p-stack">
+					<div class="flex flex-col gap-gutter">
+						<Label class="text-paper-muted">{umbrella.kicker} · Three coded projects</Label>
+						<h3 class="font-display text-2xl leading-title tracking-display">{umbrella.title}</h3>
+						<p class="font-serif text-lg italic text-paper-muted">{umbrella.thesis}</p>
+					</div>
+					<span class="flex items-center gap-tight text-sm">
+						<ArrowChip inverted />
+						Discover, decide, sustain: see how the three fit
+					</span>
+				</div>
+			</a>
+			<ol>
+				{
+					projects.map((p) => (
+						<IndexRow
+							href={withBase(projectHref(p))}
+							title={p.data.title}
+							body={p.data.question}
+							label={stageLabel(p.data.stage)}
+							mark={p.data.mark}
+							real={false}
+							status={p.data.status}
+							level={3}
+						/>
+					))
+				}
+			</ol>
+		</div>
 		<div data-reveal class="flex flex-wrap gap-x-stack gap-y-gutter">
 			<ArrowLink href={withBase('projects/')}>View all projects</ArrowLink>
 			<ArrowLink href={withBase('templates/')}>Templates &amp; docs</ArrowLink>

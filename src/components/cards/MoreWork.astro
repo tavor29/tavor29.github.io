@@ -9,7 +9,7 @@ interface Props {
 	href: string;
 }
 
-const items = moreWork(Astro.props.href);
+const items = await moreWork(Astro.props.href);
 ---
 
 <section data-ui class="more-work flex flex-col gap-title">

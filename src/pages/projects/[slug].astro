@@ -1,0 +1,206 @@
+---
+// One coded project. Prose comes from src/content/projects/<slug>.md (each ##
+// heading is laid out as a labelled section, like the other editorial
+// pages); status, links, integration map and stack come from
+// its frontmatter. Every project is one stage of The Sanctioned Path.
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
+import StatusBadge from '../../components/ui/StatusBadge.astro';
+import ProjectCrumb from '../../components/projects/ProjectCrumb.astro';
+import StageLinks from '../../components/projects/StageLinks.astro';
+import TechStack from '../../components/projects/TechStack.astro';
+import IntakeWalkthrough from '../../components/charts/IntakeWalkthrough.astro';
+import PageCover from '../../components/cards/PageCover.astro';
+import MoreWork from '../../components/cards/MoreWork.astro';
+import { getProjects, projectHref, type Project } from '../../lib/projects';
+import { getWork } from '../../data/work';
+import { withBase } from '../../lib/base';
+import '../../styles/editorial.css';
+
+export async function getStaticPaths() {
+	return (await getProjects()).map((project) => ({ params: { slug: project.id }, props: { project } }));
+}
+
+const { project } = Astro.props as { project: Project };
+const d = project.data;
+const href = projectHref(project);
+const item = (await getWork()).find((w) => w.href === href)!;
+const { Content } = await render(project);
+
+const links = [
+	...(d.demo ? [{ label: 'Live demo', href: d.demo }] : []),
+	...(d.repo ? [{ label: 'Source on GitHub', href: d.repo }] : []),
+	...d.links,
+	...(d.stage === 'decide' ? [{ label: 'The real problem behind this', href: withBase('case-studies/keshet/') }] : []),
+];
+---
+
+<BaseLayout title={d.title} description={d.summary} type="article">
+	<div class="editorial">
+		<ProjectCrumb stage={d.stage} />
+		<div data-shape-in class="page-mark"><Icon name={d.mark} size="xl" variant="outline" tone="mark" /></div>
+		<h1>{d.title}</h1>
+		<p class="question">{d.question}</p>
+		<div class="status">
+			<StatusBadge status={d.status} />
+			{d.statusNote && <span>{d.statusNote}</span>}
+		</div>
+		<p class="boundary">{d.boundary}</p>
+		{
+			links.length > 0 && (
+				<p class="links">
+					{links.map((l, i) => (
+						<>
+							{i > 0 && ' · '}
+							<a href={l.href}>{l.label}</a>
+						</>
+					))}
+				</p>
+			)
+		}
+		<PageCover item={item} />
+
+		<div class="md-sections"><Content /></div>
+
+		{
+			d.walkthrough && (
+				<section class="section--stacked">
+					<h2>Version 1, step by step</h2>
+					<p>
+						A request that would have become a duplicate build gets caught at step 2. The values are Version 1’s real
+						output for this input; Jira and Slack are simulated, so step 5 previews what production would send.
+					</p>
+					<IntakeWalkthrough />
+				</section>
+			)
+		}
+
+		{
+			d.integrations.length > 0 && (
+				<section>
+					<h2>Integration map</h2>
+					<div class="table-wrap">
+						<table>
+							<thead>
+								<tr>
+									<th>System</th>
+									<th>This demo</th>
+									<th>In production</th>
+								</tr>
+							</thead>
+							<tbody>
+								{d.integrations.map((r) => (
+									<tr>
+										<td>{r.system}</td>
+										<td>{r.demo}</td>
+										<td>{r.production}</td>
+									</tr>
+								))}
+							</tbody>
+						</table>
+					</div>
+				</section>
+			)
+		}
+
+		<TechStack stack={d.stack} />
+		<StageLinks stage={d.stage} />
+		<MoreWork href={href} />
+	</div>
+</BaseLayout>
+
+<style>
+	.question {
+		font-family: var(--font-serif);
+		font-style: italic;
+		font-size: var(--text-xl);
+		line-height: var(--leading-title);
+		margin-top: var(--space-2);
+		max-width: 44rem;
+	}
+
+	.status {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--space-2) var(--space-3);
+		margin-top: var(--space-3);
+		font-size: var(--text-sm);
+		color: var(--color-text-muted);
+	}
+
+	.boundary {
+		max-width: 44rem;
+		margin-top: var(--space-3);
+		padding-left: var(--space-3);
+		border-left: 2px solid var(--color-border);
+		color: var(--color-text-muted);
+	}
+
+	.links {
+		font-size: var(--text-sm);
+		margin-top: var(--space-3);
+	}
+
+	/* The Markdown body: each ## is a small label, like an editorial <section>
+	   heading. On wide screens the label sits in its own column, level with the
+	   first paragraph after it (styles/editorial.css's column widths). */
+	.md-sections :global(h2) {
+		font-family: var(--font-label);
+		font-weight: var(--weight-label);
+		font-size: var(--text-sm);
+		text-transform: uppercase;
+		letter-spacing: var(--tracking-label);
+		color: var(--color-text-muted);
+		margin: var(--space-5) 0 var(--space-1);
+	}
+
+	.md-sections :global(ul) {
+		padding-left: 1.2rem;
+	}
+
+	.md-sections :global(li + li) {
+		margin-top: var(--space-1);
+	}
+
+	@media (min-width: 64rem) {
+		.md-sections {
+			display: grid;
+			grid-template-columns: 11rem minmax(0, 44rem);
+			column-gap: var(--space-5);
+		}
+
+		.md-sections > :global(*) {
+			grid-column: 2;
+		}
+
+		.md-sections > :global(h2) {
+			grid-column: 1;
+			padding-top: 0.2rem;
+		}
+
+		.md-sections > :global(h2 + *) {
+			margin-top: var(--space-5);
+		}
+	}
+
+	.table-wrap {
+		max-width: 100%;
+		overflow-x: auto;
+	}
+
+	table {
+		width: 100%;
+		border-collapse: collapse;
+		font-size: var(--text-sm);
+	}
+
+	th,
+	td {
+		text-align: left;
+		padding: var(--space-2);
+		border-bottom: 1px solid var(--color-border);
+		vertical-align: top;
+	}
+</style>

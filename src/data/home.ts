@@ -1,10 +1,7 @@
 // Homepage copy. Comes from ../portfolio-copy-merged.md (source of truth since
 // 2026-09-30); don't write new claims here. Blog posts come from the content
 // collection, case studies from ./case-studies.ts, the About page from ./about.ts.
-import type { ImageMetadata } from 'astro';
 import type { IconName } from '../lib/icons';
-import intakeCover from '../assets/work/ai-intake-governance-agent.jpg';
-import citizenCover from '../assets/work/citizen-development-governance.jpg';
 
 export const person = {
 	name: 'Tavor Ben-Shahar',
@@ -93,39 +90,6 @@ export const beliefs: { title: string; text: string; mark: IconName }[] = [
 		title: 'I’d rather build something a smaller group loves than something everyone tolerates.',
 		text: 'In early products, love is a more reliable signal than completeness. It tells you whether you’ve found something worth scaling, or just something that technically works. Minimum lovable, not minimum viable.',
 		mark: 'leaf',
-	},
-];
-
-// Coded projects for the Selected work list (case studies come first, from
-// ./case-studies.ts). They get an outline mark; case studies get a solid one.
-export const projects: {
-	title: string;
-	blurb: string;
-	label: string;
-	href: string;
-	mark: IconName;
-	cover?: ImageMetadata;
-	coverAlt?: string;
-}[] = [
-	{
-		title: 'AI Project Intake & Governance Agent',
-		blurb:
-			'An agent that turns a chat-based tool request into a structured intake with a duplication check and a risk score.',
-		label: 'Flagship · coded project',
-		href: 'projects/ai-intake-governance-agent/',
-		mark: 'circle',
-		cover: intakeCover,
-		coverAlt: 'Sticky notes and a printed plan on a desk',
-	},
-	{
-		title: 'Citizen Development Governance Model',
-		blurb:
-			'A tracked path from idea to production for internally built tools, with a maintenance owner at every stage.',
-		label: 'Coded project',
-		href: 'projects/citizen-development-governance/',
-		mark: 'leaf',
-		cover: citizenCover,
-		coverAlt: 'Two people working through something on a laptop',
 	},
 ];
 

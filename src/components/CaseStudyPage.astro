@@ -6,7 +6,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from './Icon.astro';
 import { withBase } from '../lib/base';
 import { caseStudyBySlug } from '../data/case-studies';
-import { work } from '../data/work';
+import { getWork } from '../data/work';
 import PageCover from './cards/PageCover.astro';
 import MoreWork from './cards/MoreWork.astro';
 import '../styles/editorial.css';
@@ -17,7 +17,7 @@ interface Props {
 
 const c = caseStudyBySlug(Astro.props.slug);
 const href = `case-studies/${c.slug}/`;
-const item = work.find((w) => w.href === href)!;
+const item = (await getWork()).find((w) => w.href === href)!;
 ---
 
 <BaseLayout title={c.org} description={c.challenge}>

@@ -9,6 +9,8 @@ import Icon from '../Icon.astro';
 import Label from './Label.astro';
 import Rule from './Rule.astro';
 import ArrowChip from './ArrowChip.astro';
+import StatusBadge from './StatusBadge.astro';
+import type { Status } from '../../lib/projects';
 import type { IconName } from '../../lib/icons';
 
 interface Props {
@@ -22,9 +24,14 @@ interface Props {
 	mark?: IconName;
 	/** Solid mark for case studies and real-work items, outline for coded projects and worked examples. */
 	real?: boolean;
+	/** Coded projects: a status badge under the label. */
+	status?: Status;
+	/** Heading level for the title: 2 on index pages, 3 inside a homepage section. */
+	level?: 2 | 3;
 }
 
-const { href, title, body, label, meta, mark, real = true } = Astro.props;
+const { href, title, body, label, meta, mark, real = true, status, level = 2 } = Astro.props;
+const Heading = level === 3 ? 'h3' : 'h2';
 ---
 
 <li data-reveal class="relative">
@@ -55,11 +62,12 @@ const { href, title, body, label, meta, mark, real = true } = Astro.props;
 				mark ? 'col-start-2' : 'col-span-2 col-start-1 row-start-2',
 			]}
 		>
-			<h2 class="font-display text-xl leading-title tracking-display transition-transform duration-base ease-out group-hover:translate-x-tight">
+			<Heading class="font-display text-xl leading-title tracking-display transition-transform duration-base ease-out group-hover:translate-x-tight">
 				{title}
-			</h2>
+			</Heading>
 			{body && <p class="max-w-2xl text-base text-ink-muted">{body}</p>}
 			{label && <Label>{label}</Label>}
+			{status && <StatusBadge status={status} class="self-start" />}
 		</div>
 		<div class="col-start-3 row-start-1 justify-self-end md:col-span-1 md:col-start-12">
 			<ArrowChip />

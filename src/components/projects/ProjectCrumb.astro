@@ -1,0 +1,63 @@
+---
+// "Part of The Sanctioned Path": the breadcrumb at the top of each project page.
+import Icon from '../Icon.astro';
+import { umbrella } from '../../data/citizen-ai-governance';
+import { stages, type Stage } from '../../lib/projects';
+import { withBase } from '../../lib/base';
+
+interface Props {
+	stage: Stage;
+}
+
+const { stage } = Astro.props;
+---
+
+<nav aria-label="Breadcrumb" class="crumb">
+	<ol>
+		<li><a href={withBase('projects/')}>Projects</a></li>
+		<li>
+			<Icon name="arrow" size="sm" class="sep" />
+			<a href={withBase('projects/citizen-ai-governance/')}>Part of {umbrella.title}</a>
+		</li>
+		<li aria-current="page">
+			<Icon name="arrow" size="sm" class="sep" />
+			Stage {stages[stage].n} of 3 · {stages[stage].name}
+		</li>
+	</ol>
+</nav>
+
+<style>
+	.crumb {
+		margin-bottom: var(--space-4);
+		font-size: var(--text-sm);
+		color: var(--color-text-muted);
+	}
+
+	.crumb ol {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--space-2);
+	}
+
+	.crumb li {
+		display: flex;
+		align-items: center;
+		gap: var(--space-2);
+	}
+
+	.crumb a {
+		color: inherit;
+	}
+
+	.crumb a:hover {
+		color: var(--color-link);
+	}
+
+	.crumb :global(.sep) {
+		opacity: 0.5;
+	}
+</style>

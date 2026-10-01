@@ -1,16 +1,39 @@
 ---
+// Projects: the umbrella first (its thesis and lifecycle diagram), then the
+// three projects as cards in lifecycle order, each with its status.
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import WorkCard from '../../components/cards/WorkCard.astro';
-import { work } from '../../data/work';
+import ArrowLink from '../../components/ui/ArrowLink.astro';
+import LifecycleDiagram from '../../components/projects/LifecycleDiagram.astro';
+import { umbrella } from '../../data/citizen-ai-governance';
+import { getProjects, projectHref } from '../../lib/projects';
+import { getWork } from '../../data/work';
+import { withBase } from '../../lib/base';
 
-const items = work.filter((w) => !w.real);
+const work = await getWork();
+const items = (await getProjects()).map((p) => work.find((w) => w.href === projectHref(p))!);
 ---
 
-<BaseLayout title="Projects">
+<BaseLayout title="Projects" description={umbrella.description}>
 	<h1>Projects</h1>
-	<p class="dek">Two coded projects, each with a live demo and its own repo.</p>
+	<p class="dek">
+		Three coded projects under one idea, each its own repo. Each page says plainly whether it’s live, in progress or
+		planned.
+	</p>
 
-	<ul data-ui class="cards grid gap-x-gutter gap-y-stack md:grid-cols-2">
+	<section data-ui class="umbrella flex flex-col gap-stack">
+		<div class="flex flex-col gap-gutter">
+			<p class="font-label text-xs uppercase tracking-label text-ink-muted">{umbrella.kicker}</p>
+			<h2 class="font-display text-2xl leading-title tracking-display">
+				<a href={withBase('projects/citizen-ai-governance/')} class="hover:underline">{umbrella.title}</a>
+			</h2>
+			<p class="max-w-2xl font-serif text-lg italic">{umbrella.thesis}</p>
+			<ArrowLink href={withBase('projects/citizen-ai-governance/')}>How the three fit together</ArrowLink>
+		</div>
+		<LifecycleDiagram compact />
+	</section>
+
+	<ul data-ui class="cards grid gap-x-gutter gap-y-stack md:grid-cols-3">
 		{
 			items.map((item) => (
 				<li>
@@ -28,6 +51,7 @@ const items = work.filter((w) => !w.real);
 		margin-top: var(--space-2);
 	}
 
+	.umbrella,
 	.cards {
 		margin-top: var(--space-title);
 	}

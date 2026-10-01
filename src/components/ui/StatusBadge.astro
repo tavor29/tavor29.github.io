@@ -1,0 +1,33 @@
+---
+// A project's status: Live, In progress or Planned. The word carries the
+// meaning; the shape (solid leaf, solid half, outline circle) repeats it, so
+// nothing depends on colour. Set from each project's frontmatter `status`.
+import Icon from '../Icon.astro';
+import { statusLabel, type Status } from '../../lib/projects';
+
+interface Props {
+	status: Status;
+	/** `paper` for badges sitting on a dark image. */
+	tone?: 'ink' | 'paper';
+	class?: string;
+}
+
+const { status, tone = 'ink', class: className = '' } = Astro.props;
+
+const shape = {
+	live: { name: 'leaf', variant: 'solid' },
+	'in-progress': { name: 'half', variant: 'solid' },
+	planned: { name: 'circle', variant: 'outline' },
+} as const;
+---
+
+<span
+	class:list={[
+		'inline-flex items-center gap-tight rounded-full border px-tight py-1 font-label text-xs uppercase tracking-label whitespace-nowrap',
+		tone === 'paper' ? 'border-paper-rule bg-ink text-paper' : 'border-ink-rule text-ink',
+		className,
+	]}
+>
+	<Icon name={shape[status].name} variant={shape[status].variant} size="sm" tone="mark" />
+	<span><span class="sr-only">Status: </span>{statusLabel[status]}</span>
+</span>

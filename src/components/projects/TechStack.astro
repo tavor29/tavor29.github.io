@@ -1,0 +1,45 @@
+---
+// Tech stack on a project page: grouped chips, each group with one line on
+// why. Only what the code actually uses; a project that isn't built yet sets
+// `planned: true` in its frontmatter and the section says "Planned stack".
+import type { Project } from '../../lib/projects';
+
+interface Props {
+	stack: Project['data']['stack'];
+}
+
+const { stack } = Astro.props;
+---
+
+<section>
+	<h2>{stack.planned ? 'Planned stack' : 'Tech stack'}</h2>
+	{stack.note && <p>{stack.note}</p>}
+	<ul data-ui class="stack">
+		{
+			stack.groups.map((g) => (
+				<li class="relative flex flex-col gap-tight border-t border-ink-rule py-gutter">
+					<span class="font-label text-xs uppercase tracking-label text-ink-muted">{g.name}</span>
+					<ul class="flex flex-wrap gap-tight">
+						{g.items.map((item) => (
+							<li
+								class:list={[
+									'rounded-full border px-tight py-1 text-sm',
+									stack.planned ? 'border-dashed border-ink-muted' : 'border-ink-rule',
+								]}
+							>
+								{item}
+							</li>
+						))}
+					</ul>
+					<p class="text-sm text-ink-muted">{g.why}</p>
+				</li>
+			))
+		}
+	</ul>
+</section>
+
+<style>
+	.stack {
+		margin-top: var(--space-3);
+	}
+</style>

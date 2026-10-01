@@ -1,0 +1,244 @@
+---
+// The Sanctioned Path as a diagram: Discover → Decide → Sustain, the loop from
+// Sustain back to Decide, and the shared app catalog under all three. Built in
+// HTML/CSS (arrows are the Icon arrow) so it reflows to a column on phones
+// and reads as text. The hand-offs are also written out under it, which is
+// the diagram's text alternative. Reveals use the site's data-reveal.
+import Icon from '../Icon.astro';
+import StatusBadge from '../ui/StatusBadge.astro';
+import { catalog, handoffs } from '../../data/citizen-ai-governance';
+import { getProjects, projectHref, stages, type Stage } from '../../lib/projects';
+import { withBase } from '../../lib/base';
+
+interface Props {
+	/** Leave out the written hand-offs (e.g. on the Projects index). */
+	compact?: boolean;
+}
+
+const { compact = false } = Astro.props;
+const projects = await getProjects();
+const handoff = (from: Stage, to: Stage) => handoffs.find((h) => h.from === from && h.to === to)!;
+const loop = handoff('sustain', 'decide');
+const id = compact ? 'lifecycle-compact' : 'lifecycle';
+---
+
+<figure data-ui class="lifecycle" aria-labelledby={`${id}-caption`}>
+	<figcaption id={`${id}-caption`} class="sr-only">
+		Lifecycle diagram. Stage 1, Discover, hands off to stage 2, Decide, when a found tool is formalized. Decide hands
+		off to stage 3, Sustain, once a built app has a named maintenance owner. Sustain loops back to Decide when an app
+		is orphaned. All three stages share one app catalog.
+	</figcaption>
+
+	<ol class="flow">
+		{
+			projects.map((p, i) => (
+				<>
+					{i > 0 && (
+						<li class="connector" aria-hidden="true" data-reveal>
+							<span class="connector-label">{handoff(projects[i - 1].data.stage, p.data.stage).short}</span>
+							<span class="connector-line">
+								<Icon name="arrow" size="sm" class="connector-arrow" />
+							</span>
+						</li>
+					)}
+					<li class="node-cell" data-reveal>
+						<a href={withBase(projectHref(p))} class="node group">
+							<span class="flex items-center gap-tight font-label text-xs uppercase tracking-label text-ink-muted">
+								<Icon name={p.data.mark} variant="outline" size="md" tone="mark" class="transition-transform duration-fast ease-out group-hover:rotate-90" />
+								{stages[p.data.stage].n} · {stages[p.data.stage].name}
+							</span>
+							<span class="font-display text-xl leading-title tracking-display">{p.data.title}</span>
+							<span class="text-sm text-ink-muted">{p.data.question}</span>
+							<StatusBadge status={p.data.status} class="self-start" />
+						</a>
+					</li>
+				</>
+			))
+		}
+		<li class="loop" aria-hidden="true" data-reveal>
+			<Icon name="arrow" size="sm" class="loop-arrow" />
+			<span class="loop-label">{loop.short}: back to Decide</span>
+		</li>
+	</ol>
+
+	<div class="catalog" data-reveal>
+		<span class="font-label text-xs uppercase tracking-label text-paper-muted">{catalog.title}</span>
+		<p class="text-sm">{catalog.text}</p>
+		<ul class="flex flex-wrap items-center gap-tight">
+			<li class="font-label text-xs uppercase tracking-label text-paper-muted">Source</li>
+			{catalog.sources.map((s) => <li class="rounded-full border border-paper-rule px-tight py-1 font-mono text-xs">{s}</li>)}
+		</ul>
+	</div>
+
+	{
+		!compact && (
+			<ol class="handoffs">
+				{handoffs.map((h) => (
+					<li data-reveal class="flex flex-col gap-tight border-t border-ink-rule py-gutter md:flex-row md:gap-stack">
+						<span class="flex shrink-0 items-center gap-tight font-label text-xs uppercase tracking-label md:w-56">
+							{stages[h.from].name}
+							<Icon name="arrow" size="sm" />
+							{stages[h.to].name}
+						</span>
+						<span class="text-base">
+							<strong class="font-semibold">{h.short}.</strong> <span class="text-ink-muted">{h.text}</span>
+						</span>
+					</li>
+				))}
+			</ol>
+		)
+	}
+</figure>
+
+<style>
+	.lifecycle {
+		--conn: 7.5rem;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-gutter);
+	}
+
+	.flow {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--space-tight);
+	}
+
+	.node {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-tight);
+		height: 100%;
+		padding: var(--space-gutter);
+		border: 1px solid var(--color-ink-rule);
+		border-radius: var(--radius-md);
+		background: var(--color-paper);
+		transition: border-color var(--dur-fast) var(--ease-out);
+	}
+
+	.node:hover,
+	.node:focus-visible {
+		border-color: var(--color-ink);
+	}
+
+	/* Phones: connectors run downward between stacked stages. */
+	.connector {
+		display: flex;
+		align-items: center;
+		gap: var(--space-tight);
+		padding-left: var(--space-gutter);
+		font-family: var(--font-label);
+		font-weight: var(--weight-label);
+		font-size: var(--text-xs);
+		text-transform: uppercase;
+		letter-spacing: var(--tracking-label);
+		color: var(--color-ink-muted);
+	}
+
+	.connector-line {
+		order: -1;
+		display: flex;
+		color: var(--color-ink);
+	}
+
+	.connector-line :global(.connector-arrow) {
+		rotate: 90deg;
+	}
+
+	.loop {
+		display: flex;
+		align-items: center;
+		gap: var(--space-tight);
+		padding-left: var(--space-gutter);
+		font-family: var(--font-label);
+		font-weight: var(--weight-label);
+		font-size: var(--text-xs);
+		text-transform: uppercase;
+		letter-spacing: var(--tracking-label);
+		color: var(--color-ink-muted);
+	}
+
+	.loop :global(.loop-arrow) {
+		rotate: -90deg;
+		color: var(--mark-leaf);
+	}
+
+	/* Wide screens: a row of three, arrows between, the loop drawn underneath
+	   from the middle of Sustain back up to the middle of Decide. */
+	@media (min-width: 768px) {
+		.flow {
+			grid-template-columns: 1fr var(--conn) 1fr var(--conn) 1fr;
+			column-gap: 0;
+			row-gap: 0;
+		}
+
+		.connector {
+			flex-direction: column;
+			justify-content: center;
+			gap: var(--space-dot);
+			padding: 0 var(--space-tight);
+			text-align: center;
+		}
+
+		.connector-line {
+			order: 0;
+			align-items: center;
+			width: 100%;
+		}
+
+		.connector-line::before {
+			content: '';
+			flex: 1;
+			border-top: 2px solid var(--color-ink);
+			margin-right: -2px;
+		}
+
+		.connector-line :global(.connector-arrow) {
+			rotate: none;
+		}
+
+		/* Spans Decide..Sustain. Margins in % resolve against that span, so
+		   25% - conn/4 lands on each node's centre. */
+		.loop {
+			grid-column: 3 / 6;
+			position: relative;
+			height: var(--space-stack);
+			margin-inline: calc(25% - var(--conn) / 4);
+			padding: 0;
+			border: 2px dashed var(--color-ink-muted);
+			border-top: 0;
+			border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+		}
+
+		.loop :global(.loop-arrow) {
+			position: absolute;
+			left: -7px;
+			top: -6px;
+		}
+
+		.loop-label {
+			position: absolute;
+			left: 50%;
+			bottom: 0;
+			translate: -50% 50%;
+			padding: 0 var(--space-tight);
+			background: var(--color-paper);
+			white-space: nowrap;
+		}
+	}
+
+	.catalog {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-tight);
+		padding: var(--space-gutter);
+		border-radius: var(--radius-md);
+		background: var(--color-ink);
+		color: var(--color-paper);
+	}
+
+	.handoffs {
+		margin-top: var(--space-gutter);
+	}
+</style>

@@ -1,12 +1,14 @@
 ---
 // A work card (the reference's project cards): a wide rounded image, then the
 // title and label underneath. The image is the item's cover photo, or its
-// generated art until a photo is chosen. The item's mark sits on the image.
+// generated art until a photo is chosen. The item's mark sits on the image,
+// and a coded project's status badge sits opposite it.
 import { Image } from 'astro:assets';
 import CoverArt from '../CoverArt.astro';
 import Icon from '../Icon.astro';
 import Label from '../ui/Label.astro';
 import ArrowChip from '../ui/ArrowChip.astro';
+import StatusBadge from '../ui/StatusBadge.astro';
 import type { WorkItem } from '../../data/work';
 import { withBase } from '../../lib/base';
 
@@ -41,6 +43,7 @@ const { item } = Astro.props;
 				class="transition-transform duration-fast ease-out group-hover:rotate-90"
 			/>
 		</span>
+		{item.status && <StatusBadge status={item.status} tone="paper" class="absolute top-gutter right-gutter" />}
 	</div>
 	<div class="flex items-start justify-between gap-gutter">
 		<div class="flex flex-col gap-tight">
