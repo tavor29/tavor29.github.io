@@ -20,8 +20,8 @@ export const problems: { title: string; text: string; stage: Stage }[] = [
 		stage: 'discover',
 	},
 	{
-		title: 'Requests with no process',
-		text: 'New tool requests arrive over chat and in hallways, with no format, no security check and no owner. Some get built twice; good ones die.',
+		title: 'Ideas with no path to a spec',
+		text: 'Employees spot ideas and problems every day but have no structured way to turn them into a spec someone can prioritize. Prototypes never reach production, and requests arrive with no security check.',
 		stage: 'decide',
 	},
 	{
@@ -38,19 +38,19 @@ export const handoffs: { from: Stage; to: Stage; short: string; text: string }[]
 		from: 'discover',
 		to: 'decide',
 		short: 'Formalize',
-		text: 'A tool found on a personal license is triaged: stop, migrate or formalize. Formalize opens a portal request, pre-filled.',
+		text: 'A tool found on a personal license is triaged: stop, migrate or formalize. Formalize opens a pre-filled submission in the marketplace.',
 	},
 	{
 		from: 'decide',
 		to: 'sustain',
 		short: 'Owner named',
-		text: 'An approved and built app can’t reach production in the registry without a named maintenance owner.',
+		text: 'Once a marketplace PRD is assigned and built, the app moves to the registry, and it can’t reach production there without a named maintenance owner.',
 	},
 	{
 		from: 'sustain',
 		to: 'decide',
 		short: 'Orphaned',
-		text: 'An orphaned app triggers a handover, a retirement, or a new portal request.',
+		text: 'An orphaned app triggers a handover, a retirement, or a new marketplace submission.',
 	},
 ];
 

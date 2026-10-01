@@ -4,7 +4,7 @@ summary: 'Finds the AI tools people already use on personal accounts and unregis
 stage: discover
 status: planned
 question: 'What''s already happening, and what do we do about it?'
-boundary: 'This finds what''s already happening. Deciding whether something should exist is the Portal''s job; keeping it healthy is the Registry''s.'
+boundary: 'This finds what''s already happening. Deciding whether something should be built is the Marketplace''s job; keeping it healthy is the Registry''s.'
 mark: half
 integrations:
   - system: 'Spend lines (cards and expenses)'
@@ -21,11 +21,11 @@ integrations:
     production: 'Same'
 stack:
   planned: true
-  note: 'Nothing is built yet. This is the stack the project is planned on, shared with the portal where it can be.'
+  note: 'Nothing is built yet. This is the stack the project is planned on, shared with the marketplace where it can be.'
   groups:
     - name: Frontend
       items: ['TypeScript', 'Tailwind']
-      why: 'Same language and styling approach as the portal, so the three projects share patterns.'
+      why: 'Same language and styling approach as the marketplace, so the three projects share patterns.'
     - name: Backend / data
       items: ['Postgres (Neon)', 'Drizzle', 'Zod', 'Seeded signal feed']
       why: 'Signals are synthetic but match real vendor schemas, so swapping in a real source changes the input, not the logic.'
@@ -46,12 +46,12 @@ Employees already use AI at work through personal accounts and unregistered lice
 
 ## What it does
 
-A signal inbox collects evidence of AI use: spend lines, OAuth grants to third-party apps, and browser or CASB events. Each finding lands in a triage queue with three outcomes: stop, migrate to a sanctioned tool, or formalize. Formalizing opens a pre-filled request in the Idea-to-PRD Portal. Alongside it, a no-blame self-report path lets people declare what they use before anyone finds it. Each finding gets an exposure estimate based on the kinds of data involved.
+A signal inbox collects evidence of AI use: spend lines, OAuth grants to third-party apps, and browser or CASB events. Each finding lands in a triage queue with three outcomes: stop, migrate to a sanctioned tool, or formalize. Formalizing opens a pre-filled submission in the Innovation & PRD Marketplace. Alongside it, a no-blame self-report path lets people declare what they use before anyone finds it. Each finding gets an exposure estimate based on the kinds of data involved.
 
 ## Planned scope
 
 - The signal inbox, fed by a seeded feed that follows real vendor schemas
-- The triage queue with stop, migrate and formalize, and the hand-off into the portal
+- The triage queue with stop, migrate and formalize, and the hand-off into the marketplace
 - The self-report form and amnesty flow
 - Exposure estimates from the data classes involved
 

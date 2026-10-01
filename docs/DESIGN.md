@@ -103,7 +103,7 @@ On a 4px base: `dot` 4, `tight` 10, `gutter` 16, `stack` 40, `title` 60 (title �
 One component, `src/components/Icon.astro`. It draws in `currentColor`, sizes come from `--icon-sm/md/lg` (12/18/28) and stroke width from `--icon-stroke` (1.5px). Names:
 
 - `arrow`: link arrow, used in the 28px arrow chip and back links.
-- `half`, `quarter`, `circle`, `leaf`: the original site's marks, drawn in their own colours with `tone="mark"`. On work and index rows they're solid for case studies and outline for coded projects and their worked examples (Keshet = half, Applied Materials = quarter; the coded projects follow their stage: Discovery = half, Portal = circle, Registry = leaf, and the umbrella = quarter). The footer contact links use Email = half, LinkedIn = quarter, GitHub = circle, Résumé = leaf. They turn 90° on hover.
+- `half`, `quarter`, `circle`, `leaf`: the original site's marks, drawn in their own colours with `tone="mark"`. On work and index rows they're solid for case studies and outline for coded projects and their worked examples (Keshet = half, Applied Materials = quarter; the coded projects follow their stage: Discovery = half, Marketplace = circle, Registry = leaf, and the umbrella = quarter). The footer contact links use Email = half, LinkedIn = quarter, GitHub = circle, Résumé = leaf. They turn 90° on hover.
 
 Sizes: `sm` 12 (arrows), `md` 24, `lg` 44 (row marks, the original site's mark size), `xl` 64, `2xl` 120, `3xl` 200 (decorative). The hero uses one of each of the four big steps (leaf 200, quarter 120, circle 64, half 44), so one shape dominates and the rest step down. Outline marks use `--icon-stroke-mark` (3px); the arrow uses `--icon-stroke` (1.5px).
 

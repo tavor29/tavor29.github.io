@@ -8,7 +8,7 @@ const site = 'https://tavor29.github.io/';
 // Old URLs that moved. GitHub Pages can't send server redirects, so Astro
 // writes a small page at the old path that forwards to the new one.
 const redirects = {
-	'/projects/ai-intake-governance-agent/': '/projects/idea-to-prd-portal/',
+	'/projects/ai-intake-governance-agent/': '/projects/innovation-prd-marketplace/',
 };
 
 // sitemap.xml from the pages the build actually wrote, without a plugin.
