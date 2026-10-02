@@ -8,7 +8,7 @@ question: 'Which ideas get built, by whom, and under what conditions?'
 boundary: 'This turns ideas into approved, assigned specs. Finding the tools people already use is Discovery’s job; keeping what gets built healthy and owned is the Registry’s.'
 mark: circle
 demo: 'https://innovation-prd-marketplace.vercel.app'
-repo: 'https://github.com/tavor29/Innovation-PRD-Marketplace-Portal/tree/rebuild'
+repo: 'https://github.com/tavor29/Innovation-PRD-Marketplace-Portal'
 links:
   - label: 'Earlier prototype: AI intake agent (live demo)'
     href: 'https://ai-intake-governance-agent.vercel.app'
