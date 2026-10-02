@@ -25,9 +25,9 @@ export const person = {
 	resume: 'Tavor_Ben_Shahar_Resume.pdf',
 };
 
-// The scroll-filled statement: the executive summary's second paragraph.
+// The scroll-filled statement (Tavor's wording, 2026-10-02).
 export const quote =
-	'Whether I’m establishing an executive AI steering committee, managing multi-million-dollar infrastructure procurement, or building SQL and Tableau dashboards for senior leadership, the goal is the same: move fast, with governance that holds up.';
+	'I sit between the people who build technology and the people who fund and depend on it. I turn requirements into plans, constraints into decisions, and status into foresight leadership can plan with.';
 
 // "Results from recent roles": countable facts, each tied to where it happened,
 // never a percentage improvement nobody can check. `value` counts up on scroll;
@@ -42,30 +42,14 @@ export const stats: { value: number; prefix?: string; suffix?: string; label: st
 	{ value: 0, label: 'User disruption across system migrations', where: 'IBM', mark: 'circle' },
 ];
 
-// "What I do": the three operating pillars, as bento cards. `art` picks the
-// card's background illustration (components/PillarArt.astro).
-export const services: { tag: string; title: string; text: string; mark: IconName; art: 'network' | 'shield' | 'telemetry' }[] = [
-	{
-		tag: '01 / Operations',
-		title: 'Cross-functional alignment',
-		text: 'Unifying engineering and technical teams with Finance, Purchasing, Security, and C-suite leadership behind a shared operational cadence.',
-		mark: 'half',
-		art: 'network',
-	},
-	{
-		tag: '02 / Governance',
-		title: 'Proactive AI governance',
-		text: 'Transitioning unmonitored, ad-hoc technology adoption into secure, compliant, enterprise-grade workflows.',
-		mark: 'leaf',
-		art: 'shield',
-	},
-	{
-		tag: '03 / Analytics',
-		title: 'Data-driven transparency',
-		text: 'Building live tracking systems and data telemetry so leadership always has clear visibility into program health.',
-		mark: 'quarter',
-		art: 'telemetry',
-	},
+// "What I actually do": five short bullets, program management and business
+// operations. One line each, plain words.
+export const services: { title: string; text: string; mark: IconName }[] = [
+	{ title: 'Cross-functional alignment', text: 'Get engineering, Finance, Security and leadership working to one plan.', mark: 'half' },
+	{ title: 'Program delivery', text: 'Run technology programs end to end: scope, schedule, risks and launch.', mark: 'quarter' },
+	{ title: 'AI governance', text: 'Turn ad-hoc AI use into secure, approved ways of working.', mark: 'leaf' },
+	{ title: 'Budget and vendor management', text: 'Plan budgets, run procurement and cut spend on tools nobody uses.', mark: 'circle' },
+	{ title: 'Leadership reporting', text: 'Build live dashboards so leadership sees program health at a glance.', mark: 'half' },
 ];
 
 // "How I think": four beliefs about product, shown as ruled rows after the

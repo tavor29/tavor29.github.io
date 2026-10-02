@@ -10,4 +10,4 @@ Work cover photos are from [Unsplash](https://unsplash.com) under the [Unsplash 
 | `ai-intake-governance-agent.jpg` | Innovation & PRD Marketplace | [Sticky notes on a paper document](https://unsplash.com/photos/sticky-notes-on-paper-document-beside-pens-and-box-2zDXqgTzEFE) | [Felipe Furtado](https://unsplash.com/@furtado) |
 | `citizen-development-governance.jpg` | Citizen App Registry & Handover | [Man teaching woman on a laptop](https://unsplash.com/photos/man-teaching-woman-while-pointing-on-gray-laptop-yTwXpLO5HAA) | [Icons8 Team](https://unsplash.com/@icons8) |
 
-Writing covers and the pillar illustrations are generated in code (`src/lib/cover-art.ts`, `src/components/PillarArt.astro`), so they need no credit.
+Writing covers are generated in code (`src/lib/cover-art.ts`), so they need no credit.

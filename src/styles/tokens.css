@@ -79,9 +79,6 @@
 	--icon-2xl: 120px;
 	--icon-3xl: 200px;
 
-	/* Frosted-glass panels over illustrations and photos */
-	--glass-bg: rgb(10 10 10 / 0.55);
-	--glass-blur: 14px;
 
 	/* Motion */
 	--ease-out: cubic-bezier(0.16, 1, 0.3, 1);

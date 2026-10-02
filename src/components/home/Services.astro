@@ -1,11 +1,10 @@
 ---
-// What I do: the three operating pillars as bento cards. Each card has an
-// illustration in the site's palette behind a frosted-glass text panel.
+// What I actually do: five short bullets as ruled rows, each with a shape
+// mark, a title and one line. Copy lives in data/home.ts.
 import Container from '../ui/Container.astro';
 import SectionHead from '../ui/SectionHead.astro';
-import Label from '../ui/Label.astro';
+import Rule from '../ui/Rule.astro';
 import Icon from '../Icon.astro';
-import PillarArt from '../PillarArt.astro';
 import { services } from '../../data/home';
 ---
 
@@ -15,35 +14,22 @@ import { services } from '../../data/home';
 			index="02"
 			eyebrow="Discipline"
 			title="What I actually do"
-			intro="Technical program delivery, AI governance, and the tools I build when the right one doesn’t exist."
+			intro="Program management and business operations for technology teams."
 			mark="circle"
 		/>
-		<ul class="grid gap-gutter md:grid-cols-3">
+		<ul>
 			{
 				services.map((s) => (
-					<li data-reveal class="group relative flex aspect-[4/5] flex-col justify-end overflow-hidden rounded-md bg-ink p-gutter text-paper">
-						<PillarArt variant={s.art} class="absolute inset-0 transition-transform duration-slow ease-out group-hover:scale-105" />
-						<div class="glass relative flex flex-col gap-tight rounded-sm p-gutter">
-							<Label class="flex items-center gap-tight text-paper-muted">
-								<Icon name={s.mark} size="sm" tone="mark" />
-								{s.tag}
-							</Label>
-							<h3 class="font-display text-xl leading-title tracking-display">{s.title}</h3>
-							<p class="text-sm text-paper-muted">{s.text}</p>
-						</div>
+					<li data-reveal class="group relative grid gap-tight py-gutter md:grid-cols-12 md:items-baseline md:gap-gutter">
+						<Rule />
+						<h3 class="flex items-center gap-tight font-display text-xl leading-title tracking-display md:col-span-5">
+							<Icon name={s.mark} size="md" tone="mark" class="shrink-0 transition-transform duration-fast ease-out group-hover:rotate-90" />
+							{s.title}
+						</h3>
+						<p class="text-base text-ink-muted md:col-span-7">{s.text}</p>
 					</li>
 				))
 			}
 		</ul>
 	</Container>
 </section>
-
-<style>
-	/* Frosted glass: the illustration shows through, blurred, behind the text. */
-	.glass {
-		background: var(--glass-bg);
-		border: 1px solid var(--color-paper-rule);
-		-webkit-backdrop-filter: blur(var(--glass-blur));
-		backdrop-filter: blur(var(--glass-blur));
-	}
-</style>
