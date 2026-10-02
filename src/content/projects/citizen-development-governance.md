@@ -57,9 +57,9 @@ A registry for employee-built apps. Each app moves through defined stages, from 
 ## Next
 
 - The owner as a gate: an app can't reach production in the registry without a named maintenance owner
-- Orphan detection: flag apps whose owner has left or whose repo has gone quiet
-- A handover checklist for reassigning an orphaned app
-- An adoption panel: lifecycle funnel, share of sanctioned apps over time, orphaned apps, and time to decision, all on synthetic data
+- Flag apps with no owner: the owner has left or the repo has gone quiet
+- A handover checklist for reassigning an app with no owner
+- An adoption panel: an idea-to-production funnel, share of approved apps over time, apps with no owner, and time to decision, all on synthetic data
 
 ## What it demonstrates
 
@@ -67,7 +67,7 @@ A maintenance owner is a gate, not a field. Almost nobody plans for what happens
 
 ## Rejected alternative
 
-I considered a model that required engineering sign-off before anyone could build anything internally. I rejected it because that's exactly the kind of bottleneck that pushes people toward unsanctioned tools in the first place. This model assumes employees will keep building, and makes what they build visible and owned instead of trying to stop it.
+I considered a model that required engineering sign-off before anyone could build anything internally. I rejected it because that's exactly the kind of bottleneck that pushes people toward unapproved tools in the first place. This model assumes employees will keep building, and makes what they build visible and owned instead of trying to stop it.
 
 ## Honest limitation
 

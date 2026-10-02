@@ -4,12 +4,12 @@
 import type { Stage } from '../lib/projects';
 
 export const umbrella = {
-	title: 'The Sanctioned Path',
-	kicker: 'Citizen AI governance',
+	title: 'Citizen AI Governance',
+	kicker: 'Citizen AI Governance',
 	thesis:
-		'People will build and use AI on their own. Governance has to make the sanctioned path the easy one at every stage of the lifecycle.',
+		'People will build and use AI on their own. Governance has to make the approved route the easy one, from idea to production.',
 	description:
-		'Three coded projects, one per stage of the AI tool lifecycle: discover what people already use, decide what should exist, and keep what was built healthy and owned.',
+		'Three coded projects that take an AI tool from idea to production: discover what people already use, decide what should exist, and keep what was built healthy and owned.',
 };
 
 // The problem, in three parts. Each one is the reason for one stage.
@@ -31,7 +31,7 @@ export const problems: { title: string; text: string; stage: Stage }[] = [
 	},
 ];
 
-// How work moves between the stages. Shown on the lifecycle diagram and,
+// How work moves between the stages. Shown on the stage diagram and,
 // in words, under it.
 export const handoffs: { from: Stage; to: Stage; short: string; text: string }[] = [
 	{
@@ -49,8 +49,8 @@ export const handoffs: { from: Stage; to: Stage; short: string; text: string }[]
 	{
 		from: 'sustain',
 		to: 'decide',
-		short: 'Orphaned',
-		text: 'An orphaned app triggers a handover, a retirement, or a new marketplace submission.',
+		short: 'No owner',
+		text: 'An app with no owner triggers a handover, a retirement, or a new marketplace submission.',
 	},
 ];
 
@@ -63,7 +63,7 @@ export const catalog = {
 
 export const principles: { title: string; text: string }[] = [
 	{
-		title: 'The sanctioned path must be the fastest path',
+		title: 'The approved route must be the fastest route',
 		text: 'If the approved route is slower than the workaround, people take the workaround.',
 	},
 	{

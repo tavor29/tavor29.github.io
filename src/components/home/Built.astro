@@ -1,6 +1,6 @@
 ---
-// Things I've built: the umbrella over the coded projects as one featured
-// card, then its three projects as ruled rows in lifecycle order, each with
+// Projects I've Built: the umbrella over the coded projects as one featured
+// card, then its three projects as ruled rows from idea to production, each with
 // its status. Copy: data/citizen-ai-governance.ts and content/projects/*.md.
 import Container from '../ui/Container.astro';
 import SectionHead from '../ui/SectionHead.astro';
@@ -18,7 +18,7 @@ const projects = await getProjects();
 
 <section id="built" class="pt-section">
 	<Container class="flex flex-col gap-title">
-		<SectionHead index="05" eyebrow="Things I’ve built" title="Real pain. Real solutions." mark="leaf" />
+		<SectionHead index="05" eyebrow="Projects I’ve Built" title="Real organizational pain. Real solutions." mark="leaf" />
 		<div class="flex flex-col gap-gutter">
 			<a
 				href={withBase('projects/citizen-ai-governance/')}
@@ -35,7 +35,7 @@ const projects = await getProjects();
 				</div>
 				<div class="flex flex-col justify-between gap-stack p-gutter md:p-stack">
 					<div class="flex flex-col gap-gutter">
-						<Label class="text-paper-muted">{umbrella.kicker} · Three coded projects</Label>
+						<Label class="text-paper-muted">{umbrella.kicker} · 3 projects</Label>
 						<h3 class="font-display text-2xl leading-title tracking-display">{umbrella.title}</h3>
 						<p class="font-serif text-lg italic text-paper-muted">{umbrella.thesis}</p>
 					</div>

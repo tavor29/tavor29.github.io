@@ -46,7 +46,7 @@ Employees already use AI at work through personal accounts and unregistered lice
 
 ## What it does
 
-A signal inbox collects evidence of AI use: spend lines, OAuth grants to third-party apps, and browser or CASB events. Each finding lands in a triage queue with three outcomes: stop, migrate to a sanctioned tool, or formalize. Formalizing opens a pre-filled submission in the Innovation & PRD Marketplace. Alongside it, a no-blame self-report path lets people declare what they use before anyone finds it. Each finding gets an exposure estimate based on the kinds of data involved.
+A signal inbox collects evidence of AI use: spend lines, OAuth grants to third-party apps, and browser or CASB events. Each finding lands in a triage queue with three outcomes: stop, move to an approved tool, or formalize. Formalizing opens a pre-filled submission in the Innovation & PRD Marketplace. Alongside it, a no-blame self-report path lets people declare what they use before anyone finds it. Each finding gets an exposure estimate based on the kinds of data involved.
 
 ## Planned scope
 
@@ -57,11 +57,11 @@ A signal inbox collects evidence of AI use: spend lines, OAuth grants to third-p
 
 ## What it demonstrates
 
-Amnesty before enforcement. People route around rules that only punish, so the first goal is visibility: make it safe to say what you use, then make the sanctioned path easier than the workaround.
+Amnesty before enforcement. People route around rules that only punish, so the first goal is visibility: make it safe to say what you use, then make the approved route easier than the workaround.
 
 ## Rejected alternative
 
-Blocking unsanctioned tools. People route around blocks, and the organization loses the little visibility it had.
+Blocking unapproved tools. People route around blocks, and the organization loses the little visibility it had.
 
 ## Honest limitation
 
