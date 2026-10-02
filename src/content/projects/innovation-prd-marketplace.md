@@ -2,12 +2,13 @@
 title: 'Innovation & PRD Marketplace'
 summary: 'An internal portal where any employee turns an idea, a problem or a vibe-coded prototype into a policy-checked PRD with an AI wizard, then publishes it to a marketplace where managers prioritize it and assign it to a builder.'
 stage: decide
-status: in-progress
-statusNote: 'In active development. No public demo yet.'
+status: live
+statusNote: 'The demo is in Hebrew, as the PRD specifies, and runs on synthetic data that resets nightly.'
 question: 'Which ideas get built, by whom, and under what conditions?'
 boundary: 'This turns ideas into approved, assigned specs. Finding the tools people already use is Discovery’s job; keeping what gets built healthy and owned is the Registry’s.'
 mark: circle
-# The repo is private for now. Add `repo:` here once it's public.
+demo: 'https://innovation-prd-marketplace.vercel.app'
+repo: 'https://github.com/tavor29/Innovation-PRD-Marketplace-Portal/tree/rebuild'
 links:
   - label: 'Earlier prototype: AI intake agent (live demo)'
     href: 'https://ai-intake-governance-agent.vercel.app'
@@ -30,7 +31,7 @@ integrations:
     demo: 'Phase 2 hand-off'
     production: 'The Citizen App Registry'
 stack:
-  note: 'From the project repo as it stands.'
+  note: 'What the live demo runs on.'
   groups:
     - name: Frontend
       items: ['Next.js 16 (App Router)', 'React', 'TypeScript', 'Tailwind v4']
@@ -74,16 +75,25 @@ Deterministic rules run first, in code. Then a language-model pass reads for mea
 
 ## Built today
 
-The foundation is configured: sign-in with four roles, the Postgres data layer, a switchable model provider with a deterministic mock, unit and end-to-end test runners, and a container build. The submission tracks, wizard, PRD generator, policy engine, marketplace, manager dashboard and wireframe generator are being built on top, in that order.
+The first release, live as a demo. Sign in with one click as any of the four roles and switch between them.
+
+- The three submission tracks, with the builder recognized from a prototype link
+- The interview wizard: focused follow-ups on thin answers and a completeness meter
+- PRD generation in the organization's template, inline editing, and a `.md` export
+- The policy engine and security matrix, with admin-editable rules; editing a PRD or a rule re-runs the check
+- An interactive wireframe for every PRD
+- The marketplace, the manager's review queue (approve, request changes, reject, prioritize) and assignment to builders
+- Immutable versions and an audit log of every manager action
+- Unit tests for the policy engine, scorer and renderer, and an end-to-end test for each track
 
 ## Next
 
-- **First release:** the three tracks producing valid PRDs, every hard ban blocked with tests passing, the marketplace and manager dashboard, the audit log, and wireframes.
+- **A real model:** the demo runs on a deterministic mock so it's free and repeatable; the provider switch is in place for the organization's approved model, with a per-submission cost cap.
 - **Phase 2:** multiple organizations with isolated data, a KPI dashboard, full analysis of prototype repos, and a registry of built apps that closes the loop, handing each one to the Citizen App Registry.
 
 ## Targets for the first release
 
-These are design targets from the PRD, not results. Nothing has launched yet.
+These are the PRD's targets for a real rollout, not results. The demo runs on synthetic data.
 
 - Zero hard-ban misses on the test set before launch
 - At least 95% of policy violations caught
