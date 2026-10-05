@@ -7,10 +7,10 @@ question: 'Is it still healthy, and who owns it now?'
 boundary: 'This keeps approved and discovered apps healthy and owned. How they get discovered and approved is handled upstream.'
 mark: leaf
 repo: 'https://github.com/tavor29/citizen-development-governance'
-demo: 'https://tavor29.github.io/citizen-development-governance/'
+demo: 'https://tavorbenshahar.com/citizen-development-governance/'
 links:
   - label: 'Framework doc'
-    href: 'https://tavor29.github.io/citizen-development-governance/framework/'
+    href: 'https://tavorbenshahar.com/citizen-development-governance/framework/'
 cover: ../../assets/work/citizen-development-governance.jpg
 coverAlt: 'Two people working through something on a laptop'
 integrations:

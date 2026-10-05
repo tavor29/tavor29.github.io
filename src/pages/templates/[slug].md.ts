@@ -10,7 +10,7 @@ export const getStaticPaths = (async () => {
 
 export const GET: APIRoute = ({ props }) => {
 	const { doc } = props as { doc: CollectionEntry<'templates'> };
-	const text = `# ${doc.data.title}\n\n${doc.body ?? ''}\n\n---\nTavor Ben-Shahar · https://tavor29.github.io/templates/${doc.id}/\n`;
+	const text = `# ${doc.data.title}\n\n${doc.body ?? ''}\n\n---\nTavor Ben-Shahar · https://tavorbenshahar.com/templates/${doc.id}/\n`;
 	return new Response(text, {
 		headers: { 'Content-Type': 'text/markdown; charset=utf-8' },
 	});

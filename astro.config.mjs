@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import { writeFile } from 'node:fs/promises';
 
-const site = 'https://tavor29.github.io/';
+const site = 'https://tavorbenshahar.com/';
 
 // Old URLs that moved. GitHub Pages can't send server redirects, so Astro
 // writes a small page at the old path that forwards to the new one.
@@ -36,10 +36,10 @@ const sitemap = {
 	},
 };
 
-// Served from the tavor29.github.io root (repo literally named
-// tavor29.github.io), a user site, not a project page, so no `base` path.
-// Custom domain: copy CNAME.example to public/CNAME if Tavor picks a paid
-// domain later (a live CNAME file cannot contain comments).
+// Served at the root of tavorbenshahar.com, so no `base` path. The repo is
+// the tavor29.github.io user site; the custom domain is set in the repo's
+// Pages settings (deploys run through GitHub Actions, which ignore a CNAME
+// file), and tavor29.github.io redirects to it.
 export default defineConfig({
 	output: 'static',
 	trailingSlash: 'always',
