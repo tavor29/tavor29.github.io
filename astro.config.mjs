@@ -9,6 +9,8 @@ const site = 'https://tavorbenshahar.com/';
 // writes a small page at the old path that forwards to the new one.
 const redirects = {
 	'/projects/ai-intake-governance-agent/': '/projects/innovation-prd-marketplace/',
+	// The résumé is the PDF only (one version, kept in ../CV), not a page.
+	'/resume/': '/Tavor_Ben_Shahar_Resume.pdf',
 };
 
 // sitemap.xml from the pages the build actually wrote, without a plugin.
