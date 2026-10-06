@@ -3,7 +3,7 @@
 // An empty value switches that feature off, so the site works without it.
 export const services = {
 	/** PostHog project API key (starts with phc_). Empty = no analytics. */
-	posthogKey: '',
+	posthogKey: 'phc_oCve6mgxxJXLXisHJJxqHvLScGBTToWGfWSqoqd4Ckir',
 	/** EU region, so visitor data stays in the EU. */
 	posthogHost: 'https://eu.i.posthog.com',
 	/** Only this hostname is tracked, so local previews don't pollute the data. */

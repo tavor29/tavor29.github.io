@@ -33,6 +33,11 @@ export async function startAnalytics() {
 		capture_pageleave: true,
 		disable_session_recording: true,
 		disable_surveys: true,
+		// Only what the privacy page lists: no heatmaps, dead clicks or performance
+		// metrics, even if they're switched on in the PostHog project.
+		capture_heatmaps: false,
+		capture_dead_clicks: false,
+		capture_performance: false,
 		respect_dnt: true,
 		loaded: (loaded) => {
 			if (ref) loaded.register({ ref });
