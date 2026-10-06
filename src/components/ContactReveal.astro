@@ -1,0 +1,100 @@
+---
+// Phone and email in the footer. With the contact gate on (src/data/services.ts),
+// they aren't in the page at all: a button runs Cloudflare Turnstile (invisible
+// for most people), and the contact-reveal Worker checks the token and returns
+// them. With the gate off, the phone shows as a plain link, as before.
+import { person } from '../data/home';
+import { services, contactGated } from '../data/services';
+---
+
+{
+	contactGated ? (
+		<span data-contact-reveal data-sitekey={services.turnstileSiteKey} data-endpoint={services.contactEndpoint}>
+			<button type="button" data-reveal-button class="text-paper underline underline-offset-4 hover:no-underline">
+				Show email &amp; phone
+			</button>
+			<span data-reveal-widget></span>
+			<span data-reveal-result aria-live="polite"></span>
+		</span>
+	) : (
+		<a class="text-paper hover:underline" href={person.phoneHref} data-track="phone">
+			{person.phone}
+		</a>
+	)
+}
+
+<script>
+	import { track } from '../scripts/analytics';
+
+	type Turnstile = {
+		render: (el: HTMLElement, opts: Record<string, unknown>) => string;
+	};
+
+	function loadTurnstile(): Promise<Turnstile> {
+		const w = window as unknown as { turnstile?: Turnstile };
+		if (w.turnstile) return Promise.resolve(w.turnstile);
+		return new Promise((resolve, reject) => {
+			const s = document.createElement('script');
+			s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+			s.async = true;
+			s.onload = () => resolve(w.turnstile!);
+			s.onerror = reject;
+			document.head.appendChild(s);
+		});
+	}
+
+	function link(href: string, text: string, kind: string) {
+		const a = document.createElement('a');
+		a.href = href;
+		a.textContent = text;
+		a.className = 'text-paper hover:underline';
+		a.dataset.track = kind;
+		return a;
+	}
+
+	document.querySelectorAll<HTMLElement>('[data-contact-reveal]').forEach((root) => {
+		const button = root.querySelector<HTMLButtonElement>('[data-reveal-button]')!;
+		const widget = root.querySelector<HTMLElement>('[data-reveal-widget]')!;
+		const result = root.querySelector<HTMLElement>('[data-reveal-result]')!;
+
+		button.addEventListener('click', async () => {
+			button.disabled = true;
+			button.textContent = 'Checking…';
+			try {
+				const turnstile = await loadTurnstile();
+				turnstile.render(widget, {
+					sitekey: root.dataset.sitekey,
+					theme: 'dark',
+					size: 'flexible',
+					callback: async (token: string) => {
+						try {
+							const r = await fetch(root.dataset.endpoint!, {
+								method: 'POST',
+								headers: { 'Content-Type': 'application/json' },
+								body: JSON.stringify({ token }),
+							});
+							if (!r.ok) throw new Error(String(r.status));
+							const { email, phone, phoneHref } = (await r.json()) as { email: string; phone: string; phoneHref: string };
+							widget.remove();
+							button.remove();
+							result.append(link(`mailto:${email}`, email, 'email'), document.createTextNode(' · '), link(phoneHref, phone, 'phone'));
+							track('contact_revealed');
+						} catch {
+							widget.remove();
+							button.remove();
+							result.textContent = 'Couldn’t load contact details. LinkedIn works too.';
+							track('contact_reveal_failed');
+						}
+					},
+					'error-callback': () => {
+						button.disabled = false;
+						button.textContent = 'Try again';
+					},
+				});
+			} catch {
+				button.disabled = false;
+				button.textContent = 'Try again';
+			}
+		});
+	});
+</script>

@@ -3,6 +3,8 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import IndexRow from '../../components/ui/IndexRow.astro';
 import { withBase } from '../../lib/base';
+import { person } from '../../data/home';
+import { contactGated } from '../../data/services';
 
 const docs = (await getCollection('templates')).sort((a, b) => a.data.order - b.data.order);
 
@@ -50,7 +52,7 @@ const realTools: { title: string; body: string; mark: 'half' | 'quarter' | 'circ
 		{
 			realTools.map((t) => (
 				<IndexRow
-					href={`mailto:tzavor29@gmail.com?subject=${encodeURIComponent(`${t.title}: preview request`)}`}
+					href={contactGated ? '#contact' : `mailto:${person.email}?subject=${encodeURIComponent(`${t.title}: preview request`)}`}
 					title={t.title}
 					body={t.body}
 					label="Sanitized preview on request"
@@ -59,7 +61,7 @@ const realTools: { title: string; body: string; mark: 'half' | 'quarter' | 'circ
 			))
 		}
 		<IndexRow
-			href="mailto:tzavor29@gmail.com?subject=BRD%20request"
+			href={contactGated ? '#contact' : `mailto:${person.email}?subject=BRD%20request`}
 			title="Business requirements document: structured AI intake"
 			body="The BRD I wrote at Keshet for a structured intake system with duplication checks and risk scoring. Internal, so it isn't published here."
 			label="Available on request"

@@ -1,0 +1,67 @@
+---
+// What the site records about visits, in plain words. Linked from the footer.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { withBase } from '../../lib/base';
+---
+
+<BaseLayout title="Privacy" description="What this site records about visits, and how to opt out.">
+	<article class="privacy">
+		<h1>Privacy</h1>
+		<p class="dek">Short version: I see how people find and use this site, not who they are.</p>
+
+		<h2>What's recorded</h2>
+		<p>
+			This site uses PostHog, hosted in the EU, to understand visits. For each visit it records the pages viewed, how you
+			arrived (the site that sent you, or a tag in a link I shared), clicks on the résumé, contact and demo links, your
+			browser and device type, and an approximate location (country and city) worked out from your IP address.
+		</p>
+		<p>
+			Your IP address is stored with those events. I use it to see which organization's network a visit came from,
+			where that's possible, which mostly works for large employers' office networks. I don't try to identify
+			individual people.
+		</p>
+
+		<h2>What isn't</h2>
+		<p>
+			No cookies and no browser storage: visits are tied together by an anonymous hash on PostHog's side. No session
+			recordings, no advertising trackers, and nothing is sold or shared.
+		</p>
+
+		<h2>Opting out</h2>
+		<p>
+			If your browser sends Do Not Track or Global Privacy Control, nothing is recorded at all. To have data from your
+			visits deleted, get in touch through the <a href={withBase('#contact')}>contact section</a>.
+		</p>
+
+		<h2>Contact details</h2>
+		<p>
+			To keep my phone number and email away from scrapers, they may appear only after a quick check by Cloudflare
+			Turnstile, which looks at browser signals to tell people from bots. That check is covered by Cloudflare's own
+			privacy policy.
+		</p>
+
+		<h2>Demos</h2>
+		<p>The coded-project demos run on their own hosting and don't share data with this site.</p>
+	</article>
+</BaseLayout>
+
+<style>
+	.privacy {
+		max-width: 44rem;
+	}
+
+	.dek {
+		color: var(--color-text-muted);
+		font-size: var(--text-lg);
+	}
+
+	.privacy h2 {
+		font-size: var(--text-xl);
+		margin-top: var(--space-5);
+	}
+
+	.privacy p {
+		margin: var(--space-3) 0;
+		line-height: var(--leading-prose);
+	}
+</style>

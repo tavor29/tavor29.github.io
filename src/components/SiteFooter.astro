@@ -5,10 +5,16 @@ import Rule from './ui/Rule.astro';
 import ArrowChip from './ui/ArrowChip.astro';
 import Icon from './Icon.astro';
 import { withBase } from '../lib/base';
+import ContactReveal from './ContactReveal.astro';
 import { contact, person } from '../data/home';
+import { contactGated } from '../data/services';
 import type { IconName } from '../lib/icons';
 
 const marks: IconName[] = ['half', 'quarter', 'leaf', 'circle'];
+
+// With the contact gate on, email comes from the reveal, not a plain link.
+const rows = contact.filter((c) => !(contactGated && c.href.startsWith('mailto:')));
+const trackName = (label: string) => label.toLowerCase().replace('résumé', 'resume');
 
 const resolve = (href: string) => (/^(https?:|mailto:)/.test(href) ? href : withBase(href));
 ---
@@ -21,7 +27,7 @@ const resolve = (href: string) => (/^(https?:|mailto:)/.test(href) ? href : with
 				<h2 data-reveal class="font-serif text-2xl leading-display md:text-3xl">Let’s talk.</h2>
 				<p data-reveal class="max-w-xl text-lg text-paper-muted">{person.availability}</p>
 				<Label class="text-paper-muted">
-					{person.location} · <a class="text-paper hover:underline" href={person.phoneHref}>{person.phone}</a>
+					{person.location} · <ContactReveal />
 				</Label>
 			</div>
 			{/* The four marks as a block: a row on phones, a 2×2 grid from md up. Each turns on hover. */}
@@ -38,12 +44,13 @@ const resolve = (href: string) => (/^(https?:|mailto:)/.test(href) ? href : with
 		</div>
 		<ul>
 			{
-				contact.map((c) => (
+				rows.map((c) => (
 					<li data-reveal class="relative">
 						<Rule tone="paper" />
 						<a
 							href={resolve(c.href)}
 							{...(c.external ? { target: '_blank', rel: 'noreferrer' } : {})}
+							data-track={trackName(c.label)}
 							class="group flex items-center justify-between py-gutter"
 						>
 							<span class="flex items-center gap-gutter font-display text-xl tracking-display transition-transform duration-base ease-out group-hover:translate-x-tight">
@@ -58,7 +65,10 @@ const resolve = (href: string) => (/^(https?:|mailto:)/.test(href) ? href : with
 		</ul>
 		<div class="flex items-end justify-between gap-gutter text-paper-muted">
 			<Label>{`©${new Date().getFullYear()} ${person.name}`}</Label>
-			<Label>/Astro · Tailwind · GSAP</Label>
+			<Label class="flex gap-gutter">
+				<a href={withBase('privacy/')} class="hover:text-paper">Privacy</a>
+				<span>/Astro · Tailwind · GSAP</span>
+			</Label>
 		</div>
 	</Container>
 </footer>

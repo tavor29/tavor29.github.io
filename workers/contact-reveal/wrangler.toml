@@ -1,0 +1,9 @@
+# Cloudflare Worker for the footer's "Show email & phone" button.
+# Deploy: npx wrangler deploy (from this folder). Secrets, set once with
+# `npx wrangler secret put NAME`: TURNSTILE_SECRET, CONTACT_EMAIL, CONTACT_PHONE.
+name = "contact-reveal"
+main = "src/index.ts"
+compatibility_date = "2026-10-01"
+
+[vars]
+ALLOWED_ORIGINS = "https://tavorbenshahar.com"

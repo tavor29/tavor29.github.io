@@ -22,7 +22,7 @@ const attributed = testimonials.filter((t) => t.name.trim() && t.title.trim());
 			<h1 class="font-display text-3xl leading-display tracking-display">How I work</h1>
 			<p class="max-w-2xl text-lg text-ink-muted">The way I lead, the methods I rely on, and the domains I know best.</p>
 			<div class="flex flex-wrap gap-x-stack gap-y-gutter">
-				<ArrowLink href={withBase(person.resume)}>Download résumé</ArrowLink>
+				<ArrowLink href={withBase(person.resume)} track="resume">Download résumé</ArrowLink>
 				<ArrowLink href="#contact">Get in touch</ArrowLink>
 			</div>
 		</header>

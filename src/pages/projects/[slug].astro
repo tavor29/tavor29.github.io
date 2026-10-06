@@ -29,8 +29,8 @@ const item = (await getWork()).find((w) => w.href === href)!;
 const { Content } = await render(project);
 
 const links = [
-	...(d.demo ? [{ label: 'Live demo', href: d.demo }] : []),
-	...(d.repo ? [{ label: 'Source on GitHub', href: d.repo }] : []),
+	...(d.demo ? [{ label: 'Live demo', href: d.demo, track: 'demo' }] : []),
+	...(d.repo ? [{ label: 'Source on GitHub', href: d.repo, track: 'repo' }] : []),
 	...d.links,
 	...(d.stage === 'decide' ? [{ label: 'The real problem behind this', href: withBase('case-studies/keshet/') }] : []),
 ];
@@ -53,7 +53,7 @@ const links = [
 					{links.map((l, i) => (
 						<>
 							{i > 0 && ' · '}
-							<a href={l.href}>{l.label}</a>
+							<a href={l.href} data-track={'track' in l ? l.track : 'project_link'}>{l.label}</a>
 						</>
 					))}
 				</p>

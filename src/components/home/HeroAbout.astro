@@ -63,7 +63,7 @@ import { withBase } from '../../lib/base';
 				<p class="text-lg text-ink-muted">{person.positioningMore}</p>
 				<div class="flex flex-col items-start gap-gutter">
 					<ArrowLink href={withBase('about/')}>More on how I work</ArrowLink>
-					<ArrowLink href={withBase(person.resume)}>Download résumé</ArrowLink>
+					<ArrowLink href={withBase(person.resume)} track="resume">Download résumé</ArrowLink>
 				</div>
 			</div>
 		</Container>

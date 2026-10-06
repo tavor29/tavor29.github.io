@@ -66,6 +66,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
 		<SiteFooter />
 		<script>
 			import '../scripts/motion';
+			import { startAnalytics } from '../scripts/analytics';
+			startAnalytics();
 		</script>
 	</body>
 </html>

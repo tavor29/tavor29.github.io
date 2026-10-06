@@ -4,13 +4,16 @@ import ArrowChip from './ArrowChip.astro';
 interface Props {
 	href: string;
 	external?: boolean;
+	/** Analytics event name for clicks (scripts/analytics.ts). */
+	track?: string;
 }
-const { href, external = false } = Astro.props;
+const { href, external = false, track } = Astro.props;
 ---
 
 <a
 	href={href}
 	{...external ? { target: '_blank', rel: 'noreferrer' } : {}}
+	data-track={track}
 	class="group inline-flex items-center gap-tight text-base font-medium no-underline"
 >
 	<span class="transition-transform duration-fast ease-out group-hover:translate-x-1"><slot /></span>
