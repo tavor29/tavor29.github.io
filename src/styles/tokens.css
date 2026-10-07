@@ -105,6 +105,8 @@
 	--mark-quarter: var(--chart-series-2);
 	--mark-circle: var(--chart-status-warning);
 	--mark-leaf: var(--chart-status-good);
+	/* A light wash of the half-disc blue: the homepage Projects card background. */
+	--mark-half-wash: color-mix(in srgb, var(--mark-half) 14%, var(--color-paper));
 
 	/* Legacy aliases (pre-redesign names used by inner pages and charts). */
 	--color-bg: var(--color-paper);

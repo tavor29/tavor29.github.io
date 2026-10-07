@@ -1,5 +1,5 @@
 ---
-// Projects I've Built. Citizen AI Governance is one compact card: its thesis,
+// Projects I've Built. Citizen AI Governance is one compact light-blue card: its thesis,
 // then its three projects side by side, each with its stage and status. Other
 // projects go below it as ruled rows. Copy: data/citizen-ai-governance.ts and
 // content/projects/*.md.
@@ -20,22 +20,22 @@ const projects = await getProjects();
 <section id="built" class="pt-section">
 	<Container class="flex flex-col gap-title">
 		<SectionHead index="02" title="Projects I’ve Built" intro="Real organizational pain. Real solutions." mark="leaf" />
-		<div data-reveal class="flex flex-col gap-gutter rounded-md bg-ink p-gutter text-paper md:p-stack md:pb-gutter">
+		<div data-reveal class="flex flex-col gap-gutter rounded-md bg-wash-half p-gutter text-ink md:p-stack md:pb-gutter">
 			<a
 				href={withBase('projects/citizen-ai-governance/')}
 				class="group flex items-start justify-between gap-gutter"
 			>
 				<div class="flex flex-col gap-tight">
-					<Label class="text-paper-muted">{projects.length} projects · Discover, decide, sustain</Label>
+					<Label class="text-ink-muted">{projects.length} projects · Discover, decide, sustain</Label>
 					<h3 class="font-display text-2xl leading-title tracking-display">{umbrella.title}</h3>
-					<p class="max-w-2xl text-base text-paper-muted">{umbrella.thesis}</p>
+					<p class="max-w-2xl text-base text-ink-muted">{umbrella.thesis}</p>
 				</div>
-				<ArrowChip inverted />
+				<ArrowChip />
 			</a>
 			<ol class="grid md:grid-cols-3">
 				{
 					projects.map((p, i) => (
-						<li class:list={['border-t border-paper-rule', i > 0 && 'md:border-l md:pl-gutter', i < projects.length - 1 && 'md:pr-gutter']}>
+						<li class:list={['border-t border-ink-rule', i > 0 && 'md:border-l md:pl-gutter', i < projects.length - 1 && 'md:pr-gutter']}>
 							<a href={withBase(projectHref(p))} class="group flex h-full flex-col items-start gap-tight py-gutter">
 								<span class="flex items-center gap-tight">
 									<Icon
@@ -45,12 +45,12 @@ const projects = await getProjects();
 										tone="mark"
 										class="transition-transform duration-fast ease-out group-hover:rotate-90"
 									/>
-									<Label class="text-paper-muted">{stageLabel(p.data.stage)}</Label>
+									<Label class="text-ink-muted">{stageLabel(p.data.stage)}</Label>
 								</span>
 								<span class="font-display text-lg leading-title tracking-display group-hover:underline">
 									{p.data.title}
 								</span>
-								<StatusBadge status={p.data.status} tone="paper" class="mt-auto" />
+								<StatusBadge status={p.data.status} class="mt-auto" />
 							</a>
 						</li>
 					))

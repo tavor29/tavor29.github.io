@@ -38,6 +38,9 @@ const config: Config = {
         rule: "var(--color-paper-rule)",
       },
       accent: "var(--color-accent)",
+      wash: {
+        half: "var(--mark-half-wash)",
+      },
     },
     borderRadius: {
       none: "0",
