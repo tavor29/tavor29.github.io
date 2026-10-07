@@ -1,14 +1,15 @@
 ---
-// Projects I've Built: the umbrella over the coded projects as one featured
-// card, then its three projects as ruled rows from idea to production, each with
-// its status. Copy: data/citizen-ai-governance.ts and content/projects/*.md.
+// Projects I've Built. Citizen AI Governance is one compact card: its thesis,
+// then its three projects side by side, each with its stage and status. Other
+// projects go below it as ruled rows. Copy: data/citizen-ai-governance.ts and
+// content/projects/*.md.
 import Container from '../ui/Container.astro';
 import SectionHead from '../ui/SectionHead.astro';
 import Label from '../ui/Label.astro';
 import ArrowChip from '../ui/ArrowChip.astro';
 import ArrowLink from '../ui/ArrowLink.astro';
-import IndexRow from '../ui/IndexRow.astro';
-import CoverArt from '../CoverArt.astro';
+import StatusBadge from '../ui/StatusBadge.astro';
+import Icon from '../Icon.astro';
 import { umbrella } from '../../data/citizen-ai-governance';
 import { getProjects, projectHref, stageLabel } from '../../lib/projects';
 import { withBase } from '../../lib/base';
@@ -19,45 +20,39 @@ const projects = await getProjects();
 <section id="built" class="pt-section">
 	<Container class="flex flex-col gap-title">
 		<SectionHead index="03" eyebrow="Projects I’ve Built" title="Real organizational pain. Real solutions." mark="leaf" />
-		<div class="flex flex-col gap-gutter">
+		<div data-reveal class="flex flex-col gap-gutter rounded-md bg-ink p-gutter text-paper md:p-stack md:pb-gutter">
 			<a
 				href={withBase('projects/citizen-ai-governance/')}
-				data-reveal
-				class="group grid overflow-hidden rounded-md bg-ink text-paper md:grid-cols-2"
+				class="group flex items-start justify-between gap-gutter"
 			>
-				<div class="relative aspect-[29/20] overflow-hidden md:order-2 md:aspect-auto">
-					<CoverArt
-						seed="citizen-ai-governance"
-						shape="wide"
-						dark
-						class="absolute inset-0 transition-transform duration-slow ease-out group-hover:scale-105"
-					/>
+				<div class="flex flex-col gap-tight">
+					<Label class="text-paper-muted">{projects.length} projects · Discover, decide, sustain</Label>
+					<h3 class="font-display text-2xl leading-title tracking-display">{umbrella.title}</h3>
+					<p class="max-w-2xl text-base text-paper-muted">{umbrella.thesis}</p>
 				</div>
-				<div class="flex flex-col justify-between gap-stack p-gutter md:p-stack">
-					<div class="flex flex-col gap-gutter">
-						<Label class="text-paper-muted">{umbrella.kicker} · 3 projects</Label>
-						<h3 class="font-display text-2xl leading-title tracking-display">{umbrella.title}</h3>
-						<p class="font-serif text-lg italic text-paper-muted">{umbrella.thesis}</p>
-					</div>
-					<span class="flex items-center gap-tight text-sm">
-						<ArrowChip inverted />
-						Discover, decide, sustain: see how the three fit
-					</span>
-				</div>
+				<ArrowChip inverted />
 			</a>
-			<ol>
+			<ol class="grid md:grid-cols-3">
 				{
-					projects.map((p) => (
-						<IndexRow
-							href={withBase(projectHref(p))}
-							title={p.data.title}
-							body={p.data.question}
-							label={stageLabel(p.data.stage)}
-							mark={p.data.mark}
-							real={false}
-							status={p.data.status}
-							level={3}
-						/>
+					projects.map((p, i) => (
+						<li class:list={['border-t border-paper-rule', i > 0 && 'md:border-l md:pl-gutter', i < projects.length - 1 && 'md:pr-gutter']}>
+							<a href={withBase(projectHref(p))} class="group flex h-full flex-col items-start gap-tight py-gutter">
+								<span class="flex items-center gap-tight">
+									<Icon
+										name={p.data.mark}
+										size="sm"
+										variant="outline"
+										tone="mark"
+										class="transition-transform duration-fast ease-out group-hover:rotate-90"
+									/>
+									<Label class="text-paper-muted">{stageLabel(p.data.stage)}</Label>
+								</span>
+								<span class="font-display text-lg leading-title tracking-display group-hover:underline">
+									{p.data.title}
+								</span>
+								<StatusBadge status={p.data.status} tone="paper" class="mt-auto" />
+							</a>
+						</li>
 					))
 				}
 			</ol>
