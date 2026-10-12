@@ -23,8 +23,10 @@ export type CaseStudy = {
 	context: string;
 	challenge: string;
 	actions: string[];
-	/** `lead` is set in bold before the rest of the sentence. */
-	results: { lead: string; text: string }[];
+	/** Who owned what, and how big it was (Tavor's answers, 2026-10-12). */
+	ownership?: { mine: string; others?: string; scope?: string };
+	/** `lead` is set in bold before the rest of the sentence; `note` says how it was measured or used. */
+	results: { lead: string; text: string; note?: string }[];
 	/** "What I'd do differently": one honest closing line. Optional. */
 	lesson?: string;
 	/** Cover photo (src/assets/work/); cards fall back to generated art without one. */
@@ -44,11 +46,16 @@ export const caseStudies: CaseStudy[] = [
 		cover: keshetCover,
 		coverAlt: 'A single light glowing in a dark room',
 		summary:
-			'Established an executive AI steering committee alongside the CIO to transition 40+ unmonitored employee workflows into secure, compliant enterprise tools.',
+			'Moved 40+ unapproved employee AI workflows into secure, compliant tools. The CIO chose the tools; I owned the route to them and the governance around it.',
 		badges: ['AI Governance', 'Security Boundaries', 'SaaS License Optimization'],
 		context: 'Rapid adoption of generative AI across business units created workflows that sat outside R&D oversight.',
 		challenge:
 			'40+ employees were building AI workflows with no standard security protocols, budget lines, or data-protection rules.',
+		ownership: {
+			mine: 'The route for AI tools already in use without approval: a new approved solution for each one, and the governance around it, from the approval workflow and budget ownership to the security boundaries and the rollout.',
+			others: 'The CIO decided which AI tools the company would use.',
+			scope: '60 people in the rollout, 40+ workflows',
+		},
 		actions: [
 			'Helped establish an executive AI steering committee with the CIO and senior leadership.',
 			'Designed the approval workflow defining budget ownership and security boundaries.',
@@ -58,7 +65,8 @@ export const caseStudies: CaseStudy[] = [
 		],
 		results: [
 			{ lead: '100% transition:', text: 'All 40+ workflows brought under IT/R&D security compliance.' },
-			{ lead: 'Zero security incidents', text: 'under the new data-privacy boundaries.' },
+			{ lead: 'Zero security incidents', text: 'in the first four weeks under the new data-privacy boundaries.' },
+			{ lead: 'Approved tools took over:', text: 'use of the approved AI tools rose after the rollout.' },
 			{ lead: '7 redundant tools cut', text: 'through unified AI tool licensing.' },
 			{ lead: '900 project boards', text: 'archived or consolidated.' },
 		],
@@ -81,6 +89,10 @@ export const caseStudies: CaseStudy[] = [
 		context: 'Overhaul of R&D and production IT infrastructure supporting a facility of 1,200+ employees.',
 		challenge:
 			'High-stakes delivery across R&D, IT, Finance, and external contractors, with strict production schedules and long-lead hardware bottlenecks.',
+		ownership: {
+			mine: 'Delivery of the infrastructure portfolio: requirements into bills of materials, procurement and long-lead tracking, schedules, and the dashboards leadership used to follow it.',
+			scope: '15 projects, 7 vendors, a 1,200+ employee facility',
+		},
 		actions: [
 			'Translated R&D technical requirements into bills of materials and procurement schedules.',
 			'Tracked dozens of long-lead items end to end, from vendor sourcing through installation and handover.',
@@ -90,7 +102,11 @@ export const caseStudies: CaseStudy[] = [
 		results: [
 			{ lead: '30% lower compute cost', text: 'after moving servers to a colocation site.' },
 			{ lead: 'On-time milestones', text: 'with no downtime to R&D schedules during the upgrade.' },
-			{ lead: 'Full executive visibility:', text: 'Manual status reporting replaced by real-time KPI dashboards.' },
+			{
+				lead: 'Full executive visibility:',
+				text: 'Manual status reporting replaced by real-time KPI dashboards.',
+				note: 'Used at every project checkpoint and in the biweekly stakeholder meetings.',
+			},
 			{ lead: 'Streamlined forecasting:', text: 'Recurring budget cycles run in step with Finance and Purchasing.' },
 		],
 		lesson:
@@ -111,6 +127,10 @@ export const caseStudies: CaseStudy[] = [
 		badges: ['UAT & Hypercare', 'Disaster Recovery'],
 		context: 'Cross-system IT transformation and infrastructure migrations for enterprise clients.',
 		challenge: 'Migrating mission-critical systems while keeping operations running with no user disruption.',
+		ownership: {
+			mine: 'Sign-off on each migration: network stability, server and database connectivity, application migration, and the move to the cloud.',
+			scope: 'A team of 5',
+		},
 		actions: [
 			'Directed matrixed engineering teams through migrations and disaster-recovery initiatives.',
 			'Owned UAT and hypercare, coordinating on-site technicians and operations teams.',
