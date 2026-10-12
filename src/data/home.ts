@@ -5,13 +5,12 @@ import type { IconName } from '../lib/icons';
 
 export const person = {
 	name: 'Tavor Ben-Shahar',
-	role: 'Technology Operations & Program Manager',
+	role: 'Business Operations & Program Manager',
 	focus: 'AI governance · Technical program delivery · Enterprise infrastructure',
-	// Headline and intro: Tavor's wording, 2026-10-12.
-	heroLead: 'Turning complex technology initiatives',
-	heroEmphasis: 'into structured execution',
+	heroLead: 'Turning operational friction into',
+	heroEmphasis: 'structured, high-impact programs',
 	heroSub:
-		'I lead end-to-end delivery of IT and R&D, bridging technical teams and business operations to drive execution.',
+		'Business Operations & Program Manager with 5 years of experience leading complex technology programs across R&D, IT, Security, and Finance. I specialize in AI tool rollouts, multi-million-dollar infrastructure modernization, and automated executive reporting.',
 	// Executive summary, split across About's two columns.
 	positioning:
 		'I work at the intersection of software, AI adoption, product delivery, and cross-functional operations.',

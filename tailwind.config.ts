@@ -22,7 +22,6 @@ const config: Config = {
       xl: ["var(--text-xl)", { lineHeight: "var(--leading-title)" }],
       "2xl": ["var(--text-2xl)", { lineHeight: "var(--leading-title)" }],
       "3xl": ["var(--text-3xl)", { lineHeight: "var(--leading-display)" }],
-      hero: ["var(--text-hero)", { lineHeight: "var(--leading-display)" }],
     },
     colors: {
       transparent: "transparent",
