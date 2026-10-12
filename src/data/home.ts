@@ -7,8 +7,9 @@ export const person = {
 	name: 'Tavor Ben-Shahar',
 	role: 'Business Operations & Program Manager',
 	focus: 'AI governance · Technical program delivery · Enterprise infrastructure',
-	heroLead: 'Turning operational friction into',
-	heroEmphasis: 'structured, high-impact programs',
+	// Headline states where the work was delivered, not a philosophy (Tavor, 2026-10-12).
+	heroLead: 'I’ve delivered technology programs at',
+	heroEmphasis: 'Applied Materials, IBM and Keshet',
 	heroSub:
 		'Business Operations & Program Manager with 5 years of experience leading complex technology programs across R&D, IT, Security, and Finance. I specialize in AI tool rollouts, multi-million-dollar infrastructure modernization, and automated executive reporting.',
 	// Executive summary, split across About's two columns.
