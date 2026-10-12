@@ -53,7 +53,7 @@ const marks: IconName[] = ['half', 'quarter', 'circle', 'leaf'];
 
 	{/* relative: the text paints above the shape field, which on phones drifts behind it. */}
 	<Container outerClass="relative flex flex-1 flex-col" class="flex flex-1 flex-col gap-title">
-		<div class="flex flex-1 flex-col items-center justify-center gap-stack text-center">
+		<div class="hero-stack flex flex-1 flex-col items-center justify-center gap-stack text-center">
 			{/* Reduced motion below 1280px: the four marks as a still row instead of the moving field. */}
 			<div aria-hidden="true" class="hidden items-center gap-tight motion-reduce:flex xl:motion-reduce:hidden">
 				{
@@ -102,6 +102,18 @@ const marks: IconName[] = ['half', 'quarter', 'circle', 'leaf'];
 		--icon-2xl: clamp(64px, 8.33vw, 120px);
 		--icon-xl: clamp(40px, 4.44vw, 64px);
 		--icon-lg: clamp(32px, 3.06vw, 44px);
+	}
+
+	/* Short laptop screens (768–880px tall): a smaller headline and tighter
+	   spacing, so the buttons clear the portrait sitting at the hero's foot. */
+	@media (min-width: 768px) and (max-height: 880px) {
+		.hero-stack {
+			gap: var(--space-gutter);
+		}
+
+		.hero-stack h1 {
+			font-size: min(var(--text-3xl), 7svh);
+		}
 	}
 
 	/* Phones: the shapes drift behind the text as a faint ambient layer. */
