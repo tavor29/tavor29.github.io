@@ -9,7 +9,7 @@ export const person = {
 	focus: 'AI governance · Technical program delivery · Enterprise infrastructure',
 	// Headline and intro: Tavor's wording, 2026-10-12.
 	heroLead: 'Turning complex technology initiatives',
-	heroEmphasis: 'into structured execution and measurable outcomes',
+	heroEmphasis: 'into structured execution',
 	heroSub:
 		'I deliver technology initiatives across enterprise IT, R&D infrastructure, and AI integration, aligning engineering, operations, and leadership around priorities, dependencies, and execution.',
 	// Executive summary, split across About's two columns.
