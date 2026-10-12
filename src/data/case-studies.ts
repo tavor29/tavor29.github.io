@@ -103,7 +103,11 @@ export const caseStudies: CaseStudy[] = [
 			'Moved server workloads to a colocation site.',
 		],
 		results: [
-			{ lead: '30% lower compute cost', text: 'after moving servers to a colocation site.' },
+			{
+				lead: '30% lower compute cost',
+				text: 'after moving servers to a colocation site.',
+				note: 'Measured as yearly running costs before and after the move.',
+			},
 			{ lead: 'On-time milestones', text: 'with no downtime to R&D schedules during the upgrade.' },
 			{
 				lead: 'Full executive visibility:',

@@ -88,7 +88,7 @@ System faces only, so there's no webfont request and nothing to license. Renderi
 | Label | `--font-label` → `font-label` | system sans | 600 (`--weight-label`), uppercase | 0.06em | Eyebrow, section indexes, dates, meta lines, chips |
 | Code | `--font-mono` | ui-monospace stack | 400 | normal | Blog code blocks |
 
-Scale (px): 12 / 14 / 16 / 20 / 22→28 / 32→44 / 40→72. The top three scale linearly with viewport width between 390px and 1440px, so they're fixed at their maximum on desktop. Line-heights: display 1.04, title 1.15, UI text 1.5, long-form prose 1.6.
+Scale (px): 12 / 14 / 16 / 20 / 22→28 / 32→44 / 40→72. The top three scale linearly with viewport width between 390px and 1440px, so they're fixed at their maximum on desktop. The desktop hero headline uses `--text-hero`, the 72px step capped at 7% of the screen height, so a long headline still clears the portrait on short laptop screens. Line-heights: display 1.04, title 1.15, UI text 1.5, long-form prose 1.6.
 
 ### Color
 
