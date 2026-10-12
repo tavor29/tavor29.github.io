@@ -27,6 +27,8 @@ export type CaseStudy = {
 	ownership?: { mine: string; others?: string; scope?: string };
 	/** `lead` is set in bold before the rest of the sentence; `note` says how it was measured or used. */
 	results: { lead: string; text: string; note?: string }[];
+	/** One hard call: the options, what was chosen and why. Optional. */
+	decision?: string;
 	/** "What I'd do differently": one honest closing line. Optional. */
 	lesson?: string;
 	/** Cover photo (src/assets/work/); cards fall back to generated art without one. */
@@ -46,14 +48,13 @@ export const caseStudies: CaseStudy[] = [
 		cover: keshetCover,
 		coverAlt: 'A single light glowing in a dark room',
 		summary:
-			'Moved 40+ unapproved employee AI workflows into secure, compliant tools. The CIO chose the tools; I owned the route to them and the governance around it.',
+			'Moved 40+ unapproved employee AI workflows into secure, compliant tools. The CIO and I chose the tools; I owned the route to them and the governance around it.',
 		badges: ['AI Governance', 'Security Boundaries', 'SaaS License Optimization'],
 		context: 'Rapid adoption of generative AI across business units created workflows that sat outside R&D oversight.',
 		challenge:
 			'40+ employees were building AI workflows with no standard security protocols, budget lines, or data-protection rules.',
 		ownership: {
-			mine: 'The route for AI tools already in use without approval: a new approved solution for each one, and the governance around it, from the approval workflow and budget ownership to the security boundaries and the rollout.',
-			others: 'The CIO decided which AI tools the company would use.',
+			mine: 'Choosing the approved AI tools, together with the CIO. Then the route for tools already in use without approval: a new approved solution for each one, and the governance around it, from the approval workflow and budget ownership to the security boundaries and the rollout.',
 			scope: '60 people in the rollout, 40+ workflows',
 		},
 		actions: [
@@ -70,6 +71,8 @@ export const caseStudies: CaseStudy[] = [
 			{ lead: '7 redundant tools cut', text: 'through unified AI tool licensing.' },
 			{ lead: '900 project boards', text: 'archived or consolidated.' },
 		],
+		decision:
+			'Whether every AI tool and workflow should need central approval. Approving everything centrally was the tighter control, but it would have made the approved route the slow one and pushed people back to personal accounts. I drew the line at money and security instead: anyone can build with the approved tools and share what works, and anything company-wide, expensive or touching sensitive data goes to the steering committee. The rollout also started small, with a first wave of builders, so the decision to widen it would rest on usage data rather than opinion.',
 		lesson:
 			'I’d write the intake requirements and the rollout plan together, from the first week. A requirements document is a starting point, not a shipped system; the rollout is where governance actually gets tested.',
 	},
@@ -109,6 +112,8 @@ export const caseStudies: CaseStudy[] = [
 			},
 			{ lead: 'Streamlined forecasting:', text: 'Recurring budget cycles run in step with Finance and Purchasing.' },
 		],
+		decision:
+			'Speed or security on the install schedule. The project sponsor and the facilities lead wanted IT equipment installed on every floor at once to pull the schedule in. With contractor crews still working in the building, that meant leaving expensive equipment exposed without a written security sign-off. I held the installs and put the conflict on the table for both sides. We agreed on extra physical security and a sign-off from the security manager after an on-site check, then installed. Theft and vandalism by contractor crews did hit the site later, so the sensitive equipment was staged in secured rooms.',
 		lesson:
 			'I’d assign an owner to every dashboard input on day one. A dashboard is only as reliable as the data feeding it, and keeping inputs current turned out to be its own ongoing effort, not a one-time build.',
 	},
@@ -129,7 +134,7 @@ export const caseStudies: CaseStudy[] = [
 		challenge: 'Migrating mission-critical systems while keeping operations running with no user disruption.',
 		ownership: {
 			mine: 'Sign-off on each migration: network stability, server and database connectivity, application migration, and the move to the cloud.',
-			scope: 'A team of 5',
+			scope: '1,200 users migrated, a team of 5',
 		},
 		actions: [
 			'Directed matrixed engineering teams through migrations and disaster-recovery initiatives.',

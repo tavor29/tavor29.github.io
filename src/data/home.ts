@@ -5,7 +5,7 @@ import type { IconName } from '../lib/icons';
 
 export const person = {
 	name: 'Tavor Ben-Shahar',
-	role: 'Business Operations & Program Manager',
+	role: 'Technology Project & Program Manager',
 	focus: 'AI governance · Technical program delivery · Enterprise infrastructure',
 	// Headline and intro: Tavor's wording, 2026-10-12.
 	heroLead: 'I turn complex technology initiatives',

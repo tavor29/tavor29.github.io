@@ -85,6 +85,15 @@ const item = (await getWork()).find((w) => w.href === href)!;
 		</section>
 
 		{
+			c.decision && (
+				<section>
+					<h3>The hard call</h3>
+					<p>{c.decision}</p>
+				</section>
+			)
+		}
+
+		{
 			c.lesson && (
 				<section>
 					<h3>What I’d do differently</h3>
