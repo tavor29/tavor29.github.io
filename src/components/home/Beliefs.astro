@@ -1,7 +1,8 @@
 ---
 // How I think: four beliefs about product as ruled rows. On wide screens the
 // number and mark, the belief, and the reasoning sit in three columns; on
-// phones they stack. Copy lives in data/home.ts.
+// phones they stack and the reasoning folds behind "Read more" (a native
+// <details>, no script). Copy lives in data/home.ts.
 import Container from '../ui/Container.astro';
 import SectionHead from '../ui/SectionHead.astro';
 import Label from '../ui/Label.astro';
@@ -23,7 +24,15 @@ import { beliefs } from '../../data/home';
 							<Label class="text-ink-muted">{String(i + 1).padStart(2, '0')}</Label>
 						</span>
 						<h3 class="font-display text-xl leading-title tracking-display md:col-span-5">{b.title}</h3>
-						<p class="text-base text-ink-muted md:col-span-5">{b.text}</p>
+						<p class="hidden text-base text-ink-muted md:col-span-5 md:block">{b.text}</p>
+						<details class="group/more md:hidden">
+							<summary class="flex cursor-pointer list-none items-center gap-tight text-sm font-semibold [&::-webkit-details-marker]:hidden">
+								<span class="group-open/more:hidden">Read more</span>
+								<span class="hidden group-open/more:inline">Show less</span>
+								<Icon name="arrow" size="sm" class="rotate-90 transition-transform duration-fast ease-out group-open/more:-rotate-90" />
+							</summary>
+							<p class="pt-tight text-base text-ink-muted">{b.text}</p>
+						</details>
 					</li>
 				))
 			}

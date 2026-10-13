@@ -1,6 +1,7 @@
 ---
 // A dark card that closes a grid of cards with a link onward, like the
-// reference's "All posts" card. Same size as the cards beside it.
+// reference's "All posts" card. Same size as the cards beside it; a short
+// card on phones, where the cards stack.
 import Icon from '../Icon.astro';
 import Label from '../ui/Label.astro';
 import ArrowChip from '../ui/ArrowChip.astro';
@@ -23,7 +24,7 @@ const marks: IconName[] = ['half', 'quarter', 'circle', 'leaf'];
 	data-reveal
 	class:list={[
 		'group flex flex-col justify-between rounded-md bg-ink p-gutter text-paper no-underline md:p-stack',
-		aspect === 'portrait' ? 'aspect-[3/4]' : 'aspect-[29/20]',
+		aspect === 'portrait' ? 'gap-title sm:aspect-[3/4]' : 'aspect-[29/20]',
 	]}
 >
 	<div aria-hidden="true" class="flex gap-tight">

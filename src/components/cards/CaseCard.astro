@@ -20,7 +20,7 @@ const yearEnd = c.years.split('–').pop();
 <a
 	href={withBase(`case-studies/${c.slug}/`)}
 	data-reveal
-	class="case-card group relative flex min-h-[34rem] flex-col justify-between overflow-hidden rounded-md bg-ink p-gutter text-paper no-underline md:aspect-[16/8] md:min-h-0 md:p-stack"
+	class="case-card group relative flex min-h-[26rem] flex-col justify-between overflow-hidden rounded-md bg-ink p-gutter text-paper no-underline md:aspect-[16/8] md:min-h-0 md:p-stack"
 >
 	{
 		c.cover ? (
@@ -51,7 +51,7 @@ const yearEnd = c.years.split('–').pop();
 			<span class="font-semibold text-paper">Key impact:</span>{' '}
 			{c.summary}
 		</p>
-		<ul class="flex flex-wrap gap-tight">
+		<ul class="hidden flex-wrap gap-tight sm:flex">
 			{c.badges.map((b) => <li class="rounded-full border border-paper-rule bg-ink px-tight py-1 text-xs font-semibold">{b}</li>)}
 		</ul>
 		<p class="flex items-center gap-tight text-sm font-semibold">
