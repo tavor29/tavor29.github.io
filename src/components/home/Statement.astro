@@ -1,5 +1,6 @@
 ---
-// Pinned statement whose words fill from 10% to full ink as you scroll.
+// Pinned statement whose words fill from 10% to full ink as you scroll. A
+// shorter scroll on phones, so it fills faster there.
 import Container from '../ui/Container.astro';
 import Icon from '../Icon.astro';
 import { quote } from '../../data/home';
@@ -10,7 +11,7 @@ const marks: IconName[] = ['half', 'quarter', 'circle', 'leaf'];
 const words = quote.split(' ');
 ---
 
-<section data-quote class="relative h-[250svh]">
+<section data-quote class="relative h-[160svh] md:h-[250svh]">
 	<div class="sticky top-0 flex h-svh items-center">
 		<Container outerClass="w-full">
 			<p class="font-display text-xl leading-title tracking-display md:text-2xl">
