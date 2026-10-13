@@ -29,6 +29,9 @@ const floaters: {
 	{ name: 'half', size: 'lg', variant: 'solid', wide: [81, 68], narrow: [24, 78] },
 ];
 const marks: IconName[] = ['half', 'quarter', 'circle', 'leaf'];
+
+// Phones show only the intro's first sentence; the rest joins from 768px up.
+const [subFirst, ...subRest] = person.heroSub.split(/(?<=\.)\s+/);
 ---
 
 <section id="top" class="relative flex min-h-svh flex-col pt-section pb-stack">
@@ -82,7 +85,10 @@ const marks: IconName[] = ['half', 'quarter', 'circle', 'leaf'];
 					</span>
 				</span>
 			</h1>
-			<p data-hero-fade data-shape-obstacle class="max-w-2xl text-base text-balance text-ink-muted md:text-lg">{person.heroSub}</p>
+			<p data-hero-fade data-shape-obstacle class="max-w-2xl text-base text-balance text-ink-muted md:text-lg">
+				{subFirst}
+				{subRest.length > 0 && <span class="hidden md:inline">{' ' + subRest.join(' ')}</span>}
+			</p>
 			<div data-hero-fade class="flex flex-wrap items-center justify-center gap-x-stack gap-y-gutter">
 				<span data-shape-obstacle><ArrowLink href="#work">Explore case studies</ArrowLink></span>
 				<span data-shape-obstacle><ArrowLink href="#contact">Get in touch</ArrowLink></span>
