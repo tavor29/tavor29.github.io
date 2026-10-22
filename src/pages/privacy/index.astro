@@ -4,7 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { withBase } from '../../lib/base';
 ---
 
-<BaseLayout title="Privacy" description="What this site records about visits, and how to opt out.">
+<BaseLayout title="Privacy" description="What this site records about visits, when it records a session, and how to opt out.">
 	<article class="privacy">
 		<h1>Privacy</h1>
 		<p class="dek">Short version: I see how people find and use this site, not who they are.</p>
@@ -20,17 +20,27 @@ import { withBase } from '../../lib/base';
 			where that's possible, which mostly works for large employers' office networks. I don't try to identify
 			individual people.
 		</p>
+		<p>
+			Only if you allow it in the banner: a recording of your visit, meaning what you see, scroll and click, with
+			anything you type hidden. Recording needs a PostHog cookie and browser storage, so those are set only after you
+			say yes.
+		</p>
 
 		<h2>What isn't</h2>
 		<p>
-			No cookies and no browser storage: visits are tied together by an anonymous hash on PostHog's side. No session
-			recordings, no advertising trackers, and nothing is sold or shared.
+			Unless you allow recording, no cookies: visits are tied together by an anonymous hash on PostHog's side, and the
+			only thing kept in your browser is your answer to the recording question, once you give one. No advertising
+			trackers, and nothing is sold or shared.
 		</p>
 
 		<h2>Opting out</h2>
 		<p>
-			If your browser sends Do Not Track or Global Privacy Control, nothing is recorded at all. To have data from your
-			visits deleted, get in touch through the <a href={withBase('#contact')}>contact section</a>.
+			If your browser sends Do Not Track or Global Privacy Control, nothing is recorded at all and you won't be asked
+			about recording. To have data from your visits deleted, get in touch through the
+			<a href={withBase('#contact')}>contact section</a>.
+		</p>
+		<p>
+			<button type="button" data-consent-reset class="reset">Change my recording choice</button>
 		</p>
 
 		<h2>Contact details</h2>
@@ -45,6 +55,15 @@ import { withBase } from '../../lib/base';
 	</article>
 </BaseLayout>
 
+<script>
+	import { setConsent } from '../../scripts/analytics';
+
+	document.querySelector('[data-consent-reset]')?.addEventListener('click', () => {
+		setConsent(null);
+		document.dispatchEvent(new Event('consent:open'));
+	});
+</script>
+
 <style>
 	.privacy {
 		max-width: 44rem;
@@ -58,6 +77,17 @@ import { withBase } from '../../lib/base';
 	.privacy h2 {
 		font-size: var(--text-xl);
 		margin-top: var(--space-5);
+	}
+
+	.reset {
+		font: inherit;
+		color: var(--color-link);
+		text-decoration: underline;
+		text-underline-offset: 4px;
+		background: none;
+		border: 0;
+		padding: 0;
+		cursor: pointer;
 	}
 
 	.privacy p {

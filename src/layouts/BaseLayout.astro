@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import SiteNav from '../components/SiteNav.astro';
+import ConsentBanner from '../components/ConsentBanner.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import { withBase } from '../lib/base';
 import { person } from '../data/home';
@@ -64,6 +65,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
 			)
 		}
 		<SiteFooter />
+		<ConsentBanner />
 		<script>
 			import '../scripts/motion';
 			import { startAnalytics } from '../scripts/analytics';
