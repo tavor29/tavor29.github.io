@@ -14,15 +14,15 @@ import { withBase } from '../lib/base';
 	aria-label="Cookie notice"
 	class="pointer-events-none fixed inset-x-0 bottom-tight z-50 flex justify-center px-tight"
 >
-	<div class="pointer-events-auto flex max-w-md items-center gap-tight rounded-sm bg-ink py-1 pr-1 pl-tight text-paper">
-		<p class="text-xs text-paper-muted">
-			By using this site you consent to cookies and session recording.{' '}
-			<a href={withBase('privacy/')} class="text-paper underline underline-offset-2 hover:no-underline">Privacy</a>
+	<div class="pointer-events-auto flex items-center gap-tight rounded-sm bg-ink p-1 pl-tight text-paper">
+		<p class="m-0 text-xs whitespace-nowrap text-paper-muted">
+			By using this site you accept{' '}
+			<a href={withBase('privacy/')} class="text-paper underline underline-offset-2 hover:no-underline">cookies &amp; recording</a>.
 		</p>
 		<button
 			type="button"
 			data-notice-close
-			class="shrink-0 cursor-pointer rounded-sm border-0 bg-paper px-tight py-1 font-label text-xs uppercase tracking-label text-ink"
+			class="shrink-0 cursor-pointer rounded-sm border-0 bg-paper px-tight font-label text-xs leading-text uppercase tracking-label text-ink"
 		>
 			OK
 		</button>
