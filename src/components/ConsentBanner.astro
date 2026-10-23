@@ -1,61 +1,55 @@
 ---
-// Asks once whether a visit may be recorded (PostHog session replay). Hidden
-// until the script decides to show it: only when the visitor hasn't answered
-// yet and doesn't send Do Not Track or Global Privacy Control. Analytics
-// without recording runs either way, cookieless (scripts/analytics.ts). The
-// privacy page's "Change my choice" button reopens it via a `consent:open`
-// event.
+// Cookie notice (notice-based, Tavor's call 2026-10-24): tells visitors the
+// site uses cookies and session recording, with a link to the privacy page,
+// where they can opt out. Nothing waits on it; analytics runs either way
+// (scripts/analytics.ts). "Got it" hides it for good. Not shown to visitors
+// who send Do Not Track or Global Privacy Control, who aren't tracked at all.
 import { withBase } from '../lib/base';
 ---
 
 <div
-	data-consent
+	data-notice
 	hidden
 	role="region"
-	aria-label="Recording consent"
+	aria-label="Cookie notice"
 	class="fixed inset-x-0 bottom-gutter z-50 flex justify-center px-gutter"
 >
 	<div class="flex max-w-xl flex-col gap-gutter rounded-md bg-ink p-gutter text-paper sm:flex-row sm:items-center">
 		<p class="text-sm text-paper-muted">
-			Mind if I record your visit to see how the site gets used? Anything you type stays hidden.{' '}
-			<a href={withBase('privacy/')} class="text-paper underline underline-offset-4 hover:no-underline">Privacy</a>
+			By using this site you consent to basic cookie tracking and session recording. Anything you type stays
+			hidden.{' '}
+			<a href={withBase('privacy/')} class="text-paper underline underline-offset-4 hover:no-underline">Privacy and opt-out</a>
 		</p>
-		<div class="flex shrink-0 items-center gap-gutter">
-			<button
-				type="button"
-				data-consent-choice="yes"
-				class="cursor-pointer rounded-sm border-0 bg-paper px-tight py-1 font-label text-xs uppercase tracking-label text-ink"
-			>
-				Allow
-			</button>
-			<button type="button" data-consent-choice="no" class="cursor-pointer border-0 bg-transparent p-0 text-sm text-paper underline underline-offset-4 hover:no-underline">
-				No thanks
-			</button>
-		</div>
+		<button
+			type="button"
+			data-notice-close
+			class="shrink-0 cursor-pointer self-start rounded-sm border-0 bg-paper px-tight py-1 font-label text-xs uppercase tracking-label text-ink sm:self-auto"
+		>
+			Got it
+		</button>
 	</div>
 </div>
 
 <script>
-	import { getConsent, setConsent, optedOut, track } from '../scripts/analytics';
+	import { optedOut } from '../scripts/analytics';
 
-	const banner = document.querySelector<HTMLElement>('[data-consent]');
-	if (banner) {
-		const show = () => {
-			banner.hidden = false;
-		};
-		if (!optedOut() && getConsent() === null) setTimeout(show, 1500);
-
-		banner.querySelectorAll<HTMLButtonElement>('[data-consent-choice]').forEach((button) =>
-			button.addEventListener('click', () => {
-				const choice = button.dataset.consentChoice === 'yes' ? 'yes' : 'no';
-				setConsent(choice);
-				track('recording_consent', { choice });
-				banner.hidden = true;
-			}),
-		);
-
-		document.addEventListener('consent:open', () => {
-			if (!optedOut()) show();
+	const KEY = 'cookie-notice-seen';
+	const notice = document.querySelector<HTMLElement>('[data-notice]');
+	let seen = false;
+	try {
+		seen = localStorage.getItem(KEY) === '1';
+	} catch {
+		// Storage blocked: show the notice each visit.
+	}
+	if (notice && !seen && !optedOut()) {
+		setTimeout(() => (notice.hidden = false), 1500);
+		notice.querySelector('[data-notice-close]')?.addEventListener('click', () => {
+			notice.hidden = true;
+			try {
+				localStorage.setItem(KEY, '1');
+			} catch {
+				// Storage blocked: nothing to remember.
+			}
 		});
 	}
 </script>

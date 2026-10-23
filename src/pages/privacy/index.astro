@@ -21,26 +21,24 @@ import { withBase } from '../../lib/base';
 			individual people.
 		</p>
 		<p>
-			Only if you allow it in the banner: a recording of your visit, meaning what you see, scroll and click, with
-			anything you type hidden. Recording needs a PostHog cookie and browser storage, so those are set only after you
-			say yes.
+			A recording of your visit, meaning what you see, scroll and click, with anything you type hidden. Recording uses
+			a PostHog cookie and browser storage. You can opt out below.
 		</p>
 
 		<h2>What isn't</h2>
 		<p>
-			Unless you allow recording, no cookies: visits are tied together by an anonymous hash on PostHog's side, and the
-			only thing kept in your browser is your answer to the recording question, once you give one. No advertising
-			trackers, and nothing is sold or shared.
+			No advertising trackers, and nothing is sold or shared. If you opt out, there are no cookies or recordings: visits
+			are counted with an anonymous hash on PostHog's side, and the only thing kept in your browser is your opt-out.
 		</p>
 
 		<h2>Opting out</h2>
 		<p>
-			If your browser sends Do Not Track or Global Privacy Control, nothing is recorded at all and you won't be asked
-			about recording. To have data from your visits deleted, get in touch through the
+			If your browser sends Do Not Track or Global Privacy Control, nothing is recorded at all. To have data from your visits deleted, get in touch through the
 			<a href={withBase('#contact')}>contact section</a>.
 		</p>
 		<p>
-			<button type="button" data-consent-reset class="reset">Change my recording choice</button>
+			<button type="button" data-consent-toggle class="reset">Opt out of cookies and recording</button>
+			<span data-consent-status class="status" aria-live="polite"></span>
 		</p>
 
 		<h2>Contact details</h2>
@@ -56,11 +54,20 @@ import { withBase } from '../../lib/base';
 </BaseLayout>
 
 <script>
-	import { setConsent } from '../../scripts/analytics';
+	import { getConsent, setConsent } from '../../scripts/analytics';
 
-	document.querySelector('[data-consent-reset]')?.addEventListener('click', () => {
-		setConsent(null);
-		document.dispatchEvent(new Event('consent:open'));
+	// Opt out (or back in). Takes effect from the next page load.
+	const button = document.querySelector<HTMLButtonElement>('[data-consent-toggle]');
+	const status = document.querySelector<HTMLElement>('[data-consent-status]');
+	const render = () => {
+		const out = getConsent() === 'no';
+		if (button) button.textContent = out ? 'Opt back in' : 'Opt out of cookies and recording';
+		if (status) status.textContent = out ? ' You’re opted out.' : '';
+	};
+	render();
+	button?.addEventListener('click', () => {
+		setConsent(getConsent() === 'no' ? null : 'no');
+		render();
 	});
 </script>
 
@@ -88,6 +95,10 @@ import { withBase } from '../../lib/base';
 		border: 0;
 		padding: 0;
 		cursor: pointer;
+	}
+
+	.status {
+		color: var(--color-text-muted);
 	}
 
 	.privacy p {
