@@ -12,20 +12,19 @@ import { withBase } from '../lib/base';
 	hidden
 	role="region"
 	aria-label="Cookie notice"
-	class="fixed inset-x-0 bottom-gutter z-50 flex justify-center px-gutter"
+	class="pointer-events-none fixed inset-x-0 bottom-tight z-50 flex justify-center px-tight"
 >
-	<div class="flex max-w-xl flex-col gap-gutter rounded-md bg-ink p-gutter text-paper sm:flex-row sm:items-center">
-		<p class="text-sm text-paper-muted">
-			By using this site you consent to basic cookie tracking and session recording. Anything you type stays
-			hidden.{' '}
-			<a href={withBase('privacy/')} class="text-paper underline underline-offset-4 hover:no-underline">Privacy and opt-out</a>
+	<div class="pointer-events-auto flex max-w-md items-center gap-tight rounded-sm bg-ink py-1 pr-1 pl-tight text-paper">
+		<p class="text-xs text-paper-muted">
+			By using this site you consent to cookies and session recording.{' '}
+			<a href={withBase('privacy/')} class="text-paper underline underline-offset-2 hover:no-underline">Privacy</a>
 		</p>
 		<button
 			type="button"
 			data-notice-close
-			class="shrink-0 cursor-pointer self-start rounded-sm border-0 bg-paper px-tight py-1 font-label text-xs uppercase tracking-label text-ink sm:self-auto"
+			class="shrink-0 cursor-pointer rounded-sm border-0 bg-paper px-tight py-1 font-label text-xs uppercase tracking-label text-ink"
 		>
-			Got it
+			OK
 		</button>
 	</div>
 </div>
