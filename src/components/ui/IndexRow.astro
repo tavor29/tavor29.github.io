@@ -26,12 +26,12 @@ interface Props {
 	real?: boolean;
 	/** Coded projects: a status badge under the label. */
 	status?: Status;
-	/** Heading level for the title: 2 on index pages, 3 inside a homepage section. */
-	level?: 2 | 3;
+	/** Heading level for the title: 2 on index pages, 3 inside a homepage section, 4 inside a group. */
+	level?: 2 | 3 | 4;
 }
 
 const { href, title, body, label, meta, mark, real = true, status, level = 2 } = Astro.props;
-const Heading = level === 3 ? 'h3' : 'h2';
+const Heading = `h${level}` as 'h2' | 'h3' | 'h4';
 ---
 
 <li data-reveal class="relative">

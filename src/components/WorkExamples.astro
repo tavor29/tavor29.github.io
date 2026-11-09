@@ -1,13 +1,11 @@
 ---
 // "More work": the shorter examples from each role (data/more-work.ts), as
 // ruled rows under the case studies. Not links: each is one line, complete
-// on its own. Work still underway when the role ended carries an In progress
-// badge. Phones show the first few, with a button for the rest; without
+// on its own. Phones show the first few, with a button for the rest; without
 // JavaScript they show all of them.
 import Icon from './Icon.astro';
 import Label from './ui/Label.astro';
 import Rule from './ui/Rule.astro';
-import StatusBadge from './ui/StatusBadge.astro';
 import { moreWork } from '../data/more-work';
 
 const shownOnPhones = 3;
@@ -32,7 +30,6 @@ const shownOnPhones = 3;
 					<div class="flex flex-col items-start gap-tight md:col-span-9">
 						<h4 class="font-display text-lg leading-title tracking-display">{w.title}</h4>
 						<p class="max-w-2xl text-base text-ink-muted">{w.text}</p>
-						{w.inProgress && <StatusBadge status="in-progress" />}
 					</div>
 				</li>
 			))

@@ -2,9 +2,9 @@
 // (shown as "More work" under the case studies), and coded projects that sit
 // outside the Citizen AI Governance umbrella (shown under its card). Tavor's
 // selections, 2026-11-09. Same confidentiality rules as the case studies: no
-// vendor names, colleague names or dollar figures. `inProgress` marks work
-// that was still underway when the role ended, so nothing reads as finished
-// that wasn't.
+// vendor names, colleague names or dollar figures. Work that was still
+// underway when the role ended is worded that way ("started", "starting
+// with") rather than badged.
 import type { IconName } from '../lib/icons';
 
 export type WorkExample = {
@@ -14,7 +14,6 @@ export type WorkExample = {
 	mark: IconName;
 	title: string;
 	text: string;
-	inProgress?: boolean;
 };
 
 export const moreWork: WorkExample[] = [
@@ -37,16 +36,14 @@ export const moreWork: WorkExample[] = [
 		years: '2026',
 		mark: 'half',
 		title: 'Network segmentation the helpdesk can run',
-		text: 'Mapped departments to their own networks (VLANs) so the helpdesk can place people when they join, move department or change desks.',
-		inProgress: true,
+		text: 'Made network segmentation (VLANs) workable day to day, starting with a map the helpdesk uses when people join, move department or change desks.',
 	},
 	{
 		org: 'Keshet Media Group',
 		years: '2026',
 		mark: 'half',
 		title: 'Storage nobody was watching',
-		text: 'Brought visibility to hundreds of terabytes of unmanaged media storage, as the basis for capacity planning and retention rules.',
-		inProgress: true,
+		text: 'Took on hundreds of terabytes of unmanaged media storage, starting with visibility as the basis for capacity planning and retention rules.',
 	},
 	{
 		org: 'Keshet Media Group',
@@ -54,7 +51,6 @@ export const moreWork: WorkExample[] = [
 		mark: 'half',
 		title: 'A wiki so knowledge doesn’t leave with people',
 		text: 'Started a central map of systems, owners and dependencies, collected through each department’s COO so it runs on goodwill, not authority.',
-		inProgress: true,
 	},
 	{
 		org: 'Applied Materials',

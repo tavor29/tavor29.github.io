@@ -1,16 +1,15 @@
 ---
-// Projects I've Built. Citizen AI Governance is one compact light-blue card: its thesis,
-// then its three projects side by side, each with its stage and status. Other
-// projects go below it as ruled rows. Copy: data/citizen-ai-governance.ts and
-// content/projects/*.md.
+// Projects I've Built. Every project is a ruled row (title, one line, stage or
+// stack, status). The three Citizen AI Governance projects sit together in one
+// light-blue panel under the umbrella's name and thesis, so they read as
+// connected; standalone projects follow as plain rows. Copy:
+// data/citizen-ai-governance.ts, content/projects/*.md and data/more-work.ts.
 import Container from '../ui/Container.astro';
 import SectionHead from '../ui/SectionHead.astro';
 import Label from '../ui/Label.astro';
 import ArrowChip from '../ui/ArrowChip.astro';
 import ArrowLink from '../ui/ArrowLink.astro';
 import IndexRow from '../ui/IndexRow.astro';
-import StatusBadge from '../ui/StatusBadge.astro';
-import Icon from '../Icon.astro';
 import { umbrella } from '../../data/citizen-ai-governance';
 import { otherProjects } from '../../data/more-work';
 import { getProjects, projectHref, stageLabel } from '../../lib/projects';
@@ -22,50 +21,44 @@ const projects = await getProjects();
 <section id="built" class="pt-section">
 	<Container class="flex flex-col gap-title">
 		<SectionHead index="03" title="Projects I’ve Built" intro="Real organizational pain. Real solutions." mark="leaf" />
-		<div data-reveal class="flex flex-col gap-gutter rounded-md bg-wash-half p-gutter text-ink md:p-stack md:pb-gutter">
-			<a
-				href={withBase('projects/citizen-ai-governance/')}
-				class="group flex items-start justify-between gap-gutter"
-			>
-				<div class="flex flex-col gap-tight">
-					<Label class="text-ink-muted">{projects.length} projects · Discover, decide, sustain</Label>
-					<h3 class="font-display text-2xl leading-title tracking-display">{umbrella.title}</h3>
-					<p class="max-w-2xl text-base text-ink-muted">{umbrella.thesis}</p>
-				</div>
-				<ArrowChip />
-			</a>
-			<ol class="grid md:grid-cols-3">
+		<div class="flex flex-col gap-stack">
+			<div data-reveal class="rounded-md bg-wash-half px-gutter pt-gutter md:px-stack md:pt-stack">
+				<a
+					href={withBase('projects/citizen-ai-governance/')}
+					class="group flex items-start justify-between gap-gutter pb-stack"
+				>
+					<div class="flex flex-col gap-tight">
+						<Label class="text-ink-muted">{projects.length} connected projects · Discover, decide, sustain</Label>
+						<h3 class="font-display text-2xl leading-title tracking-display">{umbrella.title}</h3>
+						<p class="max-w-2xl text-base text-ink-muted">{umbrella.thesis}</p>
+					</div>
+					<ArrowChip />
+				</a>
+				<ol>
+					{
+						projects.map((p) => (
+							<IndexRow
+								href={withBase(projectHref(p))}
+								title={p.data.title}
+								body={p.data.summary}
+								label={stageLabel(p.data.stage)}
+								mark={p.data.mark}
+								real={false}
+								status={p.data.status}
+								level={4}
+							/>
+						))
+					}
+				</ol>
+			</div>
+			<ol>
 				{
-					projects.map((p, i) => (
-						<li class:list={['border-t border-ink-rule', i > 0 && 'md:border-l md:pl-gutter', i < projects.length - 1 && 'md:pr-gutter']}>
-							<a href={withBase(projectHref(p))} class="group flex h-full flex-col items-start gap-tight py-gutter">
-								<span class="flex items-center gap-tight">
-									<Icon
-										name={p.data.mark}
-										size="sm"
-										variant="outline"
-										tone="mark"
-										class="transition-transform duration-fast ease-out group-hover:rotate-90"
-									/>
-									<Label class="text-ink-muted">{stageLabel(p.data.stage)}</Label>
-								</span>
-								<span class="font-display text-lg leading-title tracking-display group-hover:underline">
-									{p.data.title}
-								</span>
-								<StatusBadge status={p.data.status} class="mt-auto" />
-							</a>
-						</li>
+					otherProjects.map((p) => (
+						<IndexRow href={p.href} title={p.title} body={p.text} label={p.label} mark={p.mark} real={false} level={3} />
 					))
 				}
 			</ol>
 		</div>
-		<ol>
-			{
-				otherProjects.map((p) => (
-					<IndexRow href={p.href} title={p.title} body={p.text} label={p.label} mark={p.mark} real={false} level={3} />
-				))
-			}
-		</ol>
 		<div data-reveal class="flex flex-wrap gap-x-stack gap-y-gutter">
 			<ArrowLink href={withBase('projects/')}>View all projects</ArrowLink>
 			<ArrowLink href={withBase('templates/')}>Templates &amp; docs</ArrowLink>
