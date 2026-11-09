@@ -11,7 +11,7 @@ export const person = {
 	heroLead: 'Turning complex initiatives into',
 	heroEmphasis: 'technical design and structured execution',
 	heroSub:
-		'Business Operations & Program Manager with 5 years of experience leading complex technology programs across R&D, IT, Security, and Finance. I specialize in AI tool rollouts, multi-million-dollar infrastructure modernization, and automated executive reporting.',
+		'Business Operations & Program Manager with 6+ years of experience leading complex technology programs across R&D, IT, Security, and Finance. I specialize in AI tool rollouts, multi-million-dollar infrastructure modernization, and automated executive reporting.',
 	// Executive summary, split across About's two columns.
 	positioning:
 		'I work at the intersection of software, AI adoption, product delivery, and cross-functional operations.',
