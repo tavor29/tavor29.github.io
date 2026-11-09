@@ -1,5 +1,5 @@
 ---
-// A case study as a hero-sized card: the cover (photo, or generated art until
+// A case study as a wide card (compact since 2026-11-09, about 22rem tall): the cover (photo, or generated art until
 // one is chosen) fills the card under an ink fade; company and "year / case"
 // on top, then title, key impact, pill badges and the call to action.
 import { Image } from 'astro:assets';
@@ -20,7 +20,7 @@ const yearEnd = c.years.split('–').pop();
 <a
 	href={withBase(`case-studies/${c.slug}/`)}
 	data-reveal
-	class="case-card group relative flex min-h-[26rem] flex-col justify-between overflow-hidden rounded-md bg-ink p-gutter text-paper no-underline md:aspect-[16/8] md:min-h-0 md:p-stack"
+	class="case-card group relative flex min-h-[20rem] flex-col justify-between gap-stack overflow-hidden rounded-md bg-ink p-gutter text-paper no-underline md:min-h-[22rem] md:p-stack"
 >
 	{
 		c.cover ? (
@@ -45,9 +45,9 @@ const yearEnd = c.years.split('–').pop();
 		<Label class="text-paper-muted">{yearEnd} / Case {c.number}</Label>
 	</div>
 
-	<div class="relative flex max-w-3xl flex-col gap-gutter">
-		<h3 class="font-display text-2xl leading-title tracking-display text-balance">{c.title}</h3>
-		<p class="text-base text-paper-muted md:text-lg">
+	<div class="relative flex max-w-3xl flex-col gap-tight">
+		<h3 class="font-display text-xl leading-title tracking-display text-balance">{c.title}</h3>
+		<p class="m-0 text-base text-paper-muted">
 			<span class="font-semibold text-paper">Key impact:</span>{' '}
 			{c.summary}
 		</p>
