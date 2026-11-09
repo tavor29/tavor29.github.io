@@ -25,11 +25,11 @@ const projects = await getProjects();
 			<div data-reveal class="rounded-md bg-wash-half px-gutter pt-gutter md:px-stack md:pt-stack">
 				<a
 					href={withBase('projects/citizen-ai-governance/')}
-					class="group flex items-start justify-between gap-gutter pb-stack"
+					class="group flex items-start justify-between gap-gutter pb-gutter"
 				>
 					<div class="flex flex-col gap-tight">
 						<Label class="text-ink-muted">{projects.length} connected projects · Discover, decide, sustain</Label>
-						<h3 class="font-display text-2xl leading-title tracking-display">{umbrella.title}</h3>
+						<h3 class="font-display text-xl leading-title tracking-display">{umbrella.title}</h3>
 						<p class="max-w-2xl text-base text-ink-muted">{umbrella.thesis}</p>
 					</div>
 					<ArrowChip />
@@ -46,6 +46,7 @@ const projects = await getProjects();
 								real={false}
 								status={p.data.status}
 								level={4}
+								compact
 							/>
 						))
 					}
@@ -54,7 +55,7 @@ const projects = await getProjects();
 			<ol>
 				{
 					otherProjects.map((p) => (
-						<IndexRow href={p.href} title={p.title} body={p.text} label={p.label} mark={p.mark} real={false} level={3} />
+						<IndexRow href={p.href} title={p.title} body={p.text} label={p.label} mark={p.mark} real={false} level={3} compact />
 					))
 				}
 			</ol>

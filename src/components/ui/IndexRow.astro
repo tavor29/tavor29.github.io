@@ -28,9 +28,11 @@ interface Props {
 	status?: Status;
 	/** Heading level for the title: 2 on index pages, 3 inside a homepage section, 4 inside a group. */
 	level?: 2 | 3 | 4;
+	/** Compact: smaller title and mark, tighter padding (the size of the "More work" rows). */
+	compact?: boolean;
 }
 
-const { href, title, body, label, meta, mark, real = true, status, level = 2 } = Astro.props;
+const { href, title, body, label, meta, mark, real = true, status, level = 2, compact = false } = Astro.props;
 const Heading = `h${level}` as 'h2' | 'h3' | 'h4';
 ---
 
@@ -38,7 +40,7 @@ const Heading = `h${level}` as 'h2' | 'h3' | 'h4';
 	<Rule />
 	<a
 		href={href}
-		class="group grid grid-cols-[auto_1fr_auto] items-start gap-x-gutter gap-y-tight py-stack md:grid-cols-12"
+		class:list={['group grid grid-cols-[auto_1fr_auto] items-start gap-x-gutter gap-y-tight md:grid-cols-12', compact ? 'py-gutter' : 'py-stack']}
 	>
 		{/* A date sits above the title on phones; a mark sits beside it. */}
 		<span class:list={['md:col-span-2', !mark && 'col-span-2']}>
@@ -46,7 +48,7 @@ const Heading = `h${level}` as 'h2' | 'h3' | 'h4';
 				mark ? (
 					<Icon
 						name={mark}
-						size="lg"
+						size={compact ? 'md' : 'lg'}
 						variant={real ? 'solid' : 'outline'}
 						tone="mark"
 						class="transition-transform duration-fast ease-out group-hover:rotate-90"
@@ -62,7 +64,7 @@ const Heading = `h${level}` as 'h2' | 'h3' | 'h4';
 				mark ? 'col-start-2' : 'col-span-2 col-start-1 row-start-2',
 			]}
 		>
-			<Heading class="font-display text-xl leading-title tracking-display transition-transform duration-base ease-out group-hover:translate-x-tight">
+			<Heading class:list={['font-display leading-title tracking-display transition-transform duration-base ease-out group-hover:translate-x-tight', compact ? 'text-lg' : 'text-xl']}>
 				{title}
 			</Heading>
 			{body && <p class="max-w-2xl text-base text-ink-muted">{body}</p>}
