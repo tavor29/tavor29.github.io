@@ -1,0 +1,49 @@
+---
+// One project as a ruled row, laid out like the "More work" rows
+// (components/WorkExamples.astro): mark, a short label and the status on the
+// left; title and one line on the right. The whole row is the link.
+import Icon from './Icon.astro';
+import Label from './ui/Label.astro';
+import Rule from './ui/Rule.astro';
+import StatusBadge from './ui/StatusBadge.astro';
+import type { Status } from '../lib/projects';
+import type { IconName } from '../lib/icons';
+
+interface Props {
+	href: string;
+	title: string;
+	text: string;
+	/** Short line beside the mark: a stage ("Stage 2 · Decide") or a stack. */
+	label: string;
+	mark: IconName;
+	status?: Status;
+	/** Heading level for the title. */
+	level?: 3 | 4;
+}
+
+const { href, title, text, label, mark, status, level = 3 } = Astro.props;
+const Heading = `h${level}` as 'h3' | 'h4';
+---
+
+<li data-reveal class="relative">
+	<Rule />
+	<a href={href} class="group grid gap-tight py-gutter no-underline md:grid-cols-12 md:gap-gutter">
+		<span class="flex flex-wrap items-center gap-tight md:col-span-3 md:flex-col md:items-start md:pt-1">
+			<span class="flex items-center gap-tight">
+				<Icon
+					name={mark}
+					size="sm"
+					variant="outline"
+					tone="mark"
+					class="shrink-0 transition-transform duration-fast ease-out group-hover:rotate-90"
+				/>
+				<Label class="text-ink-muted">{label}</Label>
+			</span>
+			{status && <StatusBadge status={status} />}
+		</span>
+		<div class="flex flex-col gap-tight md:col-span-9">
+			<Heading class="font-display text-lg leading-title tracking-display group-hover:underline">{title}</Heading>
+			<p class="max-w-2xl text-base text-ink-muted">{text}</p>
+		</div>
+	</a>
+</li>

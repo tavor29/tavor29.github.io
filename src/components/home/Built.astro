@@ -9,7 +9,7 @@ import SectionHead from '../ui/SectionHead.astro';
 import Label from '../ui/Label.astro';
 import ArrowChip from '../ui/ArrowChip.astro';
 import ArrowLink from '../ui/ArrowLink.astro';
-import IndexRow from '../ui/IndexRow.astro';
+import ProjectRow from '../ProjectRow.astro';
 import { umbrella } from '../../data/citizen-ai-governance';
 import { otherProjects } from '../../data/more-work';
 import { getProjects, projectHref, stageLabel } from '../../lib/projects';
@@ -21,8 +21,8 @@ const projects = await getProjects();
 <section id="built" class="pt-section">
 	<Container class="flex flex-col gap-title">
 		<SectionHead index="03" title="Projects I’ve Built" intro="Real organizational pain. Real solutions." mark="leaf" />
-		<div class="flex flex-col gap-stack">
-			<div data-reveal class="rounded-md bg-wash-half px-gutter pt-gutter md:px-stack md:pt-stack">
+		<div class="flex flex-col gap-gutter">
+			<div data-reveal class="rounded-md bg-wash-half px-gutter pt-gutter pb-tight md:px-stack md:pt-stack">
 				<a
 					href={withBase('projects/citizen-ai-governance/')}
 					class="group flex items-start justify-between gap-gutter pb-gutter"
@@ -37,25 +37,24 @@ const projects = await getProjects();
 				<ol>
 					{
 						projects.map((p) => (
-							<IndexRow
+							<ProjectRow
 								href={withBase(projectHref(p))}
 								title={p.data.title}
-								body={p.data.summary}
+								text={p.data.summary}
 								label={stageLabel(p.data.stage)}
 								mark={p.data.mark}
-								real={false}
 								status={p.data.status}
 								level={4}
-								compact
 							/>
 						))
 					}
 				</ol>
 			</div>
-			<ol>
+			{/* Same side inset as the panel, so every project's text lines up. */}
+			<ol class="px-gutter md:px-stack">
 				{
 					otherProjects.map((p) => (
-						<IndexRow href={p.href} title={p.title} body={p.text} label={p.label} mark={p.mark} real={false} level={3} compact />
+						<ProjectRow href={p.href} title={p.title} text={p.text} label={p.label} mark={p.mark} />
 					))
 				}
 			</ol>

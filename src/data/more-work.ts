@@ -88,7 +88,7 @@ export const otherProjects: OtherProject[] = [
 	{
 		title: 'Local Transcriber',
 		text: 'Offline Hebrew and English transcription for recordings that can’t go to the cloud, with a built-in benchmark that measures each model’s accuracy and speed on an ordinary laptop.',
-		label: 'Coded project · Python · Whisper · Runs offline',
+		label: 'Python · Runs offline',
 		href: 'https://github.com/tavor29/local-transcriber',
 		mark: 'quarter',
 	},
