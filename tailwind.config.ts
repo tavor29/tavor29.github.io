@@ -41,6 +41,10 @@ const config: Config = {
       wash: {
         half: "var(--mark-half-wash)",
       },
+      "mark-text": {
+        quarter: "var(--mark-quarter-text)",
+        leaf: "var(--mark-leaf-text)",
+      },
     },
     borderRadius: {
       none: "0",

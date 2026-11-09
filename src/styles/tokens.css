@@ -107,6 +107,11 @@
 	--mark-leaf: var(--chart-status-good);
 	/* A light wash of the half-disc blue: the homepage Projects card background. */
 	--mark-half-wash: color-mix(in srgb, var(--mark-half) 14%, var(--color-paper));
+	/* Text versions of the orange and green marks, darkened just enough for small
+	   text on paper (about 5:1): the "Problem" and "What changed" labels in the
+	   More work rows (Tavor's call, 2026-11-09). */
+	--mark-quarter-text: color-mix(in srgb, var(--mark-quarter) 75%, var(--color-ink));
+	--mark-leaf-text: color-mix(in srgb, var(--mark-leaf) 75%, var(--color-ink));
 
 	/* Legacy aliases (pre-redesign names used by inner pages and charts). */
 	--color-bg: var(--color-paper);

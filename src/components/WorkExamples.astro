@@ -11,12 +11,13 @@ import { moreWork } from '../data/more-work';
 const shownOnPhones = 3;
 
 // Each row reads as a short story: the problem, what I built, how it works,
-// and what changed (the outcome, set slightly stronger).
+// and what changed (the outcome, set slightly stronger). Labels are bold;
+// Problem is orange and What changed green (the quarter and leaf marks).
 const parts = [
-	['problem', 'Problem'],
-	['built', 'What I built'],
-	['how', 'How it works'],
-	['changed', 'What changed'],
+	['problem', 'Problem', 'text-mark-text-quarter'],
+	['built', 'What I built', 'text-ink'],
+	['how', 'How it works', 'text-ink'],
+	['changed', 'What changed', 'text-mark-text-leaf'],
 ] as const;
 ---
 
@@ -40,10 +41,10 @@ const parts = [
 						<h4 class="font-display text-lg leading-title tracking-display">{w.title}</h4>
 						<dl class="m-0 grid w-full gap-tight sm:grid-cols-2 sm:gap-x-gutter">
 							{
-								parts.map(([key, label]) => (
+								parts.map(([key, label, tone]) => (
 									<div class="flex flex-col gap-1">
 										<dt>
-											<Label class="text-ink-muted">{label}</Label>
+											<Label class={`m-0 font-bold ${tone}`}>{label}</Label>
 										</dt>
 										<dd class:list={['m-0 text-sm', key === 'changed' ? 'font-semibold text-ink' : 'text-ink-muted']}>
 											{w[key]}
