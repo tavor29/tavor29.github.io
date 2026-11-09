@@ -1,7 +1,7 @@
 ---
 // "More work": the shorter examples from each role (data/more-work.ts), as
-// ruled rows under the case studies. Not links: each is one line, complete
-// on its own. Phones show the first few, with a button for the rest; without
+// ruled rows under the case studies. Not links: each is complete on its own,
+// in four short parts (two columns from sm up). Phones show the first few, with a button for the rest; without
 // JavaScript they show all of them.
 import Icon from './Icon.astro';
 import Label from './ui/Label.astro';
@@ -9,6 +9,15 @@ import Rule from './ui/Rule.astro';
 import { moreWork } from '../data/more-work';
 
 const shownOnPhones = 3;
+
+// Each row reads as a short story: the problem, what I built, how it works,
+// and what changed (the outcome, set slightly stronger).
+const parts = [
+	['problem', 'Problem'],
+	['built', 'What I built'],
+	['how', 'How it works'],
+	['changed', 'What changed'],
+] as const;
 ---
 
 <div data-ui data-work-examples class="flex flex-col gap-gutter">
@@ -29,7 +38,20 @@ const shownOnPhones = 3;
 					</span>
 					<div class="flex flex-col items-start gap-tight md:col-span-9">
 						<h4 class="font-display text-lg leading-title tracking-display">{w.title}</h4>
-						<p class="max-w-2xl text-base text-ink-muted">{w.text}</p>
+						<dl class="m-0 grid w-full gap-tight sm:grid-cols-2 sm:gap-x-gutter">
+							{
+								parts.map(([key, label]) => (
+									<div class="flex flex-col gap-1">
+										<dt>
+											<Label class="text-ink-muted">{label}</Label>
+										</dt>
+										<dd class:list={['m-0 text-sm', key === 'changed' ? 'font-semibold text-ink' : 'text-ink-muted']}>
+											{w[key]}
+										</dd>
+									</div>
+								))
+							}
+						</dl>
 					</div>
 				</li>
 			))
