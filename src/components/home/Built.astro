@@ -8,9 +8,11 @@ import SectionHead from '../ui/SectionHead.astro';
 import Label from '../ui/Label.astro';
 import ArrowChip from '../ui/ArrowChip.astro';
 import ArrowLink from '../ui/ArrowLink.astro';
+import IndexRow from '../ui/IndexRow.astro';
 import StatusBadge from '../ui/StatusBadge.astro';
 import Icon from '../Icon.astro';
 import { umbrella } from '../../data/citizen-ai-governance';
+import { otherProjects } from '../../data/more-work';
 import { getProjects, projectHref, stageLabel } from '../../lib/projects';
 import { withBase } from '../../lib/base';
 
@@ -57,6 +59,13 @@ const projects = await getProjects();
 				}
 			</ol>
 		</div>
+		<ol>
+			{
+				otherProjects.map((p) => (
+					<IndexRow href={p.href} title={p.title} body={p.text} label={p.label} mark={p.mark} real={false} level={3} />
+				))
+			}
+		</ol>
 		<div data-reveal class="flex flex-wrap gap-x-stack gap-y-gutter">
 			<ArrowLink href={withBase('projects/')}>View all projects</ArrowLink>
 			<ArrowLink href={withBase('templates/')}>Templates &amp; docs</ArrowLink>

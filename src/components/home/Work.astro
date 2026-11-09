@@ -1,8 +1,10 @@
 ---
-// Selected work: each case study as a full-width hero card.
+// Selected work: each case study as a full-width hero card, then the shorter
+// examples from each role as ruled rows ("More work").
 import Container from '../ui/Container.astro';
 import SectionHead from '../ui/SectionHead.astro';
 import CaseCard from '../cards/CaseCard.astro';
+import WorkExamples from '../WorkExamples.astro';
 import { caseStudies } from '../../data/case-studies';
 ---
 
@@ -18,5 +20,6 @@ import { caseStudies } from '../../data/case-studies';
 				))
 			}
 		</ul>
+		<WorkExamples />
 	</Container>
 </section>

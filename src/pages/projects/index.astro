@@ -1,11 +1,14 @@
 ---
 // Projects: the umbrella first (its thesis and lifecycle diagram), then the
-// three projects as cards in lifecycle order, each with its status.
+// three projects as cards in lifecycle order, each with its status, then the
+// standalone projects (data/more-work.ts) as rows.
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import WorkCard from '../../components/cards/WorkCard.astro';
 import ArrowLink from '../../components/ui/ArrowLink.astro';
 import LifecycleDiagram from '../../components/projects/LifecycleDiagram.astro';
+import IndexRow from '../../components/ui/IndexRow.astro';
 import { umbrella } from '../../data/citizen-ai-governance';
+import { otherProjects } from '../../data/more-work';
 import { getProjects, projectHref } from '../../lib/projects';
 import { getWork } from '../../data/work';
 import { withBase } from '../../lib/base';
@@ -17,8 +20,8 @@ const items = (await getProjects()).map((p) => work.find((w) => w.href === proje
 <BaseLayout title="Projects" description={umbrella.description}>
 	<h1>Projects</h1>
 	<p class="dek">
-		Three coded projects under one idea, each its own repo. Each page says plainly whether it’s live, in progress or
-		planned.
+		Coded projects, each its own repo: three under one idea, Citizen AI Governance, and others that stand alone. Each
+		says plainly whether it’s live, in progress or planned.
 	</p>
 
 	<section data-ui class="umbrella flex flex-col gap-stack">
@@ -42,6 +45,17 @@ const items = (await getProjects()).map((p) => work.find((w) => w.href === proje
 			))
 		}
 	</ul>
+
+	<section data-ui class="others flex flex-col gap-gutter">
+		<h2 class="font-label text-xs uppercase tracking-label text-ink-muted">Other projects</h2>
+		<ol>
+			{
+				otherProjects.map((p) => (
+					<IndexRow href={p.href} title={p.title} body={p.text} label={p.label} mark={p.mark} real={false} />
+				))
+			}
+		</ol>
+	</section>
 </BaseLayout>
 
 <style>
@@ -52,7 +66,8 @@ const items = (await getProjects()).map((p) => work.find((w) => w.href === proje
 	}
 
 	.umbrella,
-	.cards {
+	.cards,
+	.others {
 		margin-top: var(--space-title);
 	}
 </style>

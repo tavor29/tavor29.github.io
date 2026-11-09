@@ -1,0 +1,70 @@
+---
+// "More work": the shorter examples from each role (data/more-work.ts), as
+// ruled rows under the case studies. Not links: each is one line, complete
+// on its own. Work still underway when the role ended carries an In progress
+// badge. Phones show the first few, with a button for the rest; without
+// JavaScript they show all of them.
+import Icon from './Icon.astro';
+import Label from './ui/Label.astro';
+import Rule from './ui/Rule.astro';
+import StatusBadge from './ui/StatusBadge.astro';
+import { moreWork } from '../data/more-work';
+
+const shownOnPhones = 3;
+---
+
+<div data-ui data-work-examples class="flex flex-col gap-gutter">
+	<h3 data-reveal class="font-label text-xs uppercase tracking-label text-ink-muted">More work</h3>
+	<ul>
+		{
+			moreWork.map((w, i) => (
+				<li
+					data-reveal
+					class:list={['group relative grid gap-tight py-gutter md:grid-cols-12 md:gap-gutter', i >= shownOnPhones && 'extra']}
+				>
+					<Rule />
+					<span class="flex items-center gap-tight md:col-span-3 md:items-start md:pt-1">
+						<Icon name={w.mark} size="sm" tone="mark" class="shrink-0 transition-transform duration-fast ease-out group-hover:rotate-90" />
+						<Label class="text-ink-muted">
+							{w.org} · {w.years}
+						</Label>
+					</span>
+					<div class="flex flex-col items-start gap-tight md:col-span-9">
+						<h4 class="font-display text-lg leading-title tracking-display">{w.title}</h4>
+						<p class="max-w-2xl text-base text-ink-muted">{w.text}</p>
+						{w.inProgress && <StatusBadge status="in-progress" />}
+					</div>
+				</li>
+			))
+		}
+	</ul>
+	<button
+		type="button"
+		data-show-all
+		hidden
+		class="cursor-pointer self-start border-0 bg-transparent p-0 text-sm font-semibold underline underline-offset-4 hover:no-underline md:hidden"
+	>
+		Show {moreWork.length - shownOnPhones} more
+	</button>
+</div>
+
+<script>
+	document.querySelectorAll<HTMLElement>('[data-work-examples]').forEach((root) => {
+		const button = root.querySelector<HTMLButtonElement>('[data-show-all]');
+		if (!button || !root.querySelector('.extra')) return;
+		root.classList.add('collapsed');
+		button.hidden = false;
+		button.addEventListener('click', () => {
+			root.classList.remove('collapsed');
+			button.hidden = true;
+		});
+	});
+</script>
+
+<style>
+	@media (max-width: 767px) {
+		.collapsed .extra {
+			display: none;
+		}
+	}
+</style>
