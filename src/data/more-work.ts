@@ -68,10 +68,10 @@ export const moreWork: WorkExample[] = [
 	},
 	{
 		org: 'Buildots',
-		years: '2021',
+		years: '2020',
 		mark: 'leaf',
 		title: 'Monitoring a production AI pipeline',
-		text: 'NOC Analyst at an AI construction-tech startup, monitoring its AI pipeline in production.',
+		text: 'NOC Engineer at an AI construction-tech startup, monitoring its machine-learning pipeline across customer projects and working with R&D to fix issues and support releases.',
 	},
 ];
 
