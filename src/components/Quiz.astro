@@ -1,92 +1,108 @@
 ---
-// "Your call" quiz (data/quiz.ts): one PMP-style situation at a time, four
-// answers, then the best answer and why. Feedback is a little playful (it's a
-// portfolio, so the pitch is never far away), the end screen points to
-// contact and the résumé. Self-contained, so it can move to its own page.
-// Without JavaScript the first question shows with a note instead.
-// Colour comes from the marks only: leaf on the best answer, quarter on a
-// wrong pick.
+// "Your call" quiz (data/quiz.ts): rounds of six PMP-style situations, easy
+// to hard, one at a time. Four close answers, then the best answer and why.
+// "Play again" moves to the next round of six; after the last round it starts
+// over. Feedback is a little playful (it's a portfolio, so the pitch is never
+// far away); the end screen points to contact and the résumé. Self-contained,
+// so it can move to its own page. Without JavaScript the first question shows
+// with a note instead.
+// Light, like the rest of the page: ruled borders on paper. Colour comes from
+// the marks: leaf on the best answer, quarter on a wrong pick, and the verdict
+// line in the same green or orange as the More work labels.
 import Icon from './Icon.astro';
 import Label from './ui/Label.astro';
-import { quiz } from '../data/quiz';
+import { rounds } from '../data/quiz';
 import { person } from '../data/home';
 import { withBase } from '../lib/base';
 
 const letters = ['A', 'B', 'C', 'D'];
 ---
 
-<div data-quiz class="rounded-md bg-ink p-gutter text-paper md:p-stack">
+<div data-quiz data-rounds={rounds.length} class="rounded-md border border-ink-rule p-gutter md:p-stack">
 	{
-		quiz.map((q, i) => (
-			<div data-q={i} data-answer={q.answer} data-topic={q.topic} hidden={i > 0} class="flex flex-col gap-gutter">
-				<div class="flex items-center justify-between gap-gutter">
-					<Label class="text-paper-muted">{q.topic}</Label>
-					<Label class="text-paper-muted">
-						{i + 1} / {quiz.length}
-					</Label>
+		rounds.map((round, r) =>
+			round.map((q, i) => (
+				<div
+					data-q
+					data-round={r}
+					data-index={i}
+					data-answer={q.answer}
+					data-topic={q.topic}
+					hidden={r > 0 || i > 0}
+					class="flex flex-col gap-gutter"
+				>
+					<div class="flex items-center justify-between gap-gutter">
+						<Label class="text-ink-muted">
+							{q.topic} · {q.level}
+						</Label>
+						<Label class="text-ink-muted">
+							{rounds.length > 1 && `Round ${r + 1} · `}
+							{i + 1} / {round.length}
+						</Label>
+					</div>
+					<h3 tabindex="-1" class="m-0 max-w-3xl font-display text-xl leading-title tracking-display outline-none">
+						{q.situation}
+					</h3>
+					<ul class="m-0 grid list-none gap-tight p-0 md:grid-cols-2">
+						{q.options.map((o, j) => (
+							<li>
+								<button
+									type="button"
+									data-option={j}
+									class="option flex h-full w-full cursor-pointer items-start gap-tight rounded-sm border border-ink-rule bg-transparent p-gutter text-left text-base text-ink transition-colors duration-fast ease-out hover:border-ink disabled:cursor-default"
+								>
+									<Label class="shrink-0 pt-1 text-ink-muted">{letters[j]}</Label>
+									<span class="grow">{o}</span>
+									<span data-mark="right" hidden class="shrink-0 pt-1">
+										<Icon name="leaf" size="sm" tone="mark" />
+									</span>
+									<span data-mark="wrong" hidden class="shrink-0 pt-1">
+										<Icon name="quarter" size="sm" tone="mark" />
+									</span>
+								</button>
+							</li>
+						))}
+					</ul>
+					<div data-feedback hidden tabindex="-1" aria-live="polite" class="flex flex-col items-start gap-tight outline-none">
+						<p data-verdict class="m-0 text-lg font-semibold" />
+						<p class="m-0 max-w-3xl text-base text-ink-muted">
+							<span class="font-semibold text-ink">Why: </span>
+							{q.why}
+						</p>
+						<button
+							type="button"
+							data-next
+							class="mt-1 cursor-pointer rounded-sm border-0 bg-ink px-gutter py-tight font-label text-xs uppercase tracking-label text-paper"
+						>
+							{i < round.length - 1 ? 'Next situation' : 'See my score'}
+						</button>
+					</div>
 				</div>
-				<h3 tabindex="-1" class="m-0 max-w-3xl font-display text-xl leading-title tracking-display outline-none">
-					{q.situation}
-				</h3>
-				<ul class="m-0 grid list-none gap-tight p-0 md:grid-cols-2">
-					{q.options.map((o, j) => (
-						<li>
-							<button
-								type="button"
-								data-option={j}
-								class="option flex h-full w-full cursor-pointer items-start gap-tight rounded-sm border border-paper-rule bg-transparent p-gutter text-left text-base text-paper transition-colors duration-fast ease-out hover:border-paper disabled:cursor-default"
-							>
-								<Label class="shrink-0 pt-1 text-paper-muted">{letters[j]}</Label>
-								<span class="grow">{o}</span>
-								<span data-mark="right" hidden class="shrink-0 pt-1">
-									<Icon name="leaf" size="sm" tone="mark" />
-								</span>
-								<span data-mark="wrong" hidden class="shrink-0 pt-1">
-									<Icon name="quarter" size="sm" tone="mark" />
-								</span>
-							</button>
-						</li>
-					))}
-				</ul>
-				<div data-feedback hidden tabindex="-1" aria-live="polite" class="flex flex-col items-start gap-tight outline-none">
-					<p data-verdict class="m-0 text-lg font-semibold" />
-					<p class="m-0 max-w-3xl text-base text-paper-muted">
-						<span class="font-semibold text-paper">Why: </span>
-						{q.why}
-					</p>
-					<button
-						type="button"
-						data-next
-						class="mt-1 cursor-pointer rounded-sm border-0 bg-paper px-gutter py-tight font-label text-xs uppercase tracking-label text-ink"
-					>
-						{i < quiz.length - 1 ? 'Next situation' : 'See my score'}
-					</button>
-				</div>
-			</div>
-		))
+			)),
+		)
 	}
 
 	<div data-end hidden class="flex flex-col items-start gap-gutter">
-		<Label class="text-paper-muted">Your score</Label>
+		<Label class="text-ink-muted">Your score</Label>
 		<h3 tabindex="-1" class="m-0 font-display text-2xl leading-title tracking-display outline-none">
-			<span data-score></span> of {quiz.length}
+			<span data-score></span> of <span data-total></span>
 		</h3>
-		<p data-end-line class="m-0 max-w-2xl text-lg text-paper-muted"></p>
+		<p data-end-line class="m-0 max-w-2xl text-lg text-ink-muted"></p>
 		<div class="flex flex-wrap items-center gap-gutter">
 			<a
 				href="#contact"
 				data-track="quiz_contact"
-				class="rounded-sm bg-paper px-gutter py-tight font-label text-xs uppercase tracking-label text-ink no-underline"
+				class="rounded-sm bg-ink px-gutter py-tight font-label text-xs uppercase tracking-label text-paper no-underline"
 			>
 				Get in touch
 			</a>
-			<a href={withBase(person.resume)} data-track="resume" class="text-sm font-semibold text-paper underline underline-offset-4 hover:no-underline">
+			<a href={withBase(person.resume)} data-track="resume" class="text-sm font-semibold text-ink underline underline-offset-4 hover:no-underline">
 				Download my résumé
 			</a>
 			<button
 				type="button"
 				data-restart
-				class="cursor-pointer border-0 bg-transparent p-0 text-sm font-semibold text-paper-muted underline underline-offset-4 hover:no-underline"
+				class="cursor-pointer border-0 bg-transparent p-0 text-sm font-semibold text-ink underline underline-offset-4 hover:no-underline"
 			>
 				Play again
 			</button>
@@ -94,7 +110,7 @@ const letters = ['A', 'B', 'C', 'D'];
 	</div>
 
 	<noscript>
-		<p class="m-0 mt-gutter text-sm text-paper-muted">Turn on JavaScript to play.</p>
+		<p class="m-0 mt-gutter text-sm text-ink-muted">Turn on JavaScript to play.</p>
 	</noscript>
 </div>
 
@@ -104,7 +120,7 @@ const letters = ['A', 'B', 'C', 'D'];
 	const RIGHT = [
 		'Correct. That’s the call I’d make too.',
 		'Spot on. You think like a PM.',
-		'Right. That’s the textbook answer, and the one that works in practice.',
+		'Right. The textbook answer, and the one that works in practice.',
 	];
 	const WRONG = [
 		'Not quite. Tricky, right? Calls like this are why teams hire a PM.',
@@ -119,12 +135,17 @@ const letters = ['A', 'B', 'C', 'D'];
 	}
 
 	document.querySelectorAll<HTMLElement>('[data-quiz]').forEach((root) => {
-		const questions = [...root.querySelectorAll<HTMLElement>('[data-q]')];
+		const all = [...root.querySelectorAll<HTMLElement>('[data-q]')];
+		const roundCount = Number(root.dataset.rounds);
 		const end = root.querySelector<HTMLElement>('[data-end]')!;
+		const restart = root.querySelector<HTMLButtonElement>('[data-restart]')!;
+		let round = 0;
 		let score = 0;
 
+		const inRound = (r: number) => all.filter((q) => Number(q.dataset.round) === r);
+
 		const show = (el: HTMLElement) => {
-			questions.forEach((q) => (q.hidden = q !== el));
+			all.forEach((q) => (q.hidden = q !== el));
 			end.hidden = el !== end;
 			el.querySelector<HTMLElement>('h3')?.focus({ preventScroll: true });
 			// After a long answer on a phone, bring the new question back into view.
@@ -134,7 +155,17 @@ const letters = ['A', 'B', 'C', 'D'];
 			}
 		};
 
-		questions.forEach((q, i) => {
+		const reset = (q: HTMLElement) => {
+			q.querySelectorAll<HTMLButtonElement>('[data-option]').forEach((o) => {
+				o.disabled = false;
+				delete o.dataset.state;
+				o.querySelectorAll<HTMLElement>('[data-mark]').forEach((m) => (m.hidden = true));
+			});
+			q.querySelector<HTMLElement>('[data-feedback]')!.hidden = true;
+		};
+
+		all.forEach((q) => {
+			const i = Number(q.dataset.index);
 			const answer = Number(q.dataset.answer);
 			const options = [...q.querySelectorAll<HTMLButtonElement>('[data-option]')];
 			const feedback = q.querySelector<HTMLElement>('[data-feedback]')!;
@@ -153,32 +184,32 @@ const letters = ['A', 'B', 'C', 'D'];
 					});
 					const lines = correct ? RIGHT : WRONG;
 					verdict.textContent = lines[i % lines.length];
+					verdict.dataset.correct = String(correct);
 					feedback.hidden = false;
 					feedback.focus({ preventScroll: true });
-					track('quiz_answer', { topic: q.dataset.topic, correct });
+					track('quiz_answer', { topic: q.dataset.topic, round: round + 1, correct });
 				}),
 			);
 
 			q.querySelector('[data-next]')?.addEventListener('click', () => {
-				if (i < questions.length - 1) return show(questions[i + 1]);
+				const qs = inRound(round);
+				if (i < qs.length - 1) return show(qs[i + 1]);
 				root.querySelector('[data-score]')!.textContent = String(score);
-				root.querySelector('[data-end-line]')!.textContent = endLine(score, questions.length);
-				track('quiz_complete', { score, total: questions.length });
+				root.querySelector('[data-total]')!.textContent = String(qs.length);
+				root.querySelector('[data-end-line]')!.textContent = endLine(score, qs.length);
+				const next = (round + 1) % roundCount;
+				restart.textContent = next === 0 ? 'Play again' : `Play ${inRound(next).length} new ones`;
+				track('quiz_complete', { round: round + 1, score, total: qs.length });
 				show(end);
 			});
 		});
 
-		root.querySelector('[data-restart]')?.addEventListener('click', () => {
+		restart.addEventListener('click', () => {
+			round = (round + 1) % roundCount;
 			score = 0;
-			questions.forEach((q) => {
-				q.querySelectorAll<HTMLButtonElement>('[data-option]').forEach((o) => {
-					o.disabled = false;
-					delete o.dataset.state;
-					o.querySelectorAll<HTMLElement>('[data-mark]').forEach((m) => (m.hidden = true));
-				});
-				q.querySelector<HTMLElement>('[data-feedback]')!.hidden = true;
-			});
-			show(questions[0]);
+			const qs = inRound(round);
+			qs.forEach(reset);
+			show(qs[0]);
 		});
 	});
 </script>
@@ -200,5 +231,11 @@ const letters = ['A', 'B', 'C', 'D'];
 	}
 	.option[data-state='dim'] {
 		opacity: 0.5;
+	}
+	[data-verdict][data-correct='true'] {
+		color: var(--mark-leaf-text);
+	}
+	[data-verdict][data-correct='false'] {
+		color: var(--mark-quarter-text);
 	}
 </style>

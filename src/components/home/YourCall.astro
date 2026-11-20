@@ -3,7 +3,6 @@
 import Container from '../ui/Container.astro';
 import SectionHead from '../ui/SectionHead.astro';
 import Quiz from '../Quiz.astro';
-import { quiz } from '../../data/quiz';
 ---
 
 <section id="your-call" class="pt-section">
@@ -12,7 +11,7 @@ import { quiz } from '../../data/quiz';
 			index="04"
 			eyebrow="Quick game"
 			title="Your call"
-			intro={`${quiz.length} situations project managers face in tech and startups. Pick what you’d do first.`}
+			intro="Situations project managers face in tech and startups, easy to hard. Pick what you’d do first."
 			mark="circle"
 		/>
 		<div data-reveal>
