@@ -6,7 +6,8 @@
 // far away); the end screen points to contact and the résumé. Self-contained,
 // on its own page (pages/quiz/). Each question has a cartoon (Scene.astro).
 // Without JavaScript the first question shows with a note instead.
-// Light, like the rest of the page: ruled borders on paper. Colour comes from
+// Light, like the rest of the page: ruled borders on paper, answers on the
+// light-blue wash. Colour comes from
 // the marks: leaf on the best answer, quarter on a wrong pick, and the verdict
 // line in the same green or orange as the More work labels.
 import Icon from '../Icon.astro';
@@ -33,8 +34,8 @@ const letters = ['A', 'B', 'C', 'D'];
 					class="flex flex-col gap-gutter"
 				>
 					<div class="grid items-center gap-gutter md:grid-cols-2 md:gap-stack">
-						<Scene scene={q.scene} alt={q.alt} class="block aspect-[16/9] h-auto w-full rounded-sm" />
-						<div class="flex flex-col gap-gutter">
+						{/* Question on the left, lined up over answer A; the cartoon on the right (on top on phones). */}
+						<div class="order-2 flex flex-col gap-gutter md:order-1">
 							<div class="flex items-center justify-between gap-gutter">
 								<Label class="text-ink-muted">
 									{q.topic} · {q.level}
@@ -48,6 +49,7 @@ const letters = ['A', 'B', 'C', 'D'];
 								{q.situation}
 							</h3>
 						</div>
+						<Scene scene={q.scene} alt={q.alt} class="order-1 block aspect-[16/9] h-auto w-full rounded-sm md:order-2" />
 					</div>
 					<ul class="m-0 grid list-none gap-tight p-0 md:grid-cols-2">
 						{q.options.map((o, j) => (
@@ -55,7 +57,7 @@ const letters = ['A', 'B', 'C', 'D'];
 								<button
 									type="button"
 									data-option={j}
-									class="option flex h-full w-full cursor-pointer items-start gap-tight rounded-sm border border-ink-rule bg-transparent p-gutter text-left text-base text-ink transition-colors duration-fast ease-out hover:border-ink disabled:cursor-default"
+									class="option flex h-full w-full cursor-pointer items-start gap-tight rounded-sm border border-ink-rule bg-wash-half p-gutter text-left text-base text-ink transition-colors duration-fast ease-out hover:border-ink disabled:cursor-default"
 								>
 									<Label class="shrink-0 pt-1 text-ink-muted">{letters[j]}</Label>
 									<span class="grow">{o}</span>
