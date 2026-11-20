@@ -1,0 +1,204 @@
+---
+// "Your call" quiz (data/quiz.ts): one PMP-style situation at a time, four
+// answers, then the best answer and why. Feedback is a little playful (it's a
+// portfolio, so the pitch is never far away), the end screen points to
+// contact and the résumé. Self-contained, so it can move to its own page.
+// Without JavaScript the first question shows with a note instead.
+// Colour comes from the marks only: leaf on the best answer, quarter on a
+// wrong pick.
+import Icon from './Icon.astro';
+import Label from './ui/Label.astro';
+import { quiz } from '../data/quiz';
+import { person } from '../data/home';
+import { withBase } from '../lib/base';
+
+const letters = ['A', 'B', 'C', 'D'];
+---
+
+<div data-quiz class="rounded-md bg-ink p-gutter text-paper md:p-stack">
+	{
+		quiz.map((q, i) => (
+			<div data-q={i} data-answer={q.answer} data-topic={q.topic} hidden={i > 0} class="flex flex-col gap-gutter">
+				<div class="flex items-center justify-between gap-gutter">
+					<Label class="text-paper-muted">{q.topic}</Label>
+					<Label class="text-paper-muted">
+						{i + 1} / {quiz.length}
+					</Label>
+				</div>
+				<h3 tabindex="-1" class="m-0 max-w-3xl font-display text-xl leading-title tracking-display outline-none">
+					{q.situation}
+				</h3>
+				<ul class="m-0 grid list-none gap-tight p-0 md:grid-cols-2">
+					{q.options.map((o, j) => (
+						<li>
+							<button
+								type="button"
+								data-option={j}
+								class="option flex h-full w-full cursor-pointer items-start gap-tight rounded-sm border border-paper-rule bg-transparent p-gutter text-left text-base text-paper transition-colors duration-fast ease-out hover:border-paper disabled:cursor-default"
+							>
+								<Label class="shrink-0 pt-1 text-paper-muted">{letters[j]}</Label>
+								<span class="grow">{o}</span>
+								<span data-mark="right" hidden class="shrink-0 pt-1">
+									<Icon name="leaf" size="sm" tone="mark" />
+								</span>
+								<span data-mark="wrong" hidden class="shrink-0 pt-1">
+									<Icon name="quarter" size="sm" tone="mark" />
+								</span>
+							</button>
+						</li>
+					))}
+				</ul>
+				<div data-feedback hidden tabindex="-1" aria-live="polite" class="flex flex-col items-start gap-tight outline-none">
+					<p data-verdict class="m-0 text-lg font-semibold" />
+					<p class="m-0 max-w-3xl text-base text-paper-muted">
+						<span class="font-semibold text-paper">Why: </span>
+						{q.why}
+					</p>
+					<button
+						type="button"
+						data-next
+						class="mt-1 cursor-pointer rounded-sm border-0 bg-paper px-gutter py-tight font-label text-xs uppercase tracking-label text-ink"
+					>
+						{i < quiz.length - 1 ? 'Next situation' : 'See my score'}
+					</button>
+				</div>
+			</div>
+		))
+	}
+
+	<div data-end hidden class="flex flex-col items-start gap-gutter">
+		<Label class="text-paper-muted">Your score</Label>
+		<h3 tabindex="-1" class="m-0 font-display text-2xl leading-title tracking-display outline-none">
+			<span data-score></span> of {quiz.length}
+		</h3>
+		<p data-end-line class="m-0 max-w-2xl text-lg text-paper-muted"></p>
+		<div class="flex flex-wrap items-center gap-gutter">
+			<a
+				href="#contact"
+				data-track="quiz_contact"
+				class="rounded-sm bg-paper px-gutter py-tight font-label text-xs uppercase tracking-label text-ink no-underline"
+			>
+				Get in touch
+			</a>
+			<a href={withBase(person.resume)} data-track="resume" class="text-sm font-semibold text-paper underline underline-offset-4 hover:no-underline">
+				Download my résumé
+			</a>
+			<button
+				type="button"
+				data-restart
+				class="cursor-pointer border-0 bg-transparent p-0 text-sm font-semibold text-paper-muted underline underline-offset-4 hover:no-underline"
+			>
+				Play again
+			</button>
+		</div>
+	</div>
+
+	<noscript>
+		<p class="m-0 mt-gutter text-sm text-paper-muted">Turn on JavaScript to play.</p>
+	</noscript>
+</div>
+
+<script>
+	import { track } from '../scripts/analytics';
+
+	const RIGHT = [
+		'Correct. That’s the call I’d make too.',
+		'Spot on. You think like a PM.',
+		'Right. That’s the textbook answer, and the one that works in practice.',
+	];
+	const WRONG = [
+		'Not quite. Tricky, right? Calls like this are why teams hire a PM.',
+		'Close, and a very common call. Here’s the one that holds up.',
+		'Not this time. Good news: making these calls is my day job.',
+	];
+
+	function endLine(score: number, total: number) {
+		if (score === total) return 'Perfect score. You think like a PM. Let’s talk shop.';
+		if (score >= total - 2) return 'Solid instincts. Now imagine a PM who makes these calls every week.';
+		return 'These calls are harder than they look. That’s what a good PM is for, and I’d like to be yours.';
+	}
+
+	document.querySelectorAll<HTMLElement>('[data-quiz]').forEach((root) => {
+		const questions = [...root.querySelectorAll<HTMLElement>('[data-q]')];
+		const end = root.querySelector<HTMLElement>('[data-end]')!;
+		let score = 0;
+
+		const show = (el: HTMLElement) => {
+			questions.forEach((q) => (q.hidden = q !== el));
+			end.hidden = el !== end;
+			el.querySelector<HTMLElement>('h3')?.focus({ preventScroll: true });
+			// After a long answer on a phone, bring the new question back into view.
+			if (root.getBoundingClientRect().top < 0) {
+				const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+				root.scrollIntoView({ block: 'start', behavior: still ? 'auto' : 'smooth' });
+			}
+		};
+
+		questions.forEach((q, i) => {
+			const answer = Number(q.dataset.answer);
+			const options = [...q.querySelectorAll<HTMLButtonElement>('[data-option]')];
+			const feedback = q.querySelector<HTMLElement>('[data-feedback]')!;
+			const verdict = q.querySelector<HTMLElement>('[data-verdict]')!;
+
+			options.forEach((btn) =>
+				btn.addEventListener('click', () => {
+					const picked = Number(btn.dataset.option);
+					const correct = picked === answer;
+					if (correct) score++;
+					options.forEach((o, j) => {
+						o.disabled = true;
+						o.dataset.state = j === answer ? 'right' : j === picked ? 'wrong' : 'dim';
+						o.querySelector<HTMLElement>('[data-mark="right"]')!.hidden = j !== answer;
+						o.querySelector<HTMLElement>('[data-mark="wrong"]')!.hidden = !(j === picked && !correct);
+					});
+					const lines = correct ? RIGHT : WRONG;
+					verdict.textContent = lines[i % lines.length];
+					feedback.hidden = false;
+					feedback.focus({ preventScroll: true });
+					track('quiz_answer', { topic: q.dataset.topic, correct });
+				}),
+			);
+
+			q.querySelector('[data-next]')?.addEventListener('click', () => {
+				if (i < questions.length - 1) return show(questions[i + 1]);
+				root.querySelector('[data-score]')!.textContent = String(score);
+				root.querySelector('[data-end-line]')!.textContent = endLine(score, questions.length);
+				track('quiz_complete', { score, total: questions.length });
+				show(end);
+			});
+		});
+
+		root.querySelector('[data-restart]')?.addEventListener('click', () => {
+			score = 0;
+			questions.forEach((q) => {
+				q.querySelectorAll<HTMLButtonElement>('[data-option]').forEach((o) => {
+					o.disabled = false;
+					delete o.dataset.state;
+					o.querySelectorAll<HTMLElement>('[data-mark]').forEach((m) => (m.hidden = true));
+				});
+				q.querySelector<HTMLElement>('[data-feedback]')!.hidden = true;
+			});
+			show(questions[0]);
+		});
+	});
+</script>
+
+<style>
+	/* Preflight is off, so buttons don't inherit the page font on their own. */
+	button {
+		font-family: inherit;
+	}
+	/* Clear the fixed nav when scrolled back to the top of the quiz. */
+	[data-quiz] {
+		scroll-margin-top: calc(var(--space-title) + var(--space-gutter) * 2);
+	}
+	.option[data-state='right'] {
+		border-color: var(--mark-leaf);
+	}
+	.option[data-state='wrong'] {
+		border-color: var(--mark-quarter);
+	}
+	.option[data-state='dim'] {
+		opacity: 0.5;
+	}
+</style>
