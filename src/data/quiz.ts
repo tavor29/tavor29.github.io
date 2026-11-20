@@ -19,10 +19,28 @@
 
 export type Level = 'Easy' | 'Medium' | 'Hard';
 
+/** The illustration for each question (components/quiz/Scene.astro). */
+export type SceneName =
+	| 'scope'
+	| 'agile'
+	| 'risk'
+	| 'stakeholders'
+	| 'conflict'
+	| 'security'
+	| 'communication'
+	| 'team-health'
+	| 'requirements'
+	| 'budget'
+	| 'vendor'
+	| 'resources';
+
 export type QuizQuestion = {
 	/** Short topic label shown above the question. */
 	topic: string;
 	level: Level;
+	scene: SceneName;
+	/** What the illustration shows, for screen readers. */
+	alt: string;
 	situation: string;
 	options: [string, string, string, string];
 	/** Index of the best answer in options. */
@@ -36,6 +54,8 @@ export const rounds: QuizQuestion[][] = [
 		{
 			topic: 'Scope change',
 			level: 'Easy',
+			scene: 'scope',
+			alt: 'A CEO points at a launch checklist with a new red item and says “+ Feature”, while the project manager at her laptop looks worried.',
 			situation:
 				'Two weeks before launch, the CEO asks you to add a feature a big prospect wants in this release. What do you do first?',
 			options: [
@@ -50,6 +70,8 @@ export const rounds: QuizQuestion[][] = [
 		{
 			topic: 'Agile',
 			level: 'Easy',
+			scene: 'agile',
+			alt: 'A sales VP leans over a developer at his laptop calling “Urgent!”, in front of the team’s sprint board.',
 			situation:
 				'Mid-sprint, a sales VP messages a developer directly and asks them to drop everything for an urgent customer request. What should happen?',
 			options: [
@@ -64,6 +86,8 @@ export const rounds: QuizQuestion[][] = [
 		{
 			topic: 'Risk',
 			level: 'Medium',
+			scene: 'risk',
+			alt: 'A project manager stands by a half-empty server rack, picturing a delivery truck and an hourglass.',
 			situation:
 				'Your launch depends on new GPU servers, and the supplier warns that lead times just stretched to five months. Nothing has slipped yet. What do you do?',
 			options: [
@@ -78,6 +102,8 @@ export const rounds: QuizQuestion[][] = [
 		{
 			topic: 'Stakeholders',
 			level: 'Medium',
+			scene: 'stakeholders',
+			alt: 'A presenter shows the new AI tool on a flipchart. One colleague sits with arms crossed, and a chair at the table is empty.',
 			situation:
 				'You’re rolling out a new internal AI tool. One department head keeps skipping the check-ins, and their team isn’t using the tool. What’s your first move?',
 			options: [
@@ -92,6 +118,8 @@ export const rounds: QuizQuestion[][] = [
 		{
 			topic: 'Conflict',
 			level: 'Hard',
+			scene: 'conflict',
+			alt: 'Two engineers point at two different designs on a whiteboard while the project manager between them shrugs.',
 			situation:
 				'Two senior engineers disagree on the architecture for a key service, and the team has been stalled for a week. What’s the best way to resolve it?',
 			options: [
@@ -106,6 +134,8 @@ export const rounds: QuizQuestion[][] = [
 		{
 			topic: 'Security risk',
 			level: 'Hard',
+			scene: 'security',
+			alt: 'A worried project manager stands under a big warning sign while the product lead points ahead saying “Ship it!”.',
 			situation:
 				'Two days before release, a critical vulnerability is found in an open-source library you use. A proper patch takes a week, and the product lead wants to ship and patch later. What do you do?',
 			options: [
@@ -122,6 +152,8 @@ export const rounds: QuizQuestion[][] = [
 		{
 			topic: 'Communication',
 			level: 'Easy',
+			scene: 'communication',
+			alt: 'A project manager at a laptop between two video-call screens and two clocks showing Tel Aviv and New York time.',
 			situation:
 				'Your team is split between Tel Aviv and a US office, and status updates keep getting missed on one side or the other. What do you do?',
 			options: [
@@ -136,6 +168,8 @@ export const rounds: QuizQuestion[][] = [
 		{
 			topic: 'Team health',
 			level: 'Easy',
+			scene: 'team-health',
+			alt: 'Two tired developers at their laptops with coffee, next to a chart of velocity falling sprint after sprint.',
 			situation:
 				'Velocity has dropped for three sprints in a row, and in stand-ups the team says they’re stretched thin. What do you do?',
 			options: [
@@ -150,6 +184,8 @@ export const rounds: QuizQuestion[][] = [
 		{
 			topic: 'Requirements',
 			level: 'Medium',
+			scene: 'requirements',
+			alt: 'A developer scratches his head at a whiteboard where one question mark splits into a small task and a big one.',
 			situation:
 				'Mid-sprint, the team realizes a story’s acceptance criteria can be read two ways, and each reading is a very different amount of work. What happens next?',
 			options: [
@@ -164,6 +200,8 @@ export const rounds: QuizQuestion[][] = [
 		{
 			topic: 'Budget',
 			level: 'Medium',
+			scene: 'budget',
+			alt: 'A project manager points at a chart showing more budget spent than work done, while the sponsor sits by a stack of coins.',
 			situation:
 				'Six months into a 12-month program, you’ve spent 60% of the budget and finished about 45% of the work. What do you do?',
 			options: [
@@ -178,6 +216,8 @@ export const rounds: QuizQuestion[][] = [
 		{
 			topic: 'Vendors',
 			level: 'Hard',
+			scene: 'vendor',
+			alt: 'A vendor hands over a box marked v1.0 and the project manager holds a signed-off contract, while a user shrugs with a question mark.',
 			situation:
 				'A vendor delivers a module that meets the contract’s written spec but not what your users actually need. The vendor wants sign-off and final payment. What do you do?',
 			options: [
@@ -192,6 +232,8 @@ export const rounds: QuizQuestion[][] = [
 		{
 			topic: 'Resources',
 			level: 'Hard',
+			scene: 'resources',
+			alt: 'A project manager by a matrix org chart looks worried as a manager waves the team’s data engineer off to another project.',
 			situation:
 				'In a matrix org, a functional manager moves your only data engineer to a VP’s project for two weeks, and your critical path runs through their work. What do you do first?',
 			options: [

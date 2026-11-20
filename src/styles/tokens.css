@@ -113,6 +113,19 @@
 	--mark-quarter-text: color-mix(in srgb, var(--mark-quarter) 75%, var(--color-ink));
 	--mark-leaf-text: color-mix(in srgb, var(--mark-leaf) 75%, var(--color-ink));
 
+	/* Quiz illustrations (components/quiz/Scene.astro), flat cartoon style
+	   (Tavor's call, 2026-11-20). Only used inside those drawings; everything
+	   else in them reuses the marks, ink, paper and accent. */
+	--illo-bg: #66d9ab;
+	--illo-bg-deep: #52c99a;
+	--illo-floor: #44b98b;
+	--illo-skin: #f7c4a5;
+	--illo-skin-deep: #c98a62;
+	--illo-hair-red: #f26b6b;
+	--illo-hair-brown: #7b4a2b;
+	--illo-purple: #4f3c8f;
+	--illo-navy: #24304f;
+
 	/* Legacy aliases (pre-redesign names used by inner pages and charts). */
 	--color-bg: var(--color-paper);
 	--color-bg-subtle: var(--color-ink-wash);

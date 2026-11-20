@@ -1,0 +1,196 @@
+---
+// One illustration per quiz question (data/quiz.ts sets `scene` and `alt`):
+// flat cartoon people and props on a mint wall (Tavor's call, 2026-11-20).
+// Original drawings built from Person.astro and Prop.astro; 640 x 360, floor at 322.
+import Person from './Person.astro';
+import Prop from './Prop.astro';
+import { f } from './palette';
+
+import type { SceneName } from '../../data/quiz';
+
+interface Props {
+	scene: SceneName;
+	alt: string;
+	class?: string;
+}
+
+const { scene, alt, class: className = '' } = Astro.props;
+const floor = 322;
+const deskTop = floor - 84;
+---
+
+<svg viewBox="0 0 640 360" role="img" aria-label={alt} class={className} preserveAspectRatio="xMidYMid slice">
+	<rect width="640" height="360" style={f('bg')} />
+	<rect y={floor} width="640" height={360 - floor} style={f('floor')} />
+	{/* Zoomed in a little around the floor's centre so the people fill the frame. */}
+	<g transform={`translate(320 ${floor}) scale(1.1) translate(-320 ${-floor})`}>
+
+	{
+		scene === 'scope' && (
+			<>
+				<Prop kind="calendar" x={60} y={60} />
+				<Prop kind="flipchart" x={530} y={floor} board="checklist" />
+				<Prop kind="chair" x={100} y={floor} />
+				<Prop kind="desk" x={200} y={floor} w={170} />
+				<Prop kind="laptop" x={196} y={deskTop} />
+				<Person x={100} y={floor} sit pose="type" mood="worried" hair="long" hairColour="red" shirt="purple" pants="ink" />
+				<Person x={392} y={floor} pose="present" hair="short" hairColour="ink" shirt="navy" pants="ink" tie="alert" />
+				<Prop kind="bubble" x={376} y={124} text="+ Feature" />
+			</>
+		)
+	}
+
+	{
+		scene === 'agile' && (
+			<>
+				<Prop kind="whiteboard" x={40} y={50} w={230} board="kanban" />
+				<Prop kind="chair" x={290} y={floor} />
+				<Prop kind="desk" x={390} y={floor} w={170} />
+				<Prop kind="laptop" x={386} y={deskTop} />
+				<Person x={290} y={floor} sit pose="type" mood="worried" hair="curly" hairColour="ink" skin="skinDeep" shirt="green" />
+				<Person x={540} y={floor} flip pose="point" mood="flat" hair="short" hairColour="brown" shirt="orange" />
+				<Prop kind="bubble" x={522} y={124} text="Urgent!" />
+			</>
+		)
+	}
+
+	{
+		scene === 'risk' && (
+			<>
+				<Prop kind="rack" x={100} y={floor} />
+				<Prop kind="calendar" x={500} y={70} />
+				<Prop kind="plant" x={565} y={floor} />
+				<Person x={290} y={floor} pose="think" mood="worried" hair="bun" hairColour="brown" shirt="blue" />
+				<Prop kind="thought" x={318} y={140}>
+					<Prop kind="truck" x={-20} y={22} scale={0.9} text="GPU" />
+					<Prop kind="hourglass" x={48} y={22} scale={0.8} />
+				</Prop>
+			</>
+		)
+	}
+
+	{
+		scene === 'stakeholders' && (
+			<>
+				<Prop kind="flipchart" x={110} y={floor} board="ai" />
+				<Prop kind="clock" x={420} y={80} hour={4} />
+				<Prop kind="desk" x={440} y={floor} w={200} />
+				<Prop kind="chair" x={320} y={floor} />
+				<Prop kind="chair" x={575} y={floor} flip />
+				<Person x={575} y={floor} flip sit pose="crossed" mood="flat" hair="short" hairColour="brown" shirt="blue" />
+				<Person x={205} y={floor} flip pose="present" hair="bun" hairColour="ink" skin="skinDeep" shirt="purple" />
+				<Prop kind="bubble" x={336} y={176} text="?" tailLeft />
+			</>
+		)
+	}
+
+	{
+		scene === 'conflict' && (
+			<>
+				<Prop kind="whiteboard" x={170} y={36} w={300} board="two-designs" />
+				<Person x={140} y={floor} pose="point" mood="flat" hair="curly" hairColour="brown" skin="skinDeep" shirt="green" />
+				<Person x={500} y={floor} flip pose="point" mood="flat" hair="long" hairColour="brown" shirt="orange" />
+				<Person x={320} y={floor} pose="shrug" mood="worried" hair="short" hairColour="brown" beard shirt="blue" />
+			</>
+		)
+	}
+
+	{
+		scene === 'security' && (
+			<>
+				<Prop kind="calendar" x={56} y={56} />
+				<Prop kind="whiteboard" x={240} y={40} w={170} board="warning" />
+				<Person x={180} y={floor} pose="think" mood="worried" sweat hair="long" hairColour="red" shirt="purple" />
+				<Person x={480} y={floor} flip pose="point" hair="short" hairColour="ink" shirt="blue" />
+				<Prop kind="bubble" x={488} y={122} text="Ship it!" tailLeft />
+			</>
+		)
+	}
+
+	{
+		scene === 'communication' && (
+			<>
+				<Prop kind="screen" x={50} y={70} />
+				<Prop kind="screen" x={480} y={70} text="b" />
+				<Prop kind="clock" x={215} y={70} hour={10} text="TLV" />
+				<Prop kind="clock" x={425} y={70} hour={3} text="NYC" />
+				<Prop kind="globe" x={320} y={78} />
+				<Prop kind="chair" x={250} y={floor} />
+				<Prop kind="desk" x={350} y={floor} w={170} />
+				<Prop kind="laptop" x={346} y={deskTop} />
+				<Person x={250} y={floor} sit pose="type" mood="flat" hair="short" hairColour="brown" beard shirt="blue" />
+			</>
+		)
+	}
+
+	{
+		scene === 'team-health' && (
+			<>
+				<Prop kind="lamp" x={390} y={0} />
+				<Prop kind="flipchart" x={100} y={floor} board="velocity" />
+				<Prop kind="chair" x={215} y={floor} />
+				<Prop kind="chair" x={560} y={floor} flip />
+				<Prop kind="desk" x={388} y={floor} w={270} />
+				<Prop kind="laptop" x={311} y={deskTop} />
+				<Prop kind="laptop" x={464} y={deskTop} flip />
+				<Prop kind="mug" x={376} y={deskTop} />
+				<Prop kind="mug" x={402} y={deskTop} />
+				<Person x={215} y={floor} sit pose="type" mood="tired" sweat hair="curly" hairColour="ink" skin="skinDeep" shirt="green" />
+				<Person x={560} y={floor} flip sit pose="type" mood="tired" sweat hair="long" hairColour="red" shirt="purple" />
+			</>
+		)
+	}
+
+	{
+		scene === 'requirements' && (
+			<>
+				<Prop kind="whiteboard" x={200} y={40} w={220} board="fork" />
+				<Prop kind="plant" x={570} y={floor} />
+				<Person x={140} y={floor} pose="think" mood="worried" hair="short" hairColour="ink" skin="skinDeep" shirt="orange" />
+				<Person x={490} y={floor} flip pose="shrug" mood="flat" hair="bun" hairColour="red" shirt="blue" />
+			</>
+		)
+	}
+
+	{
+		scene === 'budget' && (
+			<>
+				<Prop kind="flipchart" x={490} y={floor} board="budget" />
+				<Prop kind="chair" x={90} y={floor} />
+				<Prop kind="desk" x={190} y={floor} w={170} />
+				<Prop kind="coins" x={200} y={deskTop} />
+				<Prop kind="doc" x={240} y={deskTop - 30} scale={0.8} />
+				<Person x={90} y={floor} sit pose="crossed" mood="worried" hair="bald" hairColour="brown" beard shirt="navy" tie="amber" />
+				<Person x={388} y={floor} pose="present" hair="long" hairColour="brown" shirt="purple" pants="ink" />
+			</>
+		)
+	}
+
+	{
+		scene === 'vendor' && (
+			<>
+				<Prop kind="plant" x={60} y={floor} />
+				<Person x={210} y={floor} pose="hold" mood="smile" hair="short" hairColour="brown" shirt="orange" cap="orange" />
+				<Prop kind="box" x={252} y={floor - 104} text="v1.0" />
+				<Person x={420} y={floor} flip pose="hold" mood="flat" hair="long" hairColour="red" shirt="purple" pants="ink" />
+				<Prop kind="doc" x={372} y={floor - 132} />
+				<Person x={565} y={floor} flip scale={0.82} pose="shrug" mood="worried" hair="curly" hairColour="ink" skin="skinDeep" shirt="green" />
+				<Prop kind="bubble" x={548} y={150} text="?" tailLeft />
+			</>
+		)
+	}
+
+	{
+		scene === 'resources' && (
+			<>
+				<Prop kind="whiteboard" x={50} y={40} w={220} board="matrix" />
+				<Prop kind="plant" x={575} y={floor} />
+				<Person x={170} y={floor} pose="think" mood="worried" sweat hair="long" hairColour="red" shirt="purple" pants="ink" />
+				<Person x={360} y={floor} pose="present" mood="flat" hair="short" hairColour="ink" shirt="navy" pants="ink" tie="blue" />
+				<Person x={500} y={floor} pose="hold" mood="flat" hair="bun" hairColour="ink" skin="skinDeep" shirt="green" />
+				<Prop kind="laptop" x={540} y={floor - 116} scale={0.6} />
+			</>
+		)
+	}
+	</g>
+</svg>

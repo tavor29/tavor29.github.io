@@ -1,21 +1,37 @@
 ---
-// "Your call": the PMP-style quiz as a homepage section (components/Quiz.astro).
+// "Your call": the homepage teaser for the PMP-style quiz, which lives on its
+// own page (pages/quiz/). One of its cartoons, a line and a link.
 import Container from '../ui/Container.astro';
 import SectionHead from '../ui/SectionHead.astro';
-import Quiz from '../Quiz.astro';
+import ArrowChip from '../ui/ArrowChip.astro';
+import Scene from '../quiz/Scene.astro';
+import { rounds } from '../../data/quiz';
+import { withBase } from '../../lib/base';
+
+const first = rounds[0][0];
 ---
 
 <section id="your-call" class="pt-section">
 	<Container class="flex flex-col gap-title">
-		<SectionHead
-			index="04"
-			eyebrow="Quick game"
-			title="Your call"
-			intro="Situations project managers face in tech and startups, easy to hard. Pick what you’d do first."
-			mark="circle"
-		/>
-		<div data-reveal>
-			<Quiz />
-		</div>
+		<SectionHead index="04" eyebrow="Quick game" title="Your call" mark="circle" />
+		<a
+			href={withBase('quiz/')}
+			data-reveal
+			data-track="quiz_open"
+			class="group grid items-center gap-gutter rounded-md border border-ink-rule p-gutter no-underline transition-colors duration-fast ease-out hover:border-ink md:grid-cols-2 md:gap-stack md:p-stack"
+		>
+			<Scene scene={first.scene} alt={first.alt} class="block aspect-[16/9] h-auto w-full rounded-sm" />
+			<div class="flex flex-col items-start gap-gutter">
+				<h3 class="m-0 font-display text-xl leading-title tracking-display">Think like a PM? Make the call.</h3>
+				<p class="m-0 max-w-xl text-base text-ink-muted">
+					Six situations a round, easy to hard, from scope changes to vendor disputes. Pick what you’d do first and see the
+					best answer and why.
+				</p>
+				<span class="flex items-center gap-tight text-base font-medium">
+					Play the quiz
+					<ArrowChip />
+				</span>
+			</div>
+		</a>
 	</Container>
 </section>

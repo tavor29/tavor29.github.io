@@ -4,16 +4,17 @@
 // "Play again" moves to the next round of six; after the last round it starts
 // over. Feedback is a little playful (it's a portfolio, so the pitch is never
 // far away); the end screen points to contact and the résumé. Self-contained,
-// so it can move to its own page. Without JavaScript the first question shows
-// with a note instead.
+// on its own page (pages/quiz/). Each question has a cartoon (Scene.astro).
+// Without JavaScript the first question shows with a note instead.
 // Light, like the rest of the page: ruled borders on paper. Colour comes from
 // the marks: leaf on the best answer, quarter on a wrong pick, and the verdict
 // line in the same green or orange as the More work labels.
-import Icon from './Icon.astro';
-import Label from './ui/Label.astro';
-import { rounds } from '../data/quiz';
-import { person } from '../data/home';
-import { withBase } from '../lib/base';
+import Icon from '../Icon.astro';
+import Label from '../ui/Label.astro';
+import Scene from './Scene.astro';
+import { rounds } from '../../data/quiz';
+import { person } from '../../data/home';
+import { withBase } from '../../lib/base';
 
 const letters = ['A', 'B', 'C', 'D'];
 ---
@@ -31,18 +32,23 @@ const letters = ['A', 'B', 'C', 'D'];
 					hidden={r > 0 || i > 0}
 					class="flex flex-col gap-gutter"
 				>
-					<div class="flex items-center justify-between gap-gutter">
-						<Label class="text-ink-muted">
-							{q.topic} · {q.level}
-						</Label>
-						<Label class="text-ink-muted">
-							{rounds.length > 1 && `Round ${r + 1} · `}
-							{i + 1} / {round.length}
-						</Label>
+					<div class="grid items-center gap-gutter md:grid-cols-2 md:gap-stack">
+						<Scene scene={q.scene} alt={q.alt} class="block aspect-[16/9] h-auto w-full rounded-sm" />
+						<div class="flex flex-col gap-gutter">
+							<div class="flex items-center justify-between gap-gutter">
+								<Label class="text-ink-muted">
+									{q.topic} · {q.level}
+								</Label>
+								<Label class="text-ink-muted">
+									{rounds.length > 1 && `Round ${r + 1} · `}
+									{i + 1} / {round.length}
+								</Label>
+							</div>
+							<h3 tabindex="-1" class="m-0 font-display text-xl leading-title tracking-display outline-none">
+								{q.situation}
+							</h3>
+						</div>
 					</div>
-					<h3 tabindex="-1" class="m-0 max-w-3xl font-display text-xl leading-title tracking-display outline-none">
-						{q.situation}
-					</h3>
 					<ul class="m-0 grid list-none gap-tight p-0 md:grid-cols-2">
 						{q.options.map((o, j) => (
 							<li>
@@ -115,7 +121,7 @@ const letters = ['A', 'B', 'C', 'D'];
 </div>
 
 <script>
-	import { track } from '../scripts/analytics';
+	import { track } from '../../scripts/analytics';
 
 	const RIGHT = [
 		'Correct. That’s the call I’d make too.',
