@@ -25,8 +25,8 @@ export const person = {
 	email: 'tzavor29@gmail.com',
 	availability:
 		'Available for freelance projects, part-time or end to end, and open to the right full-time role. Tell me about the project that’s stuck.',
-	/** Scheduling page for a 20-minute intro call (Cal.com or Calendly). Empty = the button opens an email instead. */
-	bookingUrl: '',
+	/** Google Calendar booking page for a 20-minute intro call (Tavor, 2026-11-21). Empty = the button opens an email instead. */
+	bookingUrl: 'https://calendar.app.google/7pWQKCqEaaHwPvpG9',
 	resume: 'Tavor_Ben_Shahar_Resume.pdf',
 };
 
