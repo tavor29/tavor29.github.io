@@ -1,5 +1,6 @@
 ---
-// "How I can help": the four freelance offers as cards (data/home.ts, offers).
+// "How I can help": the freelance offers as cards (data/home.ts, offers).
+// With an odd number of offers, the last card spans both columns on laptops.
 // Each card: mark, title, who it's for, what you get, typical length, a proof
 // point from a real role, and a link to book a call about it.
 import Container from '../ui/Container.astro';
@@ -16,13 +17,19 @@ import { offers, booking } from '../../data/home';
 			index="02"
 			eyebrow="Services"
 			title="How I can help"
-			intro="For technology projects that are late, over budget or unclear. Four ways to work together."
+			intro="For technology projects that are late, over budget or unclear, and for technology people need to understand. Five ways to work together."
 			mark="circle"
 		/>
 		<ul class="grid gap-gutter md:grid-cols-2">
 			{
-				offers.map((o) => (
-					<li data-reveal class="group flex flex-col gap-gutter rounded-md border border-ink-rule p-gutter md:p-stack">
+				offers.map((o, i) => (
+					<li
+						data-reveal
+						class:list={[
+							'group flex flex-col gap-gutter rounded-md border border-ink-rule p-gutter md:p-stack',
+							offers.length % 2 === 1 && i === offers.length - 1 && 'md:col-span-2',
+						]}
+					>
 						<h3 class="flex items-center gap-tight font-display text-xl leading-title tracking-display">
 							<Icon name={o.mark} size="md" tone="mark" class="shrink-0 transition-transform duration-fast ease-out group-hover:rotate-90" />
 							{o.title}
@@ -45,9 +52,16 @@ import { offers, booking } from '../../data/home';
 						</p>
 						<div class="mt-auto flex flex-wrap items-center justify-between gap-gutter pt-tight">
 							<Label class="text-ink-muted">{o.length}</Label>
-							<ArrowLink href={booking.href} external={booking.external} track="book_call">
-								Talk about this
-							</ArrowLink>
+							<div class="flex flex-wrap items-center gap-x-stack gap-y-tight">
+								{o.demo && (
+									<ArrowLink href={o.demo.href} external>
+										{o.demo.label}
+									</ArrowLink>
+								)}
+								<ArrowLink href={booking.href} external={booking.external} track="book_call">
+									Talk about this
+								</ArrowLink>
+							</div>
 						</div>
 					</li>
 				))

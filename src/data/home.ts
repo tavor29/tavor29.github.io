@@ -50,7 +50,8 @@ export const stats: { value: number; prefix?: string; suffix?: string; label: st
 
 // "What I actually do": five short bullets, program management and business
 // operations. One line each, plain words.
-// "How I can help": the four freelance offers (Tavor's picks, 2026-11-21).
+// "How I can help": the five freelance offers (Tavor's picks, 2026-11-21;
+// explainer videos added the same day as a side offer).
 // Each says who it's for, what the client gets, a typical length and one
 // proof point from a real role (only numbers he has confirmed).
 export type Offer = {
@@ -60,6 +61,8 @@ export type Offer = {
 	gets: string[];
 	length: string;
 	proof: string;
+	/** Optional link to see the work, shown next to "Talk about this". */
+	demo?: { label: string; href: string };
 };
 
 export const offers: Offer[] = [
@@ -94,6 +97,15 @@ export const offers: Offer[] = [
 		gets: ['One schedule and critical path', 'Long-lead procurement tracking', 'Change control with a budget reserve'],
 		length: 'The length of the program',
 		proof: 'Delivered a 16-month AI compute build a month early and about 5% under budget (Applied Materials).',
+	},
+	{
+		title: 'Explainer & training videos',
+		mark: 'half',
+		forWho: 'Teams whose new hires, customers or non-technical staff need to understand complex technology quickly.',
+		gets: ['Short animated videos in 2D or 3D', 'Hebrew or English', 'A script your expert signs off before production'],
+		length: 'About 2 weeks per video',
+		proof: 'Built a Hebrew 3D onboarding explainer on how chip fabs find defects (concept demo).',
+		demo: { label: 'Watch the demo', href: 'https://studio.tavorbenshahar.com/' },
 	},
 ];
 
