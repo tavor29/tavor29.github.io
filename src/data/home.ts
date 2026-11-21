@@ -10,10 +10,11 @@ export const person = {
 	// doesn't put recruiters off.
 	role: 'Program & Project Manager',
 	focus: 'Project rescue · Fractional PM · AI governance · IT & infrastructure programs',
-	heroLead: 'I get stuck technology projects',
-	heroEmphasis: 'back on track and shipped',
+	// Headline: Tavor's pick, 2026-11-21 (broad: any initiative, end to end).
+	heroLead: 'Complex initiatives,',
+	heroEmphasis: 'delivered end to end',
 	heroSub:
-		'Program and project manager with 6+ years running technology programs at Applied Materials, IBM and Keshet Media Group. I step into projects that are late, over budget or unclear, reset the plan, and see them through to launch.',
+		'Program and project manager with 6+ years delivering technology programs at Applied Materials, IBM and Keshet Media Group. I own initiatives from first plan to launch: scope, schedule, budget, people and risk, across R&D, IT, Security and Finance.',
 	// Executive summary, split across About's two columns.
 	positioning:
 		'I work at the intersection of software, AI adoption, product delivery, and cross-functional operations.',
