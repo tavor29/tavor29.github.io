@@ -55,14 +55,14 @@ const shots = [
 
 <BaseLayout
 	title="Keel"
-	description="Program management software where the conversation is the plan: AI turns emails and chat into proposed plan changes, shows their impact, and the PM approves them in one click."
+	description="Keel: one program management app for the schedule, the boards and the team conversation, instead of MS Project, Monday and Slack. AI turns emails and chat into plan changes the PM approves."
 	type="article"
 >
 	<div class="editorial">
 		<p class="crumb"><a href={withBase('projects/')}>Projects</a> / Keel</p>
 		<div data-shape-in class="page-mark"><Icon name="half" size="xl" variant="outline" tone="mark" /></div>
 		<h1>Keel</h1>
-		<p class="question">What if the conversation was the plan?</p>
+		<p class="question">One app for the schedule, the boards and the team conversation, instead of MS Project, Monday and Slack.</p>
 		<div class="status">
 			<StatusBadge status="live" />
 			<span>Phases 0–4 of 6 built. Fictional demo data; no AI key needed.</span>
@@ -71,11 +71,17 @@ const shots = [
 			Program management software for multi-team, high-tech programs. A clickable prototype built as the real front end, so
 			nothing is thrown away when a backend arrives.
 		</p>
-		<p class="links">
-			<a href={demo} target="_blank" rel="noreferrer" data-track="demo">Live demo</a>
-			{' · '}
-			<a href={repo} target="_blank" rel="noreferrer" data-track="repo">Source on GitHub</a>
-		</p>
+		{/* The demo is the main thing to do here, so it gets a big centred button (Tavor, 2026-11-21). */}
+		<div class="cta">
+			<a href={demo} target="_blank" rel="noreferrer" data-track="demo" class="cta__button">
+				Try the live demo
+				<Icon name="arrow" size="sm" />
+			</a>
+			<p class="cta__note">
+				Opens in a new tab. Click <strong>Demo</strong> in the bottom-right corner to play a scenario. ·
+				<a href={repo} target="_blank" rel="noreferrer" data-track="repo">Source on GitHub</a>
+			</p>
+		</div>
 
 		<figure class="page-cover shot">
 			<Image
@@ -137,6 +143,12 @@ const shots = [
 				<li>A workstream lead offers to recover five days with weekend crews. Keel drafts a change request, and the exec persona approves it.</li>
 				<li>The status report redrafts itself, and each line links to the email, the proposal and the change request.</li>
 			</ol>
+			<p class="cta cta--inline">
+				<a href={demo} target="_blank" rel="noreferrer" data-track="demo" class="cta__button">
+					Play it in the live demo
+					<Icon name="arrow" size="sm" />
+				</a>
+			</p>
 			<p>
 				Three more scenarios run on the same data: a critical-path check-in where only exceptions reach the PM, a sprint
 				slip promoted from a Slack message to a decision, and a pen-test finding that becomes a logged risk and a fix task.
@@ -247,9 +259,53 @@ const shots = [
 		color: var(--color-text-muted);
 	}
 
-	.links {
+	/* The big "Try the live demo" button, centred under the header. */
+	.cta {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: var(--space-gutter);
+		margin-top: var(--space-stack);
+		text-align: center;
+	}
+
+	.cta--inline {
+		margin-top: var(--space-gutter);
+		align-items: flex-start;
+	}
+
+	.cta__button {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-tight);
+		padding: var(--space-gutter) var(--space-stack);
+		border-radius: var(--radius-sm);
+		background: var(--color-ink);
+		color: var(--color-paper);
+		font-size: var(--text-lg);
+		font-weight: 600;
+		text-decoration: none;
+		transition: transform var(--dur-fast) var(--ease-out);
+	}
+
+	.cta__button:hover {
+		transform: translateY(-2px);
+	}
+
+	.cta--inline .cta__button {
+		font-size: var(--text-base);
+		padding: var(--space-tight) var(--space-gutter);
+	}
+
+	.cta__note {
 		font-size: var(--text-sm);
-		margin-top: var(--space-3);
+		color: var(--color-text-muted);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.cta__button {
+			transition: none;
+		}
 	}
 
 	/* Product screenshots: framed so the app's white edges don't melt into the page. */
