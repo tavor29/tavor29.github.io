@@ -1,17 +1,18 @@
 // Homepage copy. Comes from ../portfolio-copy-merged.md (source of truth since
-// 2026-09-30); don't write new claims here. Blog posts come from the content
+// 2026-09-30) and Tavor's confirmed numbers; don't write new claims here. Blog posts come from the content
 // collection, case studies from ./case-studies.ts, the About page from ./about.ts.
 import type { IconName } from '../lib/icons';
 
 export const person = {
 	name: 'Tavor Ben-Shahar',
-	role: 'Business Operations & Program Manager',
-	focus: 'AI governance · Technical program delivery · Enterprise infrastructure',
-	// Headline: Tavor's pick, 2026-10-12.
-	heroLead: 'Turning complex initiatives into',
-	heroEmphasis: 'technical design and structured execution',
+	// Freelance-first since 2026-11-21 (Tavor's call): clients first, recruiters
+	// welcome, the résumé stays in the nav.
+	role: 'Freelance Program & Project Manager',
+	focus: 'Project rescue · Fractional PM · AI governance · IT & infrastructure programs',
+	heroLead: 'I get stuck technology projects',
+	heroEmphasis: 'back on track and shipped',
 	heroSub:
-		'Business Operations & Program Manager with 6+ years of experience leading complex technology programs across R&D, IT, Security, and Finance. I specialize in AI tool rollouts, multi-million-dollar infrastructure modernization, and automated executive reporting.',
+		'Freelance program and project manager with 6+ years running technology programs at Applied Materials, IBM and Keshet Media Group. I step into projects that are late, over budget or unclear, reset the plan, and see them through to launch.',
 	// Executive summary, split across About's two columns.
 	positioning:
 		'I work at the intersection of software, AI adoption, product delivery, and cross-functional operations.',
@@ -22,7 +23,9 @@ export const person = {
 	phoneHref: 'tel:+972504922040',
 	email: 'tzavor29@gmail.com',
 	availability:
-		'I’m open to select operations and program management roles at the intersection of software, AI, product, and cross-functional delivery. If you’re scaling technical delivery or AI initiatives, I’d like to hear about it.',
+		'Available for freelance projects, part-time or end to end, and open to the right full-time role. Tell me about the project that’s stuck.',
+	/** Scheduling page for a 20-minute intro call (Cal.com or Calendly). Empty = the button opens an email instead. */
+	bookingUrl: '',
 	resume: 'Tavor_Ben_Shahar_Resume.pdf',
 };
 
@@ -45,12 +48,51 @@ export const stats: { value: number; prefix?: string; suffix?: string; label: st
 
 // "What I actually do": five short bullets, program management and business
 // operations. One line each, plain words.
-export const services: { title: string; text: string; mark: IconName }[] = [
-	{ title: 'Cross-functional alignment', text: 'Get engineering, Finance, Security and leadership working to one plan.', mark: 'half' },
-	{ title: 'Program delivery', text: 'Run technology programs end to end: scope, schedule, risks and launch.', mark: 'quarter' },
-	{ title: 'AI governance', text: 'Turn ad-hoc AI use into secure, approved ways of working.', mark: 'leaf' },
-	{ title: 'Budget and vendor management', text: 'Plan budgets, run procurement and cut spend on tools nobody uses.', mark: 'circle' },
-	{ title: 'Leadership reporting', text: 'Build live dashboards so leadership sees program health at a glance.', mark: 'half' },
+// "How I can help": the four freelance offers (Tavor's picks, 2026-11-21).
+// Each says who it's for, what the client gets, a typical length and one
+// proof point from a real role (only numbers he has confirmed).
+export type Offer = {
+	title: string;
+	mark: IconName;
+	forWho: string;
+	gets: string[];
+	length: string;
+	proof: string;
+};
+
+export const offers: Offer[] = [
+	{
+		title: 'Project rescue',
+		mark: 'quarter',
+		forWho: 'A technology project that’s late, over budget or stuck, and nobody can say exactly why.',
+		gets: ['A health check in the first week', 'A reset plan the sponsor signs off', 'Weekly status that shows real risk'],
+		length: 'Usually 1–3 months',
+		proof: 'Caught a budget gap of millions of dollars before it became an overrun (Applied Materials).',
+	},
+	{
+		title: 'Fractional PM / PMO',
+		mark: 'half',
+		forWho: 'Teams that need a senior project or program manager, but not a full-time hire.',
+		gets: ['Roadmap, plan and risk register', 'One cadence across R&D, IT, Security and Finance', 'A live dashboard for leadership'],
+		length: 'A few days a week, month to month',
+		proof: 'Ran an IT and R&D portfolio of 10+ projects a year for 4,000+ employees (Applied Materials).',
+	},
+	{
+		title: 'AI governance setup',
+		mark: 'leaf',
+		forWho: 'Companies where people adopt AI tools faster than IT and Security can approve them.',
+		gets: ['A map of the AI tools and workflows in use', 'A simple approved route and policy', 'A licence and cost review'],
+		length: 'Usually 4–6 weeks',
+		proof: 'Moved 40+ unapproved AI workflows into approved, secure tools (Keshet Media Group).',
+	},
+	{
+		title: 'IT & infrastructure programs',
+		mark: 'circle',
+		forWho: 'An office build-out, compute expansion or system migration with many vendors and long lead times.',
+		gets: ['One schedule and critical path', 'Long-lead procurement tracking', 'Change control with a budget reserve'],
+		length: 'The length of the program',
+		proof: 'Delivered a 16-month AI compute build a month early and about 5% under budget (Applied Materials).',
+	},
 ];
 
 // "How I think": four beliefs about product, shown as ruled rows after the
@@ -84,3 +126,8 @@ export const contact: { label: string; href: string; mark: IconName; external: b
 	{ label: 'GitHub', href: 'https://github.com/tavor29', mark: 'circle', external: true },
 	{ label: 'Résumé', href: 'Tavor_Ben_Shahar_Resume.pdf', mark: 'leaf', external: false },
 ];
+
+/** Where "Book a 20-min call" goes: the scheduling page, or an email until there is one. */
+export const booking = person.bookingUrl
+	? { href: person.bookingUrl, external: true }
+	: { href: `mailto:${person.email}?subject=${encodeURIComponent('Intro call about a project')}`, external: false };

@@ -1,32 +1,54 @@
 ---
-// What I actually do: five short bullets as ruled rows, each with a shape
-// mark, a title and one line. Copy lives in data/home.ts.
+// "How I can help": the four freelance offers as cards (data/home.ts, offers).
+// Each card: mark, title, who it's for, what you get, typical length, a proof
+// point from a real role, and a link to book a call about it.
 import Container from '../ui/Container.astro';
 import SectionHead from '../ui/SectionHead.astro';
-import Rule from '../ui/Rule.astro';
+import Label from '../ui/Label.astro';
+import ArrowLink from '../ui/ArrowLink.astro';
 import Icon from '../Icon.astro';
-import { services } from '../../data/home';
+import { offers, booking } from '../../data/home';
 ---
 
 <section id="services" class="pt-section">
 	<Container class="flex flex-col gap-title">
 		<SectionHead
-			index="05"
-			eyebrow="Discipline"
-			title="What I actually do"
-			intro="Program management and business operations for technology teams."
+			index="02"
+			eyebrow="Services"
+			title="How I can help"
+			intro="For technology projects that are late, over budget or unclear. Four ways to work together."
 			mark="circle"
 		/>
-		<ul>
+		<ul class="grid gap-gutter md:grid-cols-2">
 			{
-				services.map((s) => (
-					<li data-reveal class="group relative grid gap-tight py-gutter md:grid-cols-12 md:items-baseline md:gap-gutter">
-						<Rule />
-						<h3 class="flex items-center gap-tight font-display text-xl leading-title tracking-display md:col-span-5">
-							<Icon name={s.mark} size="md" tone="mark" class="shrink-0 transition-transform duration-fast ease-out group-hover:rotate-90" />
-							{s.title}
+				offers.map((o) => (
+					<li data-reveal class="group flex flex-col gap-gutter rounded-md border border-ink-rule p-gutter md:p-stack">
+						<h3 class="flex items-center gap-tight font-display text-xl leading-title tracking-display">
+							<Icon name={o.mark} size="md" tone="mark" class="shrink-0 transition-transform duration-fast ease-out group-hover:rotate-90" />
+							{o.title}
 						</h3>
-						<p class="text-base text-ink-muted md:col-span-7">{s.text}</p>
+						<p class="m-0 text-base">{o.forWho}</p>
+						<div class="flex flex-col gap-tight">
+							<Label class="text-ink-muted">What you get</Label>
+							<ul class="m-0 flex flex-col gap-1 p-0">
+								{o.gets.map((g) => (
+									<li class="flex items-center gap-tight text-base text-ink-muted">
+										<span aria-hidden="true" class="size-dot shrink-0 rounded-full bg-ink" />
+										{g}
+									</li>
+								))}
+							</ul>
+						</div>
+						<p class="m-0 text-sm text-ink-muted">
+							<span class="font-semibold text-ink">Done before: </span>
+							{o.proof}
+						</p>
+						<div class="mt-auto flex flex-wrap items-center justify-between gap-gutter pt-tight">
+							<Label class="text-ink-muted">{o.length}</Label>
+							<ArrowLink href={booking.href} external={booking.external} track="book_call">
+								Talk about this
+							</ArrowLink>
+						</div>
 					</li>
 				))
 			}

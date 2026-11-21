@@ -5,7 +5,7 @@ import Container from '../ui/Container.astro';
 import Label from '../ui/Label.astro';
 import Icon from '../Icon.astro';
 import ArrowLink from '../ui/ArrowLink.astro';
-import { person } from '../../data/home';
+import { person, booking } from '../../data/home';
 import type { IconName } from '../../lib/icons';
 
 // The four marks float around the headline (the reference's sticker slots).
@@ -90,8 +90,10 @@ const [subFirst, ...subRest] = person.heroSub.split(/(?<=\.)\s+/);
 				{subRest.length > 0 && <span class="hidden md:inline">{' ' + subRest.join(' ')}</span>}
 			</p>
 			<div data-hero-fade class="flex flex-wrap items-center justify-center gap-x-stack gap-y-gutter">
-				<span data-shape-obstacle><ArrowLink href="#work">Explore case studies</ArrowLink></span>
-				<span data-shape-obstacle><ArrowLink href="#contact">Get in touch</ArrowLink></span>
+				<span data-shape-obstacle>
+					<ArrowLink href={booking.href} external={booking.external} track="book_call">Book a 20-min call</ArrowLink>
+				</span>
+				<span data-shape-obstacle><ArrowLink href="#services">See how I can help</ArrowLink></span>
 			</div>
 			{/* Phones: a small grayscale portrait, standing in for the desktop's pinned
 			    one (which starts face-down at the hero's foot). About shows it in colour. */}
