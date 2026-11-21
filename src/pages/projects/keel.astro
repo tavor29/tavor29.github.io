@@ -83,6 +83,29 @@ const shots = [
 			</p>
 		</div>
 
+		{/* Why it exists, before any screenshot (Tavor, 2026-11-21). */}
+		<div class="why">
+			<h2 class="why__title">Why I built it</h2>
+			<div class="why__grid">
+				<div>
+					<p class="why__label">The problem</p>
+					<p>
+						On a big program, the plan lives in MS Project, the tasks on a board, and the real news in Slack threads and
+						email. Every week the PM stitches them back together by hand to see what changed and write the status report,
+						and by then it’s already out of date.
+					</p>
+				</div>
+				<div>
+					<p class="why__label">The idea</p>
+					<p>
+						Keep the plan and the conversation in one place. Every task has its own thread, and when someone writes “the
+						delivery slips three weeks”, Keel turns it into a proposed plan change with its impact, ready for the PM to
+						approve in one click.
+					</p>
+				</div>
+			</div>
+		</div>
+
 		<figure class="page-cover shot">
 			<Image
 				src={briefing}
@@ -95,7 +118,7 @@ const shots = [
 		</figure>
 
 		<section>
-			<h2>The problem</h2>
+			<h2>Today’s tools</h2>
 			<p>
 				Program managers on multi-team hardware and software programs juggle three tools, and none of them holds the whole
 				picture:
@@ -116,7 +139,7 @@ const shots = [
 		</section>
 
 		<section>
-			<h2>The idea</h2>
+			<h2>How it works</h2>
 			<p>
 				Every plan item has its own thread. Emails, chat and engineering-tool events land on the item they’re about, and AI
 				turns what people say into proposed plan changes, with their schedule and cost impact worked out.
@@ -257,6 +280,49 @@ const shots = [
 		padding-left: var(--space-3);
 		border-left: 2px solid var(--color-border);
 		color: var(--color-text-muted);
+	}
+
+	/* "Why I built it": the problem and the idea side by side, on the light-blue wash. */
+	.why {
+		margin-top: var(--space-stack);
+		padding: var(--space-stack);
+		border-radius: var(--radius-md);
+		background: var(--mark-half-wash);
+	}
+
+	.why__title {
+		margin: 0 0 var(--space-gutter);
+		font-size: var(--text-xl);
+	}
+
+	.why__grid {
+		display: grid;
+		gap: var(--space-stack);
+	}
+
+	@media (min-width: 768px) {
+		.why__grid {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+
+	.why__grid p {
+		margin: 0;
+	}
+
+	.why__label {
+		margin-bottom: var(--space-tight) !important;
+		font-family: var(--font-label);
+		font-size: var(--text-xs);
+		text-transform: uppercase;
+		letter-spacing: var(--tracking-label);
+		color: var(--color-text-muted);
+	}
+
+	@media (max-width: 767px) {
+		.why {
+			padding: var(--space-gutter);
+		}
 	}
 
 	/* The big "Try the live demo" button, centred under the header. */
