@@ -6,7 +6,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import WorkCard from '../../components/cards/WorkCard.astro';
 import ArrowLink from '../../components/ui/ArrowLink.astro';
 import LifecycleDiagram from '../../components/projects/LifecycleDiagram.astro';
-import IndexRow from '../../components/ui/IndexRow.astro';
+import ProjectRow from '../../components/ProjectRow.astro';
 import { umbrella } from '../../data/citizen-ai-governance';
 import { otherProjects } from '../../data/more-work';
 import { getProjects, projectHref } from '../../lib/projects';
@@ -49,11 +49,7 @@ const items = (await getProjects()).map((p) => work.find((w) => w.href === proje
 	<section data-ui class="others flex flex-col gap-gutter">
 		<h2 class="font-label text-xs uppercase tracking-label text-ink-muted">Other projects</h2>
 		<ol>
-			{
-				otherProjects.map((p) => (
-					<IndexRow href={p.href} title={p.title} body={p.text} label={p.label} mark={p.mark} real={false} />
-				))
-			}
+			{otherProjects.map((p) => <ProjectRow href={p.href} repo={p.repo} title={p.title} text={p.text} label={p.label} mark={p.mark} level={3} />)}
 		</ol>
 	</section>
 </BaseLayout>
