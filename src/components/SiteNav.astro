@@ -1,41 +1,209 @@
 ---
-// Fixed pill nav, same on every page. Section links point at the homepage so
-// they work from inner pages too; Contact is the footer, which every page has.
+// Fixed pill nav, same on every page (Tavor's layout, 2026-11-21): three menus,
+// About, Work and Explore, plus the Résumé button. On laptops each menu opens
+// on hover or click (and closes on Escape or a click elsewhere); on phones a
+// Menu button opens the same three groups full screen. Section links point at
+// the homepage so they work from inner pages; Contact is the footer, which
+// every page has.
 import { withBase } from '../lib/base';
 import { person } from '../data/home';
 
-const links = [
-	{ label: 'About', href: withBase('about/') },
-	{ label: 'Services', href: withBase('#services') },
-	{ label: 'Work', href: withBase('#work') },
-	{ label: 'Projects', href: withBase('#built') },
-	{ label: 'Quiz', href: withBase('quiz/') },
-	{ label: 'Writing', href: withBase('#writing') },
-	{ label: 'Templates', href: withBase('templates/') },
-	{ label: 'Contact', href: '#contact' },
+const menus: { label: string; items: { label: string; note: string; href: string }[] }[] = [
+	{
+		label: 'About',
+		items: [
+			{ label: 'About me', note: 'Background and how I work', href: withBase('about/') },
+			{ label: 'How I can help', note: 'Four ways to work together', href: withBase('#services') },
+			{ label: 'Contact', note: 'Book a call or get in touch', href: '#contact' },
+		],
+	},
+	{
+		label: 'Work',
+		items: [
+			{ label: 'Case studies', note: 'Results from recent roles', href: withBase('case-studies/') },
+			{ label: 'Projects', note: 'Coded projects and tools', href: withBase('projects/') },
+			{ label: 'Templates & docs', note: 'Ready-to-use files', href: withBase('templates/') },
+		],
+	},
+	{
+		label: 'Explore',
+		items: [
+			{ label: 'Writing', note: 'Notes from the field', href: withBase('blog/') },
+			{ label: 'PM quiz', note: 'Test your calls', href: withBase('quiz/') },
+		],
+	},
 ];
 ---
 
 <header data-ui class="fixed inset-x-0 top-gutter z-50 flex justify-center px-gutter">
 	<nav aria-label="Main" class="flex items-center gap-stack rounded-md bg-ink p-gutter text-paper">
 		<a href={withBase('')} class="text-lg font-semibold tracking-display">{person.name}</a>
-		<ul class="hidden items-center gap-gutter text-sm text-paper-muted md:flex">
+		<ul class="hidden items-center gap-stack text-sm text-paper-muted md:flex">
 			{
-				links.map((l) => (
-					<li>
-						<a href={l.href} class="transition-colors duration-fast ease-out hover:text-paper">
-							{l.label}
-						</a>
+				menus.map((m, i) => (
+					<li data-menu class="group relative">
+						<button
+							type="button"
+							data-menu-button
+							aria-expanded="false"
+							aria-controls={`nav-menu-${i}`}
+							class="flex cursor-pointer items-center gap-1 border-0 bg-transparent p-0 text-sm text-paper-muted transition-colors duration-fast ease-out group-hover:text-paper"
+						>
+							{m.label}
+							<span aria-hidden="true" class="caret text-xs">
+								▾
+							</span>
+						</button>
+						{/* pt bridges the gap below the nav, so moving the pointer down doesn't close it. */}
+						<div id={`nav-menu-${i}`} class="menu-panel absolute top-full left-1/2 -translate-x-1/2 pt-gutter">
+							<ul class="m-0 flex w-[16rem] flex-col gap-1 rounded-md bg-ink p-tight">
+								{m.items.map((item) => (
+									<li>
+										<a
+											href={item.href}
+											class="flex flex-col rounded-sm px-tight py-tight text-paper no-underline transition-colors duration-fast ease-out hover:bg-paper-rule focus-visible:bg-paper-rule"
+										>
+											<span class="text-sm font-semibold">{item.label}</span>
+											<span class="text-xs text-paper-muted">{item.note}</span>
+										</a>
+									</li>
+								))}
+							</ul>
+						</div>
 					</li>
 				))
 			}
 		</ul>
-		<a
-			href={withBase(person.resume)}
-			data-track="resume"
-			class="rounded-sm bg-paper px-tight py-1 font-label text-xs uppercase tracking-label text-ink"
-		>
-			Résumé
-		</a>
+		<div class="flex items-center gap-tight">
+			<button
+				type="button"
+				data-mobile-open
+				aria-expanded="false"
+				aria-controls="nav-mobile"
+				class="cursor-pointer rounded-sm border border-paper-rule bg-transparent px-tight py-1 font-label text-xs uppercase tracking-label text-paper md:hidden"
+			>
+				Menu
+			</button>
+			<a
+				href={withBase(person.resume)}
+				data-track="resume"
+				class="rounded-sm bg-paper px-tight py-1 font-label text-xs uppercase tracking-label text-ink"
+			>
+				Résumé
+			</a>
+		</div>
 	</nav>
+
+	{/* Phones: the same three groups, full screen. */}
+	<div id="nav-mobile" data-mobile-menu hidden class="fixed inset-0 z-50 overflow-y-auto bg-ink p-gutter text-paper md:hidden">
+		<div class="flex items-center justify-between gap-gutter py-gutter">
+			<a href={withBase('')} class="text-lg font-semibold tracking-display text-paper">{person.name}</a>
+			<button
+				type="button"
+				data-mobile-close
+				class="cursor-pointer rounded-sm border border-paper-rule bg-transparent px-tight py-1 font-label text-xs uppercase tracking-label text-paper"
+			>
+				Close
+			</button>
+		</div>
+		<div class="flex flex-col gap-stack pt-stack">
+			{
+				menus.map((m) => (
+					<section class="flex flex-col gap-tight">
+						<p class="m-0 font-label text-xs uppercase tracking-label text-paper-muted">{m.label}</p>
+						<ul class="m-0 flex flex-col gap-gutter p-0">
+							{m.items.map((item) => (
+								<li>
+									<a href={item.href} data-mobile-link class="flex flex-col text-paper no-underline">
+										<span class="font-display text-xl leading-title tracking-display">{item.label}</span>
+										<span class="text-sm text-paper-muted">{item.note}</span>
+									</a>
+								</li>
+							))}
+						</ul>
+					</section>
+				))
+			}
+		</div>
+	</div>
 </header>
+
+<script>
+	// Laptops: click (or Enter/Space) toggles a menu; hover and keyboard focus open
+	// it through CSS. Escape or a click elsewhere closes it.
+	const menus = [...document.querySelectorAll<HTMLElement>('[data-menu]')];
+	const setOpen = (menu: HTMLElement, open: boolean) => {
+		menu.toggleAttribute('data-open', open);
+		menu.querySelector('[data-menu-button]')?.setAttribute('aria-expanded', String(open));
+	};
+	menus.forEach((menu) => {
+		menu.querySelector('[data-menu-button]')?.addEventListener('click', () => {
+			const open = !menu.hasAttribute('data-open');
+			menus.forEach((m) => setOpen(m, false));
+			setOpen(menu, open);
+		});
+		menu.addEventListener('mouseleave', () => setOpen(menu, false));
+	});
+	document.addEventListener('click', (e) => {
+		menus.forEach((m) => {
+			if (!m.contains(e.target as Node)) setOpen(m, false);
+		});
+	});
+
+	// Phones: the full-screen menu.
+	const sheet = document.querySelector<HTMLElement>('[data-mobile-menu]');
+	const openBtn = document.querySelector<HTMLButtonElement>('[data-mobile-open]');
+	const showSheet = (open: boolean) => {
+		if (!sheet || !openBtn) return;
+		sheet.hidden = !open;
+		openBtn.setAttribute('aria-expanded', String(open));
+		document.documentElement.style.overflow = open ? 'hidden' : '';
+		if (open) sheet.querySelector<HTMLElement>('[data-mobile-close]')?.focus();
+		else openBtn.focus();
+	};
+	openBtn?.addEventListener('click', () => showSheet(true));
+	sheet?.querySelector('[data-mobile-close]')?.addEventListener('click', () => showSheet(false));
+	sheet?.querySelectorAll('[data-mobile-link]').forEach((a) => a.addEventListener('click', () => showSheet(false)));
+
+	document.addEventListener('keydown', (e) => {
+		if (e.key !== 'Escape') return;
+		const focused = menus.find((m) => m.contains(document.activeElement));
+		menus.forEach((m) => setOpen(m, false));
+		focused?.querySelector<HTMLElement>('[data-menu-button]')?.focus();
+		if (sheet && !sheet.hidden) showSheet(false);
+	});
+</script>
+
+<style>
+	/* Preflight is off, so buttons don't inherit the page font on their own. */
+	button {
+		font-family: inherit;
+	}
+	.menu-panel {
+		visibility: hidden;
+		opacity: 0;
+		transition:
+			opacity var(--dur-fast) var(--ease-out),
+			visibility 0s linear var(--dur-fast);
+	}
+	[data-menu]:hover .menu-panel,
+	[data-menu]:focus-within .menu-panel,
+	[data-menu][data-open] .menu-panel {
+		visibility: visible;
+		opacity: 1;
+		transition-delay: 0s;
+	}
+	.caret {
+		transition: transform var(--dur-fast) var(--ease-out);
+	}
+	[data-menu]:hover .caret,
+	[data-menu][data-open] .caret {
+		transform: rotate(180deg);
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.menu-panel,
+		.caret {
+			transition: none;
+		}
+	}
+</style>
