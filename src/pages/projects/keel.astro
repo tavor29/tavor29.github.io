@@ -1,0 +1,298 @@
+---
+// Keel's project page (Tavor's ask, 2026-11-21). Keel stands on its own, not
+// under Citizen AI Governance, so it has its own page rather than an entry in
+// the projects collection. Facts come from the repo (README, SPEC.md,
+// docs/build-plan.md, docs/demo-scenarios.md); the screenshots are the live
+// demo's fictional Titan-1 program. Update both when Keel's next phase ships.
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
+import StatusBadge from '../../components/ui/StatusBadge.astro';
+import TechStack from '../../components/projects/TechStack.astro';
+import { withBase } from '../../lib/base';
+import briefing from '../../assets/projects/keel/keel-briefing.png';
+import timeline from '../../assets/projects/keel/keel-timeline.png';
+import report from '../../assets/projects/keel/keel-report.png';
+import raid from '../../assets/projects/keel/keel-raid.png';
+import '../../styles/editorial.css';
+
+const demo = 'https://keel-eta-blond.vercel.app/p/prg_titan/briefing';
+const repo = 'https://github.com/tavor29/keel';
+
+const stack = {
+	planned: false,
+	groups: [
+		{
+			name: 'Frontend' as const,
+			items: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'Radix UI', 'React Router'],
+			why: 'A dense, app-like interface (split grid and Gantt, boards, threads) that needs real component state.',
+		},
+		{
+			name: 'Backend / data' as const,
+			items: ['Typed mock API (in-memory + localStorage)', 'TanStack Query', 'TanStack Virtual', 'Zustand'],
+			why: 'Every screen talks to one typed API contract, so a real backend can replace the mock without rewriting screens. Virtualized rows keep a 500-item plan smooth.',
+		},
+		{
+			name: 'AI' as const,
+			items: ['Scripted provider'],
+			why: 'The demo runs with no API key. A bring-your-own-key Claude provider is the next phase.',
+		},
+		{
+			name: 'Quality' as const,
+			items: ['Vitest', 'Testing Library', 'Playwright', 'ESLint'],
+			why: 'The scheduling engine ships with tests in the same commit, and each demo scenario has an end-to-end test.',
+		},
+		{ name: 'Infra' as const, items: ['Vercel'], why: 'A static build, deployed as is.' },
+	],
+};
+
+const shots = [
+	{ src: timeline, alt: 'Keel Timeline: a work breakdown grid beside a Gantt chart with dependency arrows and baseline bars.', caption: 'Timeline: MS Project-style grid and Gantt, with critical path, baselines and drag-to-edit.' },
+	{ src: report, alt: 'Keel Status report: a drafted weekly report with status by workstream, milestones and critical path.', caption: 'Status report: drafted from the plan, and every line links to its source.' },
+	{ src: raid, alt: 'Keel RAID log: a risk heat map above a risk register with mitigations and Plan B actions.', caption: 'RAID log: risk heat map and register, with mitigations, Plan B and triggers.' },
+];
+---
+
+<BaseLayout
+	title="Keel"
+	description="Program management software where the conversation is the plan: AI turns emails and chat into proposed plan changes, shows their impact, and the PM approves them in one click."
+	type="article"
+>
+	<div class="editorial">
+		<p class="crumb"><a href={withBase('projects/')}>Projects</a> / Keel</p>
+		<div data-shape-in class="page-mark"><Icon name="half" size="xl" variant="outline" tone="mark" /></div>
+		<h1>Keel</h1>
+		<p class="question">What if the conversation was the plan?</p>
+		<div class="status">
+			<StatusBadge status="live" />
+			<span>Phases 0–4 of 6 built. Fictional demo data; no AI key needed.</span>
+		</div>
+		<p class="boundary">
+			Program management software for multi-team, high-tech programs. A clickable prototype built as the real front end, so
+			nothing is thrown away when a backend arrives.
+		</p>
+		<p class="links">
+			<a href={demo} target="_blank" rel="noreferrer" data-track="demo">Live demo</a>
+			{' · '}
+			<a href={repo} target="_blank" rel="noreferrer" data-track="repo">Source on GitHub</a>
+		</p>
+
+		<figure class="page-cover shot">
+			<Image
+				src={briefing}
+				alt="Keel Briefing: items that need the program manager's approval, what changed, milestones, budget and earned value, and top risks."
+				widths={[800, 1440, 2160]}
+				sizes="(min-width: 1260px) 1180px, 100vw"
+				class="h-auto w-full"
+			/>
+			<figcaption>Briefing, the program manager's start of day: what needs you, what changed, and program health.</figcaption>
+		</figure>
+
+		<section>
+			<h2>The problem</h2>
+			<p>
+				Program managers on multi-team hardware and software programs juggle three tools, and none of them holds the whole
+				picture:
+			</p>
+			<div class="table-wrap">
+				<table>
+					<thead>
+						<tr><th>Today</th><th>The gap</th><th>Keel</th></tr>
+					</thead>
+					<tbody>
+						<tr><td>MS Project</td><td>Strong scheduling, no collaboration</td><td>The same scheduling core, built for a team</td></tr>
+						<tr><td>Monday-style boards</td><td>Flexible boards, shallow dependencies</td><td>Boards and a real critical-path engine</td></tr>
+						<tr><td>Slack and email</td><td>The conversation is cut off from the plan</td><td>The conversation is the plan</td></tr>
+					</tbody>
+				</table>
+			</div>
+			<p>So the PM spends the week chasing updates and rewriting status reports by hand.</p>
+		</section>
+
+		<section>
+			<h2>The idea</h2>
+			<p>
+				Every plan item has its own thread. Emails, chat and engineering-tool events land on the item they’re about, and AI
+				turns what people say into proposed plan changes, with their schedule and cost impact worked out.
+			</p>
+			<ol>
+				<li><strong>Conversation:</strong> a message, an email, a check-in answer or a Jira event arrives.</li>
+				<li><strong>Signal:</strong> AI pulls out what changed, such as a delivery slipping three weeks.</li>
+				<li><strong>Proposal:</strong> a concrete plan change with its impact: what moves, the critical path, milestone status, cost.</li>
+				<li><strong>Plan:</strong> the PM approves, edits or rejects. Approved changes reschedule the plan and are logged.</li>
+			</ol>
+			<p>Nothing changes the plan without approval, and every suggestion links back to the message it came from.</p>
+		</section>
+
+		<section>
+			<h2>See it work</h2>
+			<p>
+				The main demo scenario, “the switchgear slip”, on Titan-1, a fictional data-center build of about 530 items and
+				660 dependencies:
+			</p>
+			<ol>
+				<li>A supplier emails that a switchgear lineup failed factory testing and will ship three weeks late.</li>
+				<li>Keel files the email to the right procurement item and proposes the delay. The energization gate turns from green to red.</li>
+				<li>The PM approves. The timeline reschedules and the critical path moves.</li>
+				<li>A workstream lead offers to recover five days with weekend crews. Keel drafts a change request, and the exec persona approves it.</li>
+				<li>The status report redrafts itself, and each line links to the email, the proposal and the change request.</li>
+			</ol>
+			<p>
+				Three more scenarios run on the same data: a critical-path check-in where only exceptions reach the PM, a sprint
+				slip promoted from a Slack message to a decision, and a pen-test finding that becomes a logged risk and a fix task.
+				Open the <a href={demo} target="_blank" rel="noreferrer" data-track="demo">live demo</a> and click <strong>Demo</strong>
+				in the bottom-right corner to play them.
+			</p>
+		</section>
+
+		<section>
+			<h2>Screens</h2>
+			{
+				shots.map((s) => (
+					<figure class="shot">
+						<Image src={s.src} alt={s.alt} widths={[800, 1440, 2160]} sizes="(min-width: 1260px) 900px, 100vw" class="h-auto w-full" />
+						<figcaption>{s.caption}</figcaption>
+					</figure>
+				))
+			}
+		</section>
+
+		<section>
+			<h2>What’s built</h2>
+			<ul>
+				<li>
+					<strong>A scheduling engine a PM can trust:</strong> critical path, finish-to-start and start-to-start links with
+					lag, baselines and variance, and deadlines that show when a gate is late.
+				</li>
+				<li><strong>Real scale:</strong> a 530-item plan imported through a working MS Project file importer, with 83 people across 10 workstreams.</li>
+				<li>
+					<strong>Ten screens:</strong> Briefing, Timeline, Boards and tables (sprints, budget and earned value, workload),
+					Channels, Mail triage, Status report, RAID log, and living Documents.
+				</li>
+				<li>
+					<strong>Living documents:</strong> a charter, requirements with traceability, a RACI and a stakeholder plan that
+					update from the plan, with sign-off, versions and alerts when the plan drifts from what was approved.
+				</li>
+				<li><strong>Two contrasting programs:</strong> a waterfall data-center build and an agile AI software launch.</li>
+			</ul>
+		</section>
+
+		<section>
+			<h2>Decisions</h2>
+			<ul>
+				<li>
+					<strong>Build the real front end, not a throwaway mock.</strong> Every screen talks to one typed API, so the
+					prototype becomes the product when a backend is added.
+				</li>
+				<li>
+					<strong>AI proposes, the PM decides.</strong> A plan people commit to can’t change behind their backs, so every
+					change waits for one-click approval.
+				</li>
+				<li>
+					<strong>Traceable by default.</strong> Every AI suggestion and every status-report line links to its source, so
+					it can be checked.
+				</li>
+				<li><strong>Runs with no AI key.</strong> A scripted provider drives the demo, so anyone can try it.</li>
+			</ul>
+		</section>
+
+		<section>
+			<h2>Next</h2>
+			<p>
+				Phase 5: settings, connector setup screens (Jira, GitHub, Outlook, Gmail, Slack, Teams), Ask Keel, a
+				bring-your-own-key Claude provider, and exports. Then a polish and accessibility pass, and a real backend.
+			</p>
+		</section>
+
+		<TechStack stack={stack} />
+
+		<section>
+			<h2>More</h2>
+			<p><a href={withBase('projects/')}>All projects</a></p>
+		</section>
+	</div>
+</BaseLayout>
+
+<style>
+	.crumb {
+		font-size: var(--text-sm);
+		color: var(--color-text-muted);
+		margin-bottom: var(--space-gutter);
+	}
+
+	.question {
+		font-family: var(--font-serif);
+		font-style: italic;
+		font-size: var(--text-xl);
+		line-height: var(--leading-title);
+		margin-top: var(--space-2);
+		max-width: 44rem;
+	}
+
+	.status {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--space-2) var(--space-3);
+		margin-top: var(--space-3);
+		font-size: var(--text-sm);
+		color: var(--color-text-muted);
+	}
+
+	.boundary {
+		max-width: 44rem;
+		margin-top: var(--space-3);
+		padding-left: var(--space-3);
+		border-left: 2px solid var(--color-border);
+		color: var(--color-text-muted);
+	}
+
+	.links {
+		font-size: var(--text-sm);
+		margin-top: var(--space-3);
+	}
+
+	/* Product screenshots: framed so the app's white edges don't melt into the page. */
+	.shot {
+		margin: var(--space-4) 0 0;
+	}
+
+	.shot :global(img) {
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-sm);
+	}
+
+	.shot figcaption {
+		margin-top: var(--space-2);
+		font-size: var(--text-sm);
+		color: var(--color-text-muted);
+	}
+
+	ol,
+	ul {
+		padding-left: 1.2rem;
+	}
+
+	li + li {
+		margin-top: var(--space-1);
+	}
+
+	.table-wrap {
+		max-width: 100%;
+		overflow-x: auto;
+	}
+
+	table {
+		width: 100%;
+		border-collapse: collapse;
+		font-size: var(--text-sm);
+	}
+
+	th,
+	td {
+		text-align: left;
+		padding: var(--space-2);
+		border-bottom: 1px solid var(--color-border);
+		vertical-align: top;
+	}
+</style>

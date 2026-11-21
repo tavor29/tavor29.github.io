@@ -54,7 +54,15 @@ const projects = await getProjects();
 			<ol class="px-gutter md:px-stack">
 				{
 					otherProjects.map((p) => (
-						<ProjectRow href={p.href} repo={p.repo} title={p.title} text={p.text} label={p.label} mark={p.mark} />
+						<ProjectRow
+							href={/^https?:/.test(p.href) ? p.href : withBase(p.href)}
+							demo={p.demo}
+							repo={p.repo}
+							title={p.title}
+							text={p.text}
+							label={p.label}
+							mark={p.mark}
+						/>
 					))
 				}
 			</ol>

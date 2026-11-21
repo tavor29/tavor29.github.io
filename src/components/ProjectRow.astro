@@ -2,7 +2,7 @@
 // One project as a ruled row, laid out like the "More work" rows
 // (components/WorkExamples.astro): mark, a short label and the status on the
 // left; title and one line on the right. The whole row is the link, with an
-// optional "Code on GitHub" link under it when the row opens a demo.
+// optional "Live demo" and "Code on GitHub" links under it.
 import Icon from './Icon.astro';
 import Label from './ui/Label.astro';
 import Rule from './ui/Rule.astro';
@@ -20,12 +20,17 @@ interface Props {
 	status?: Status;
 	/** Heading level for the title. */
 	level?: 3 | 4;
-	/** The code, as its own small link under the row (when href is a demo). */
+	/** Small links under the row: the live demo and the code. */
+	demo?: string;
 	repo?: string;
 }
 
-const { href, title, text, label, mark, status, level = 3, repo } = Astro.props;
+const { href, title, text, label, mark, status, level = 3, demo, repo } = Astro.props;
 const external = /^https?:/.test(href);
+const extras = [
+	...(demo ? [{ label: 'Live demo', href: demo, track: 'demo' }] : []),
+	...(repo ? [{ label: 'Code on GitHub', href: repo, track: 'project_repo' }] : []),
+];
 const Heading = `h${level}` as 'h3' | 'h4';
 ---
 
@@ -34,7 +39,7 @@ const Heading = `h${level}` as 'h3' | 'h4';
 	<a
 		href={href}
 		{...external ? { target: '_blank', rel: 'noreferrer' } : {}}
-		class:list={['group grid gap-tight no-underline md:grid-cols-12 md:gap-gutter', repo ? 'pt-gutter pb-tight' : 'py-gutter']}
+		class:list={['group grid gap-tight no-underline md:grid-cols-12 md:gap-gutter', extras.length ? 'pt-gutter pb-tight' : 'py-gutter']}
 	>
 		<span class="flex flex-wrap items-center gap-tight md:col-span-3 md:flex-col md:items-start md:pt-1">
 			<span class="flex items-center gap-tight">
@@ -55,17 +60,21 @@ const Heading = `h${level}` as 'h3' | 'h4';
 		</div>
 	</a>
 	{
-		repo && (
+		extras.length > 0 && (
 			<div class="pb-gutter md:grid md:grid-cols-12 md:gap-gutter">
-				<a
-					href={repo}
-					target="_blank"
-					rel="noreferrer"
-					data-track="project_repo"
-					class="text-sm font-semibold text-ink underline underline-offset-4 hover:no-underline md:col-span-9 md:col-start-4"
-				>
-					Code on GitHub
-				</a>
+				<p class="m-0 flex flex-wrap gap-gutter md:col-span-9 md:col-start-4">
+					{extras.map((x) => (
+						<a
+							href={x.href}
+							target="_blank"
+							rel="noreferrer"
+							data-track={x.track}
+							class="text-sm font-semibold text-ink underline underline-offset-4 hover:no-underline"
+						>
+							{x.label}
+						</a>
+					))}
+				</p>
 			</div>
 		)
 	}

@@ -49,7 +49,20 @@ const items = (await getProjects()).map((p) => work.find((w) => w.href === proje
 	<section data-ui class="others flex flex-col gap-gutter">
 		<h2 class="font-label text-xs uppercase tracking-label text-ink-muted">Other projects</h2>
 		<ol>
-			{otherProjects.map((p) => <ProjectRow href={p.href} repo={p.repo} title={p.title} text={p.text} label={p.label} mark={p.mark} level={3} />)}
+			{
+				otherProjects.map((p) => (
+					<ProjectRow
+						href={/^https?:/.test(p.href) ? p.href : withBase(p.href)}
+						demo={p.demo}
+						repo={p.repo}
+						title={p.title}
+						text={p.text}
+						label={p.label}
+						mark={p.mark}
+						level={3}
+					/>
+				))
+			}
 		</ol>
 	</section>
 </BaseLayout>

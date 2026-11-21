@@ -36,8 +36,8 @@ const menus: { label: string; items: { label: string; note: string; href: string
 ---
 
 <header data-ui class="fixed inset-x-0 top-gutter z-50 flex justify-center px-gutter">
-	<nav aria-label="Main" class="flex items-center gap-stack rounded-md bg-ink p-gutter text-paper">
-		<a href={withBase('')} class="text-lg font-semibold tracking-display">{person.name}</a>
+	<nav aria-label="Main" class="flex items-center gap-gutter rounded-md bg-ink p-gutter text-paper md:gap-stack">
+		<a href={withBase('')} class="text-lg font-semibold whitespace-nowrap tracking-display">{person.name}</a>
 		<ul class="hidden items-center gap-stack text-sm text-paper-muted md:flex">
 			{
 				menus.map((m, i) => (

@@ -109,9 +109,10 @@ export type OtherProject = {
 	text: string;
 	/** Small line under the text: what it's built with, how it runs. */
 	label: string;
-	/** Where the row goes: the live demo if there is one, else the repo. */
+	/** Where the row goes: a page on this site ('projects/keel/'), else the demo or repo. */
 	href: string;
-	/** The code, shown as its own link when href is a demo. */
+	/** Shown as small links under the row. */
+	demo?: string;
 	repo?: string;
 	mark: IconName;
 };
@@ -121,7 +122,8 @@ export const otherProjects: OtherProject[] = [
 		title: 'Keel',
 		text: 'Program management software where the conversation is the plan: AI turns emails and chat into proposed schedule changes, shows their impact, and lets the PM approve them in one click.',
 		label: 'React · TypeScript · Live demo',
-		href: 'https://keel-eta-blond.vercel.app/p/prg_titan/briefing',
+		href: 'projects/keel/',
+		demo: 'https://keel-eta-blond.vercel.app/p/prg_titan/briefing',
 		repo: 'https://github.com/tavor29/keel',
 		mark: 'half',
 	},
