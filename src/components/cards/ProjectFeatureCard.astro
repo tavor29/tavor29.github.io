@@ -1,0 +1,87 @@
+---
+// A featured coded project as a hero-sized card, built like the case-study
+// cards (cards/CaseCard.astro): the cover fills the card in grayscale under an
+// ink fade, label and year on top, then title, what it does, pill badges and
+// the call to action. Used for Keel (Tavor's ask, 2026-11-21) on the homepage
+// and the Projects page. The mark is the outline kind, as for every coded project.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Icon from '../Icon.astro';
+import Label from '../ui/Label.astro';
+import type { IconName } from '../../lib/icons';
+
+interface Props {
+	href: string;
+	cover: ImageMetadata;
+	mark: IconName;
+	label: string;
+	meta: string;
+	title: string;
+	text: string;
+	badges: string[];
+	cta?: string;
+	/** Heading level: 3 inside a homepage section, 2 on an index page. */
+	level?: 2 | 3;
+}
+
+const { href, cover, mark, label, meta, title, text, badges, cta = 'Explore the project', level = 3 } = Astro.props;
+const Heading = `h${level}` as 'h2' | 'h3';
+---
+
+<a
+	href={href}
+	data-reveal
+	data-track="featured_project"
+	class="feature-card group relative flex min-h-[20rem] flex-col justify-between gap-stack overflow-hidden rounded-md bg-ink p-gutter text-paper no-underline md:min-h-[22rem] md:p-stack"
+>
+	<Image
+		src={cover}
+		alt=""
+		widths={[800, 1440, 2160]}
+		sizes="(min-width: 1260px) 1180px, 100vw"
+		class="feature-card__art absolute inset-0 h-full w-full object-cover object-left-top grayscale transition-transform duration-slow ease-out group-hover:scale-105"
+	/>
+	<div aria-hidden="true" class="feature-card__shade absolute inset-0"></div>
+
+	<div class="relative flex items-center justify-between gap-gutter">
+		<Label class="flex items-center gap-tight">
+			<Icon
+				name={mark}
+				size="md"
+				variant="outline"
+				tone="mark"
+				class="transition-transform duration-fast ease-out group-hover:rotate-90"
+			/>
+			{label}
+		</Label>
+		<Label class="text-paper-muted">{meta}</Label>
+	</div>
+
+	<div class="relative flex max-w-3xl flex-col gap-tight">
+		<Heading class="m-0 font-display text-xl leading-title tracking-display text-balance">{title}</Heading>
+		<p class="m-0 text-base text-paper-muted">{text}</p>
+		<ul class="m-0 hidden flex-wrap gap-tight p-0 sm:flex">
+			{badges.map((b) => <li class="rounded-full border border-paper-rule bg-ink px-tight py-1 text-xs font-semibold">{b}</li>)}
+		</ul>
+		<p class="m-0 flex items-center gap-tight text-sm font-semibold">
+			{cta}
+			<Icon name="arrow" size="sm" class="transition-transform duration-fast ease-out group-hover:translate-x-1" />
+		</p>
+	</div>
+</a>
+
+<style>
+	.feature-card__art {
+		opacity: 0.55;
+	}
+	.feature-card:hover .feature-card__art,
+	.feature-card:focus-visible .feature-card__art {
+		opacity: 0.7;
+	}
+
+	/* Ink from the bottom-left, where the text sits. */
+	.feature-card__shade {
+		/* Darker at the top than the case cards: a busy app screen sits behind the label. */
+		background: linear-gradient(to top, var(--color-ink) 0%, rgb(10 10 10 / 0.75) 45%, rgb(10 10 10 / 0.5) 100%);
+	}
+</style>

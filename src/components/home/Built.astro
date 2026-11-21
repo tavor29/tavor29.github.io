@@ -1,5 +1,6 @@
 ---
-// Projects I've Built. Every project is a ruled row (title, one line, stage or
+// Projects I've Built. The featured project (data/featured.ts, Keel) leads as a
+// big photo card. Every other project is a ruled row (title, one line, stage or
 // stack, status). The three Citizen AI Governance projects sit together in one
 // light-blue panel under the umbrella's name and thesis, so they read as
 // connected; standalone projects follow as plain rows. Copy:
@@ -10,6 +11,8 @@ import Label from '../ui/Label.astro';
 import ArrowChip from '../ui/ArrowChip.astro';
 import ArrowLink from '../ui/ArrowLink.astro';
 import ProjectRow from '../ProjectRow.astro';
+import ProjectFeatureCard from '../cards/ProjectFeatureCard.astro';
+import { featuredProject } from '../../data/featured';
 import { umbrella } from '../../data/citizen-ai-governance';
 import { otherProjects } from '../../data/more-work';
 import { getProjects, projectHref, stageLabel } from '../../lib/projects';
@@ -22,6 +25,7 @@ const projects = await getProjects();
 	<Container class="flex flex-col gap-title">
 		<SectionHead index="04" title="Projects I’ve Built" intro="Real organizational pain. Real solutions." mark="leaf" />
 		<div class="flex flex-col gap-gutter">
+			<ProjectFeatureCard {...featuredProject} href={withBase(featuredProject.href)} />
 			<div data-reveal class="rounded-md bg-wash-half px-gutter pt-gutter pb-tight md:px-stack md:pt-stack">
 				<a
 					href={withBase('projects/citizen-ai-governance/')}
@@ -53,7 +57,7 @@ const projects = await getProjects();
 			{/* Same side inset as the panel, so every project's text lines up. */}
 			<ol class="px-gutter md:px-stack">
 				{
-					otherProjects.map((p) => (
+					otherProjects.filter((p) => !p.featured).map((p) => (
 						<ProjectRow
 							href={/^https?:/.test(p.href) ? p.href : withBase(p.href)}
 							demo={p.demo}

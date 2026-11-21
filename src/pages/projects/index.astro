@@ -1,5 +1,5 @@
 ---
-// Projects: the umbrella first (its thesis and lifecycle diagram), then the
+// Projects: the featured project (data/featured.ts) as a photo card, then the umbrella (its thesis and lifecycle diagram), then the
 // three projects as cards in lifecycle order, each with its status, then the
 // standalone projects (data/more-work.ts) as rows.
 import BaseLayout from '../../layouts/BaseLayout.astro';
@@ -7,6 +7,8 @@ import WorkCard from '../../components/cards/WorkCard.astro';
 import ArrowLink from '../../components/ui/ArrowLink.astro';
 import LifecycleDiagram from '../../components/projects/LifecycleDiagram.astro';
 import ProjectRow from '../../components/ProjectRow.astro';
+import ProjectFeatureCard from '../../components/cards/ProjectFeatureCard.astro';
+import { featuredProject } from '../../data/featured';
 import { umbrella } from '../../data/citizen-ai-governance';
 import { otherProjects } from '../../data/more-work';
 import { getProjects, projectHref } from '../../lib/projects';
@@ -23,6 +25,10 @@ const items = (await getProjects()).map((p) => work.find((w) => w.href === proje
 		Coded projects, each its own repo: three under one idea, Citizen AI Governance, and others that stand alone. Each
 		says plainly whether it’s live, in progress or planned.
 	</p>
+
+	<div data-ui class="featured">
+		<ProjectFeatureCard {...featuredProject} href={withBase(featuredProject.href)} level={2} />
+	</div>
 
 	<section data-ui class="umbrella flex flex-col gap-stack">
 		<div class="flex flex-col gap-gutter">
@@ -50,7 +56,7 @@ const items = (await getProjects()).map((p) => work.find((w) => w.href === proje
 		<h2 class="font-label text-xs uppercase tracking-label text-ink-muted">Other projects</h2>
 		<ol>
 			{
-				otherProjects.map((p) => (
+				otherProjects.filter((p) => !p.featured).map((p) => (
 					<ProjectRow
 						href={/^https?:/.test(p.href) ? p.href : withBase(p.href)}
 						demo={p.demo}
@@ -74,6 +80,7 @@ const items = (await getProjects()).map((p) => work.find((w) => w.href === proje
 		margin-top: var(--space-2);
 	}
 
+	.featured,
 	.umbrella,
 	.cards,
 	.others {

@@ -115,6 +115,8 @@ export type OtherProject = {
 	demo?: string;
 	repo?: string;
 	mark: IconName;
+	/** Shown as a big photo card (cards/ProjectFeatureCard.astro) instead of a row. */
+	featured?: boolean;
 };
 
 export const otherProjects: OtherProject[] = [
@@ -126,12 +128,14 @@ export const otherProjects: OtherProject[] = [
 		demo: 'https://keel-eta-blond.vercel.app/p/prg_titan/briefing',
 		repo: 'https://github.com/tavor29/keel',
 		mark: 'half',
+		featured: true,
 	},
 	{
 		title: 'Local Transcriber',
 		text: 'Offline Hebrew and English transcription for recordings that can’t go to the cloud, with a built-in benchmark that measures each model’s accuracy and speed on an ordinary laptop.',
 		label: 'Python · Runs offline',
 		href: 'https://github.com/tavor29/local-transcriber',
+		repo: 'https://github.com/tavor29/local-transcriber',
 		mark: 'quarter',
 	},
 ];
