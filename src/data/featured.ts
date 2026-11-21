@@ -9,7 +9,8 @@ export const featuredProject = {
 	mark: 'half' as const,
 	label: 'Coded project · Keel',
 	meta: '2026 / Live demo',
-	title: 'Program management where the conversation is the plan',
-	text: 'AI turns emails and chat into proposed schedule changes, shows their impact on the critical path and budget, and the PM approves them in one click.',
-	badges: ['React · TypeScript', 'Critical-path engine', 'AI change proposals', 'Live demo'],
+	// What it is, what it replaces, what it solves (Tavor, 2026-11-21).
+	title: 'One app instead of MS Project, Monday and Slack',
+	text: 'Program management software for multi-team tech programs. The schedule, the boards and the team conversation live in one place, and AI turns emails and chat into plan changes the PM approves, so nobody chases status updates by hand.',
+	badges: ['Critical path & baselines', 'Boards & sprints', 'AI change proposals', 'Live demo'],
 };
