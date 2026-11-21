@@ -5,14 +5,15 @@ import type { IconName } from '../lib/icons';
 
 export const person = {
 	name: 'Tavor Ben-Shahar',
-	// Freelance-first since 2026-11-21 (Tavor's call): clients first, recruiters
-	// welcome, the résumé stays in the nav.
-	role: 'Freelance Program & Project Manager',
+	// Service-first since 2026-11-21 (Tavor's call): clients first, recruiters
+	// welcome, the résumé stays in the nav. No "freelance" in the hero, so it
+	// doesn't put recruiters off.
+	role: 'Program & Project Manager',
 	focus: 'Project rescue · Fractional PM · AI governance · IT & infrastructure programs',
 	heroLead: 'I get stuck technology projects',
 	heroEmphasis: 'back on track and shipped',
 	heroSub:
-		'Freelance program and project manager with 6+ years running technology programs at Applied Materials, IBM and Keshet Media Group. I step into projects that are late, over budget or unclear, reset the plan, and see them through to launch.',
+		'Program and project manager with 6+ years running technology programs at Applied Materials, IBM and Keshet Media Group. I step into projects that are late, over budget or unclear, reset the plan, and see them through to launch.',
 	// Executive summary, split across About's two columns.
 	positioning:
 		'I work at the intersection of software, AI adoption, product delivery, and cross-functional operations.',

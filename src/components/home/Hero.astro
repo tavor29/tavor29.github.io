@@ -87,7 +87,7 @@ const [subFirst, ...subRest] = person.heroSub.split(/(?<=\.)\s+/);
 			</h1>
 			<p data-hero-fade data-shape-obstacle class="max-w-2xl text-base text-balance text-ink-muted md:text-lg">
 				{subFirst}
-				{subRest.length > 0 && <span class="hidden md:inline">{' ' + subRest.join(' ')}</span>}
+				{subRest.length > 0 && <span class="hero-sub-rest hidden md:inline">{' ' + subRest.join(' ')}</span>}
 			</p>
 			<div data-hero-fade class="flex flex-wrap items-center justify-center gap-x-stack gap-y-gutter">
 				<span data-shape-obstacle>
@@ -133,6 +133,22 @@ const [subFirst, ...subRest] = person.heroSub.split(/(?<=\.)\s+/);
 
 		.hero-stack h1 {
 			font-size: min(var(--text-3xl), 7svh);
+		}
+	}
+
+	/* Laptop screens once the browser's toolbars are counted (under 800px of
+	   page): start the text higher instead of centring it, so the buttons stay
+	   clear of the portrait peeking up from the hero's foot. Under 660px, drop
+	   the intro's second sentence too, as on phones. */
+	@media (min-width: 768px) and (max-height: 800px) {
+		.hero-stack {
+			justify-content: flex-start;
+		}
+	}
+
+	@media (min-width: 768px) and (max-height: 660px) {
+		.hero-sub-rest {
+			display: none;
 		}
 	}
 
